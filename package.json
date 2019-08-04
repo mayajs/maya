@@ -1,10 +1,12 @@
 {
   "name": "@mayajs/core",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "A Node.js framework with Angular inspired development for REST API server-side-applications.",
   "main": "dist/index",
   "types": "dist/index.d.ts",
-  "files": ["dist"],
+  "files": [
+    "dist"
+  ],
   "scripts": {
     "start": "tsnd -r tsconfig-paths/register ./src/index.ts",
     "build": "rm ./dist/* & tsc"
