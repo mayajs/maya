@@ -8,7 +8,7 @@ import { Models } from "./Models";
 export * from "./core";
 export * from "./Models";
 
-export default class Rocket {
+export default class Maya {
   app: express.Express;
 
   constructor() {
