@@ -1,0 +1,30 @@
+{
+  "compilerOptions": {
+    "target": "es5",
+    "module": "commonjs",
+    "lib": [
+      "es5",
+      "es2015",
+      "es2016",
+      "es2017",
+      "esnext"
+    ],
+    "declaration": true,
+    "outDir": "./dist",
+    "rootDir": "./src",
+    "strict": true,
+    "moduleResolution": "node",
+    "baseUrl": "./src",
+    "paths": {
+      "core": ["core"],
+      "model": ["middlewares"],
+      "interfaces": ["interfaces"],
+      "validator": ["validator"],
+      "typings": ["typings"],
+      "injector": ["common/Injector"],
+    },
+    "esModuleInterop": true,
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true,
+  }
+}
