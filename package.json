@@ -1,5 +1,5 @@
 {
-  "name": "@maya/core",
+  "name": "@mayajs/core",
   "version": "0.0.1",
   "description": "A Node.js framework with Angular inspired development for REST API server-side-applications.",
   "main": "dist/index",
