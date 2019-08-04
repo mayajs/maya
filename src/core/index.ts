@@ -1,9 +1,9 @@
-import { IRoute, IMethod, RequestMethod, InjectableDecorator, Type } from "..";
-import { NextFunction, Request, Response } from "express";
+import { RequestMethod, InjectableDecorator, Type } from "../typings";
 import { Runner, Functions, DIContainer } from "../Validator";
-import { IChain } from "../Interfaces";
-import path from "path";
+import { NextFunction, Request, Response } from "express";
+import { IChain, IRoute, IMethod } from "../Interfaces";
 import callsite from "callsite";
+import path from "path";
 
 /**
  * Factory function for a decorator that recieve a method type and return a MethodDecorator

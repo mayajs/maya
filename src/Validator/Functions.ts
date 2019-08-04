@@ -1,4 +1,4 @@
-import { Runner } from "..";
+import { Runner } from "./Runner";
 import { IFunctions } from "../Interfaces";
 
 export class Functions<Chain> implements IFunctions<Chain> {
