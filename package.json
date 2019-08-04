@@ -1,0 +1,28 @@
+{
+  "name": "@maya/core",
+  "version": "0.0.1",
+  "description": "A Node.js framework with Angular inspired development for REST API server-side-applications.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Mackignacio/maya.git"
+  },
+  "keywords": [
+    "nodejs",
+    "nodejs-server",
+    "express",
+    "typescript",
+    "rest",
+    "rest",
+    "api"
+  ],
+  "author": "Mark Anthony C. Ignacio",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Mackignacio/maya/issues"
+  },
+  "homepage": "https://github.com/Mackignacio/maya#readme"
+}
