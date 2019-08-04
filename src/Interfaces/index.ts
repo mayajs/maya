@@ -1,19 +1,15 @@
-import { Callback, RequestMethod } from "..";
+import { Callback, RequestMethod } from "../typings";
 
 export interface IRoute {
-  // Path to our route
-  path: string;
-  // HTTP Request method (get, post, ...)
-  requestMethod: RequestMethod;
-  // Method name within our class responsible for this route
-  methodName: string;
-  // Middleware for validition of route
-  validations: Callback[];
+  path: string; // Path to our route
+  requestMethod: RequestMethod; // HTTP Request method (get, post, patch, delete, put)
+  methodName: string; // Method name within our class responsible for this route
+  validations: Callback[]; // Middleware for validition of route
 }
 
 export interface IMethod {
-  path: string;
-  validations?: Callback[];
+  path: string; // Path to our method
+  validations?: Callback[]; // Middleware for validition of method
 }
 
 export interface IFunctions<Chain> {
@@ -30,5 +26,5 @@ export interface IFunctions<Chain> {
 }
 
 export interface IChain extends IFunctions<IChain> {
-  (req: Request, res: any, next: (error?: any) => void): void;
+  (req: any, res: any, next: (error?: any) => void): void;
 }
