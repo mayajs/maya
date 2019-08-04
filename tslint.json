@@ -1,0 +1,155 @@
+{
+    "extends": ["tslint:recommended", "tslint-config-prettier"],
+    "linterOptions": {
+        "exclude": ["node_modules"]
+    },
+    "rules": {
+        "arrow-return-shorthand": true,
+        "ban-types": false,
+        "class-name": true,
+        "curly": true,
+        "forin": true,
+        "interface-name": false,
+        "jsdoc-format": true,
+        "label-position": true,
+        "new-parens": true,
+        "no-async-without-await": true,
+        "no-arg": true,
+        "no-bitwise": true,
+        "no-conditional-assignment": true,
+        "no-consecutive-blank-lines": true,
+        "no-construct": true,
+        "no-debugger": true,
+        "no-duplicate-imports": true,
+        "no-duplicate-super": true,
+        "no-empty-interface": true,
+        "no-empty": true,
+        "no-eval": true,
+        "no-irregular-whitespace": true,
+        "no-invalid-template-strings": true,
+        "no-internal-module": true,
+        "no-misused-new": true,
+        "no-null-keyword": true,
+        "no-non-null-assertion": true,
+        "no-require-imports": true,
+        "no-shadowed-variable": false,
+        "no-sparse-arrays": true,
+        "no-string-literal": false,
+        "no-string-throw": true,
+        "no-switch-case-fall-through": true,
+        "no-unbound-method": true,
+        "no-unnecessary-initializer": true,
+        "no-unused-expression": true,
+        "no-use-before-declare": true,
+        "no-trailing-whitespace": true,
+        "no-var-keyword": true,
+        "no-void-expression": false,
+        "one-variable-per-declaration": false,
+        "ordered-imports": false,
+        "number-literal-format": true,
+        "prefer-const": true,
+        "prefer-object-spread": false,
+        "restrict-plus-operands": true,
+        "strict-comparisons": true,
+        "strict-type-predicates": false,
+        "unified-signatures": true,
+        "unnecessary-constructor": true,
+        "arrow-parens": [
+            true,
+            "ban-single-arg-parens"
+        ],
+        "await-promise": [
+            true,
+            "Thenable"
+        ],
+        "comment-format": [
+            true,
+            "check-space"
+        ],
+        "indent": [
+            true,
+            "spaces"
+        ],
+        "file-name-casing": [
+            true, {
+                ".controller.ts": "kebab-case",
+                ".model.ts": "kebab-case",
+                ".services.ts": "kebab-case",
+                ".router.ts": "kebab-case"
+            }
+        ],
+        "max-classes-per-file": [
+            true, 1
+        ],
+        "member-access": [
+            true,
+            "no-public"
+        ],
+        "no-inferrable-types": [
+            true, "ignore-params"
+        ],
+        "no-console": [
+            true,
+            "debug",
+            "info",
+            "trace"
+        ],
+        "one-line": [
+            true,
+            "check-open-brace",
+            "check-whitespace"
+        ],
+        "quotemark": [
+            true,
+            "double",
+            "avoid-escape"
+        ],
+        "semicolon": [
+            true,
+            "always",
+            "ignore-bound-class-methods"
+        ],
+        "triple-equals": [
+            true,
+            "allow-null-check"
+        ],
+        "typedef-whitespace": [
+            true,
+            {
+                "call-signature": "nospace",
+                "index-signature": "nospace",
+                "parameter": "nospace",
+                "property-declaration": "nospace",
+                "variable-declaration": "nospace"
+            },
+            {
+                "call-signature": "onespace",
+                "index-signature": "onespace",
+                "parameter": "onespace",
+                "property-declaration": "onespace",
+                "variable-declaration": "onespace"
+            }
+        ],
+        "typedef": [
+            true,
+            "call-signature",
+            "parameter",
+            "property-declaration"
+        ],
+        "variable-name": {
+            "options": [
+                "ban-keywords",
+                "check-format"
+            ]
+        },
+        "whitespace": [
+            true,
+            "check-branch",
+            "check-decl",
+            "check-operator",
+            "check-module",
+            "check-separator",
+            "check-type"
+        ]
+    }
+}
