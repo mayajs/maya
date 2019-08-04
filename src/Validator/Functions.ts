@@ -1,4 +1,4 @@
-import { Runner } from "../validator";
+import { Runner } from ".";
 import { IFunctions } from "../interfaces";
 
 export class Functions<Chain> implements IFunctions<Chain> {
