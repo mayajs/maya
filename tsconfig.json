@@ -17,9 +17,9 @@
     "baseUrl": "./src",
     "paths": {
       "core": ["core"],
-      "model": ["middlewares"],
+      "models": ["Models"],
       "interfaces": ["interfaces"],
-      "validator": ["validator"],
+      "validator": ["Validator"],
       "typings": ["typings"],
       "injector": ["common/Injector"],
     },
