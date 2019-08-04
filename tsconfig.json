@@ -1,6 +1,6 @@
 {
   "compilerOptions": {
-    "target": "es5",
+    "target": "es6",
     "module": "commonjs",
     "lib": [
       "es5",
@@ -14,15 +14,6 @@
     "rootDir": "./src",
     "strict": true,
     "moduleResolution": "node",
-    "baseUrl": "./src",
-    "paths": {
-      "core": ["core"],
-      "models": ["Models"],
-      "interfaces": ["interfaces"],
-      "validator": ["Validator"],
-      "typings": ["typings"],
-      "injector": ["common/Injector"],
-    },
     "esModuleInterop": true,
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true,
