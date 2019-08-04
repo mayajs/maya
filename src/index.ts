@@ -1,12 +1,12 @@
 import express, { NextFunction, Request, RequestHandler, Response, Router } from "express";
-import { Callback, ErrorCallback } from "typings";
-import { Injector } from "injector";
+import { Callback, ErrorCallback } from "./typings";
+import { Injector } from "./common/Injector";
 import * as bodyparser from "body-parser";
-import { IRoute } from "interfaces";
-import { Models } from "models";
+import { IRoute } from "./interfaces";
+import { Models } from "./models";
 
-export * from "core";
-export * from "models";
+export * from "./core";
+export * from "./models";
 
 export default class Maya {
   app: express.Express;

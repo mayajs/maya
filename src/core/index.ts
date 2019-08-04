@@ -1,7 +1,7 @@
 import { RequestMethod, InjectableDecorator, Type } from "../typings";
-import { Runner, Functions, DIContainer } from "validator";
+import { Runner, Functions, DIContainer } from "../Validator";
 import { NextFunction, Request, Response } from "express";
-import { IChain, IRoute, IMethod } from "interfaces";
+import { IChain, IRoute, IMethod } from "../interfaces";
 import callsite from "callsite";
 import path from "path";
 
