@@ -1,6 +1,8 @@
 const gulp = require('gulp'),
     ts = require("gulp-typescript"),
-    tsProject = ts.createProject("tsconfig.json"),
+    tsProject = ts.createProject("tsconfig.json", {
+        declaration: true
+    }),
     del = require('del'),
     spawn = require('cross-spawn');
 
@@ -13,7 +15,7 @@ const config = {
     },
     tsc = () => {
         const tsResults = tsProject.src().pipe(tsProject());
-        return tsResults.js.pipe(gulp.dest("./dist"));
+        return tsResults.pipe(gulp.dest("./dist"));
     },
     publish = (done) => {
         // Copy the files we'll need to publish
@@ -25,7 +27,6 @@ const config = {
         const distDir = __dirname + '\\' + outPath + '\\';
         console.log("Publishing files in directory: " + distDir);
 
-        // Start the npm process
         spawn('npm', ['publish'], {
                 stdio: 'inherit',
                 cwd: distDir
