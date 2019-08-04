@@ -1,5 +1,5 @@
 import express, { NextFunction, Request, RequestHandler, Response, Router } from "express";
-import { Callback, ErrorCallback } from "./Types";
+import { Callback, ErrorCallback } from "./typings";
 import { Injector } from "./core/Injector";
 import * as bodyparser from "body-parser";
 import { IRoute } from "./Interfaces";
@@ -7,7 +7,7 @@ import { Models } from "./Models";
 
 export * from "./core/Injector";
 export * from "./Interfaces";
-export * from "./Types";
+export * from "./typings";
 export * from "./Validator";
 export * from "./Models";
 
