@@ -4,6 +4,8 @@ import { Type } from "typings";
 /**
  * The Injector stores services and resolves requested instances.
  */
+
+// tslint:disable-next-line: variable-name
 export const Injector = new (class {
   /**
    * Resolves instances by injecting required services
