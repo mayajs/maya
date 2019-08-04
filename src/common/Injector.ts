@@ -1,5 +1,5 @@
 import "reflect-metadata";
-import { Type } from "../typings";
+import { Type } from "typings";
 
 /**
  * The Injector stores services and resolves requested instances.

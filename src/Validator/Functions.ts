@@ -1,5 +1,5 @@
-import { Runner } from "./Runner";
-import { IFunctions } from "../Interfaces";
+import { Runner } from "validator";
+import { IFunctions } from "interfaces";
 
 export class Functions<Chain> implements IFunctions<Chain> {
   constructor(private runner: Runner, private middleware: Chain) {}
