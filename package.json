@@ -2,9 +2,12 @@
   "name": "@maya/core",
   "version": "0.0.1",
   "description": "A Node.js framework with Angular inspired development for REST API server-side-applications.",
-  "main": "index.js",
+  "main": "dist/index",
+  "types": "dist/index.d.ts",
+  "files": ["dist"],
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "tsnd -r tsconfig-paths/register ./src/index.ts",
+    "build": "rm ./dist/* & tsc"
   },
   "repository": {
     "type": "git",
@@ -37,6 +40,10 @@
     "@types/express": "^4.17.0",
     "@types/mongoose": "^5.5.11",
     "@types/mongoose-paginate": "^5.0.6",
+    "ts-lint": "^4.5.1",
+    "ts-node-dev": "^1.0.0-pre.40",
+    "tsconfig-paths": "^3.8.0",
+    "tslint-config-prettier": "^1.18.0",
     "typescript": "^3.5.3"
   }
 }
