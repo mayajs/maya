@@ -64,7 +64,6 @@ export class MayaJS {
   private setRoutes(routes: IRoutes[]): void {
     routes.map(({ path, middlewares, router }) => {
       this.app.use(path, middlewares, router);
-      console.log(path, middlewares, router);
     });
   }
 
