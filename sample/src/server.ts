@@ -1,5 +1,5 @@
 import { Express } from "express";
-import maya from "../src";
+import maya from "../../src";
 
 class Server {
   maya: maya;
