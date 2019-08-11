@@ -7,6 +7,7 @@ import { Models } from "./models";
 
 export * from "./core";
 export * from "./models";
+export * from "./common/App";
 
 export default class Maya {
   app: express.Express;
