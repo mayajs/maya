@@ -6,15 +6,15 @@ A Node.js framework with Angular inspired development for REST API server-side-a
 
 ## Features
 
-- Decorators for Get, Post, Patch, Put and Delete methods
+- **Method Decorators** for Get, Post, Patch, Put and Delete methods
 - Single class for mongoose models
-- Controller and Injectable decorator for Dependency Injection
-- Middleware functions for chained validation of request body
+- **Controller and Injectable decorators** for Dependency Injection
+- Chained validation of request body
 
 ## Installation
 
 - Open command line terminal ( cmd or shell).
-- Run `npm i @mayajs/core` to install all dependency.
+- Run `npm i @mayajs/core` to install.
 
 ## Quick Start
 
@@ -107,39 +107,39 @@ import { NextFunction, Request, Response } from "express";
   route: "/sample", // This route is equal to "/sample"
 })
 export class SampleController {
-  // This is GET request equal to "/sample"
+  // This is a GET request equal to "/sample"
   @Get({ path: "/", validations: [] })
-  get(req: Request, res: Response, next: NextFunction) {
+  get(req: Request, res: Response, next: NextFunction): void {
     // Do some GET stuff here
   }
 
-  // This is GET request equal to "/sample/:id"
+  // This is a GET request equal to "/sample/:id"
   @Get({ path: "/:id", validations: [] })
-  get(req: Request, res: Response, next: NextFunction) {
+  getId(req: Request, res: Response, next: NextFunction): void {
     // Do some GET stuff here
   }
 
-  // This is POST request equal to "/sample/:id/:name"
+  // This is a POST request equal to "/sample/:id/:name"
   @Post({ path: "/:id/:name", validations: [] })
-  get(req: Request, res: Response, next: NextFunction) {
+  post(req: Request, res: Response, next: NextFunction): void {
     // Do some POST stuff here
   }
 
-  // This is PATCH request equal to "/sample/:id/custom-path"
+  // This is a PATCH request equal to "/sample/:id/custom-path"
   @Patch({ path: "/:id/custom-path", validations: [] })
-  get(req: Request, res: Response, next: NextFunction) {
+  patch(req: Request, res: Response, next: NextFunction): void {
     // Do some PATCH stuff here
   }
 
-  // This is PUT request equal to "/sample/:id"
+  // This is a PUT request equal to "/sample/:id"
   @Put({ path: "/:id", validations: [] })
-  get(req: Request, res: Response, next: NextFunction) {
+  put(req: Request, res: Response, next: NextFunction): void {
     // Do some PUT stuff here
   }
 
-  // This is DELETE request equal to "/sample/:id"
+  // This is a DELETE request equal to "/sample/:id"
   @Delete({ path: "/:id", validations: [] })
-  get(req: Request, res: Response, next: NextFunction) {
+  delete(req: Request, res: Response, next: NextFunction): void {
     // Do some DELETE stuff here
   }
 }
@@ -148,12 +148,20 @@ export class SampleController {
 > **NOTE: sample.model.ts** must be on the same folder of the **controller.ts** that is referencing it.
 > **sample.model.ts** must be exported as **default** too.
 
+If you don't want to create these files there is a [sample project here](https://github.com/Mackignacio/maya-sample.git) that you can clone or download. This sample project is up to date with the latest version of mayajs.
+
+How to clone repository
+
+- Open command line terminal ( cmd or shell).
+- Run `git clone https://github.com/Mackignacio/maya-sample.git`.
+- Run `npm i` to install all dependency.
+
 ### Step 2 : Run your app
 
 - Open command line terminal ( cmd or shell).
 - Run `npm start` to start nodejs sever.
 
-## Sample Project
+## Test
 
 > Coming soon!!!
 
@@ -162,10 +170,6 @@ export class SampleController {
 > Coming soon!!!
 
 ## Contribute
-
-> Coming soon!!!
-
-## Test
 
 > Coming soon!!!
 
