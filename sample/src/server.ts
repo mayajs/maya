@@ -1,5 +1,6 @@
 import { Express } from "express";
-import maya from "../../src";
+import maya from "@mayajs/core";
+import { SampleController } from "./controllers/sample.controllers";
 
 class Server {
   maya: maya;
@@ -15,9 +16,9 @@ class Server {
 
   configRoutes(): void {
     const { route, middlewares, router } = this.maya.routes({
-      controllers: [],
+      controllers: [SampleController],
       middlewares: [],
-      route: "/api/v1",
+      route: "",
     });
 
     this.app.use(route, middlewares, router);
