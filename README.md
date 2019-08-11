@@ -25,75 +25,29 @@ Two easy steps to develop a node.js server with typescript.
 #### index.ts
 
 ```javascript
-import { Express, Request, Response } from "express";
-import server from "./app.module";
-import http from "http";
+import { AppModule } from "./app.module";
+import { MayaJS } from "@mayajs/core";
 
-class Maya {
-  constructor(private app: Express) {
-    this.unhandleErrors(app);
-  }
-
-  start(port?: number | string): void {
-    port = this.normalizePort(port || 3333);
-    const server = http.createServer(this.app);
-    server.listen(port, this.onListen(port));
-  }
-
-  normalizePort(val: any): number {
-    const port = parseInt(val, 10);
-    return isNaN(port) ? val : port;
-  }
-
-  onListen(port: any): () => void {
-    return () => console.log("\x1b[32mListening on port:", `\x1b[36m${port}\x1b[0m`);
-  }
-
-  unhandleErrors(app: Express): void {
-    app.use((req: Request, res: Response) => {
-      if (!req.route) {
-        const url = `${req.protocol}://${req.get("host")}${req.originalUrl}`;
-        res.status(405).json({ status: "Invalid Request", message: `Request: (${req.method}) ${url} is invalid!` });
-      }
-    });
-  }
-}
-
-const app = new Maya(server.app);
-app.start(process.env.PORT);
+const server = new MayaJS(AppModule);
+server.start();
 ```
 
 #### app.module.ts
 
 ```javascript
-import { SampleController } from "./controllers/sample.controllers";
-import { Express } from "express";
-import maya from "@mayajs/core";
+import { SampleController } from "./controllers/sample/sample.controllers";
+import { App } from "@mayajs/core";
 
-class AppModule {
-  maya: maya;
-
-  constructor() {
-    this.maya = new maya();
-    this.configRoutes();
-  }
-
-  get app(): Express {
-    return this.maya.app;
-  }
-
-  configRoutes(): void {
-    const { route, middlewares, router } = this.maya.routes({
+@App({
+  routes: [
+    {
       controllers: [SampleController],
       middlewares: [],
-      route: "",
-    });
-
-    this.app.use(route, middlewares, router);
-  }
-}
-
-export default new AppModule();
+      path: "",
+    },
+  ],
+})
+export class AppModule {}
 ```
 
 #### controller.ts
