@@ -1,0 +1,43 @@
+{
+  "name": "mayajs-sample",
+  "version": "1.0.0",
+  "description": "Sample Mayajs project for beginners",
+  "main": "index.js",
+  "scripts": {
+    "start": "tsnd --respawn ./src/index.ts"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Mackignacio/maya-sample.git"
+  },
+  "keywords": [
+    "nodejs",
+    "mayajs",
+    "typescript",
+    "sample",
+    "express",
+    "rest",
+    "rest",
+    "api"
+  ],
+  "author": "Mark Anthony C. Ignacio",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Mackignacio/maya-sample/issues"
+  },
+  "homepage": "https://github.com/Mackignacio/maya-sample#readme",
+  "dependencies": {
+    "@mayajs/core": "0.0.4",
+    "mongoose": "^5.6.9",
+    "mongoose-paginate": "^5.0.3"
+  },
+  "devDependencies": {
+    "@types/express": "^4.17.0",
+    "@types/mongoose": "^5.5.12",
+    "@types/mongoose-paginate": "^5.0.6",
+    "@types/node": "^12.7.1",
+    "ts-node-dev": "^1.0.0-pre.40",
+    "tslint": "^5.18.0",
+    "typescript": "^3.5.3"
+  }
+}
