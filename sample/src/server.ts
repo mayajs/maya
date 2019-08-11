@@ -3,7 +3,6 @@ import maya from "../../src";
 
 class Server {
   maya: maya;
-  connectionUrl: string;
 
   constructor() {
     this.maya = new maya();
