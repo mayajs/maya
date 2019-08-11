@@ -1,4 +1,4 @@
-import { Controller, Delete, Get, Patch, Post, Put } from "../../../src";
+import { Controller, Delete, Get, Patch, Post, Put } from "@mayajs/core";
 import { Request, Response, NextFunction } from "express";
 
 @Controller({
