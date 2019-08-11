@@ -1,6 +1,6 @@
 {
   "name": "@mayajs/core",
-  "version": "0.0.4",
+  "version": "0.0.7",
   "description": "A Node.js framework with Angular inspired development for REST API server-side-applications.",
   "main": "index",
   "types": "index.d.ts",
