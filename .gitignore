@@ -1,6 +1,14 @@
 # Logs
 logs
 dist
+common
+core
+interfaces
+models
+validator
+typings
+index.js
+index.d.ts
 *.log
 npm-debug.log*
 yarn-debug.log*
