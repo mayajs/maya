@@ -1,6 +1,6 @@
 {
   "name": "@mayajs/core",
-  "version": "0.1.2",
+  "version": "0.2.0",
   "description": "A Node.js framework with Angular inspired development for REST API server-side-applications.",
   "main": "index",
   "types": "index.d.ts",
@@ -35,6 +35,7 @@
     "cors": "^2.8.5",
     "express": "^4.17.1",
     "mongoose": "^5.6.9",
+    "mongoose-paginate": "^5.0.3",
     "morgan": "^1.9.1",
     "reflect-metadata": "^0.1.13"
   },

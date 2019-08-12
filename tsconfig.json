@@ -1,6 +1,6 @@
 {
   "exclude": [
-    "sample",
+    "sample", "dist"
   ],
   "compilerOptions": {
     "target": "es6",

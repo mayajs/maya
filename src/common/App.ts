@@ -2,7 +2,7 @@ import express, { NextFunction, Request, Response } from "express";
 import { IAppSettings, IRoute, IRoutesOptions, IRoutes } from "../interfaces";
 import { Callback } from "../typings";
 import { Injector } from "./Injector";
-import { Models } from "../models";
+import { addModel } from "./Models";
 
 export function App(settings: IAppSettings): <T extends new (...args: Array<{}>) => any>(target: T) => void {
   const { port = 3333, cors = false, logs = "", mongoConnection } = settings;
@@ -18,7 +18,7 @@ export function App(settings: IAppSettings): <T extends new (...args: Array<{}>)
 
         if (model) {
           import(model).then(e => {
-            Models.addModel({ [prefix.replace("/", "")]: e.default });
+            addModel({ [prefix.replace("/", "")]: e.default });
           });
         }
 
