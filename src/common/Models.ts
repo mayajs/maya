@@ -6,17 +6,11 @@ interface IPaginateModel {
 
 const models: IPaginateModel[] = [];
 
-export class Models {
-  static addModel(model: IPaginateModel): void {
-    models.push(model);
-  }
-
-  instance<T extends Document>(name: string): PaginateModel<T> {
-    return models.filter(e => e[name])[0][name];
-  }
+export function addModel(model: IPaginateModel): void {
+  models.push(model);
 }
 
-export function ModelDecorator(name: string): (target: any, key: string) => void {
+export function Models(name: string): (target: any, key: string) => void {
   return (target: any, key: string): void => {
     // property value
     let value = target[key];
