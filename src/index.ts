@@ -15,16 +15,17 @@ export { paginate, Schema, model, Types };
 
 export class MayaJS {
   private app: Express;
-  private isProd = false;
   private port: number;
+  private isProd = false;
+  private logsEnable = false;
 
   constructor(appModule: any) {
     this.app = express();
     this.app.use(bodyparser.json({ limit: "50mb" }));
     this.app.use(bodyparser.urlencoded({ extended: true, limit: "50mb", parameterLimit: 100000000 }));
     this.port = appModule.port;
-    this.cors(appModule.cors);
     this.logs(appModule.logs);
+    this.cors(appModule.cors);
     this.connectDatabase(appModule.mongoConnection);
     this.setRoutes(appModule.routes);
     this.unhandleErrors(this.app);
@@ -80,20 +81,26 @@ export class MayaJS {
   }
 
   private onListen(port: any): void {
+    if (this.logsEnable) {
+      console.log(`\n\x1b[32mServer is running on \x1b[31m${this.isProd ? "PROD" : "DEV"} MODE.\x1b[0m`);
+    }
     console.log("\x1b[32mListening on port:", `\x1b[36m${port}\x1b[0m`);
   }
 
   private cors(bool: boolean): void {
     if (bool) {
       this.app.use(cors());
-      console.log("\x1b[33mCORS\x1b[36m is enabled.\x1b[0m");
+      if (this.logsEnable) {
+        console.log("\x1b[33mCORS\x1b[36m is enabled.\x1b[0m");
+      }
     }
   }
 
   private logs(bool: boolean): void {
     if (bool) {
+      this.logsEnable = true;
       this.app.use(morgan(this.isProd ? "common" : "dev"));
-      console.log(`\x1b[33mLOGS\x1b[36m is enable in\x1b[31m ${this.isProd ? "PROD" : "DEV"}\x1b[36m mode.\x1b[0m`);
+      console.log(`\x1b[33mLOGS\x1b[36m is enable.`);
     }
   }
 
@@ -105,15 +112,19 @@ export class MayaJS {
         options
       )
         .then(conn => {
-          console.log("Database connected.");
+          console.log("\x1b[36mDatabase \x1b[32mconnected.\x1b[0m");
         })
         .catch(error => {
           console.log("\x1b[31mDatabase connection problem.\x1b[0m", error);
         });
 
+      let isConnecting = false;
       const checkConnection = setInterval(() => {
-        if (connection.readyState === 2) {
-          console.log("\x1b[33mConnecting to database.\x1b[0m");
+        if (connection.readyState === 2 && !isConnecting) {
+          isConnecting = true;
+          if (this.logsEnable) {
+            console.log("\n\x1b[33mTrying to connect database.\x1b[0m");
+          }
         } else {
           clearInterval(checkConnection);
         }
