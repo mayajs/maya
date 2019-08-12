@@ -1,6 +1,7 @@
-import express, { NextFunction, Request, RequestHandler, Response, Express } from "express";
+import express, { Request, RequestHandler, Response, Express } from "express";
+import { connect, connection, Schema, model, Types } from "mongoose";
 import { MongoConnectionOptions, IRoutes } from "./interfaces";
-import { connect, connection } from "mongoose";
+import paginate from "mongoose-paginate";
 import * as bodyparser from "body-parser";
 import morgan from "morgan";
 import cors from "cors";
@@ -9,6 +10,8 @@ import http from "http";
 export * from "./core";
 export * from "./models";
 export * from "./common/App";
+export * from "mongoose";
+export { paginate, Schema, model, Types };
 
 export class MayaJS {
   private app: Express;
@@ -20,11 +23,11 @@ export class MayaJS {
     this.app.use(bodyparser.json({ limit: "50mb" }));
     this.app.use(bodyparser.urlencoded({ extended: true, limit: "50mb", parameterLimit: 100000000 }));
     this.port = appModule.port;
-    this.setRoutes(appModule.routes);
-    this.unhandleErrors(this.app);
     this.cors(appModule.cors);
     this.logs(appModule.logs);
     this.connectDatabase(appModule.mongoConnection);
+    this.setRoutes(appModule.routes);
+    this.unhandleErrors(this.app);
   }
 
   /**
@@ -83,17 +86,14 @@ export class MayaJS {
   private cors(bool: boolean): void {
     if (bool) {
       this.app.use(cors());
-      console.log("\x1b[CORS\x1b[36m is enabled\x1b[0m.");
+      console.log("\x1b[33mCORS\x1b[36m is enabled.\x1b[0m");
     }
   }
 
   private logs(bool: boolean): void {
     if (bool) {
-      if (this.isProd) {
-        this.app.use(morgan("common"));
-      } else {
-        this.app.use(morgan("dev"));
-      }
+      this.app.use(morgan(this.isProd ? "common" : "dev"));
+      console.log(`\x1b[33mLOGS\x1b[36m is enable in\x1b[31m ${this.isProd ? "PROD" : "DEV"}\x1b[36m mode.\x1b[0m`);
     }
   }
 
@@ -110,14 +110,14 @@ export class MayaJS {
         .catch(error => {
           console.log("\x1b[31mDatabase connection problem.\x1b[0m", error);
         });
-    }
 
-    const checkConnection = setInterval(() => {
-      if (connection.readyState === 2) {
-        console.log("\x1b[33mConnecting to database.\x1b[0m");
-      } else {
-        clearInterval(checkConnection);
-      }
-    }, 1000);
+      const checkConnection = setInterval(() => {
+        if (connection.readyState === 2) {
+          console.log("\x1b[33mConnecting to database.\x1b[0m");
+        } else {
+          clearInterval(checkConnection);
+        }
+      }, 1000);
+    }
   }
 }
