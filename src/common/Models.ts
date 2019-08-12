@@ -1,16 +1,29 @@
-import { Models } from "../Models";
+import { PaginateModel, Document } from "mongoose";
+
+interface IPaginateModel {
+  [k: string]: PaginateModel<any>;
+}
+
+const models: IPaginateModel[] = [];
+
+export class Models {
+  static addModel(model: IPaginateModel): void {
+    models.push(model);
+  }
+
+  instance<T extends Document>(name: string): PaginateModel<T> {
+    return models.filter(e => e[name])[0][name];
+  }
+}
 
 export function ModelDecorator(name: string): (target: any, key: string) => void {
   return (target: any, key: string): void => {
     // property value
     let value = target[key];
 
-    const model = new Models();
-
     // property getter method
     const getter = () => {
-      console.log(model.instance(name));
-      return value;
+      return models.filter(e => e[name])[0][name];
     };
 
     // property setter method
