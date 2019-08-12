@@ -8,8 +8,8 @@ import cors from "cors";
 import http from "http";
 
 export * from "./core";
-export * from "./models";
 export * from "./common/App";
+export * from "./common/Models";
 export * from "mongoose";
 export { paginate, Schema, model, Types };
 
