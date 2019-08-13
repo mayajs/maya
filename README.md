@@ -39,10 +39,20 @@ import { SampleController } from "./controllers/sample/sample.controllers";
 import { App } from "@mayajs/core";
 
 @App({
+  cors: true,
+  logs: true,
+  mongoConnection: {
+    connectionString: process.env.MONGO_CONNECTION_URL,
+    options: { useCreateIndex: true, useNewUrlParser: true, useFindAndModify: false },
+  },
   routes: [
     {
+      callback: (req: Request, res: Response) => {
+          // This function will be called last in the sequence
+          // You can put some response logic here like sanitizing the response and etc.
+      },
       controllers: [SampleController],
-      middlewares: [],
+      middlewares: [jwtAuth], // This is a list of middleware functions
       path: "",
     },
   ],
