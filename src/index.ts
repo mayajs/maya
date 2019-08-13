@@ -100,7 +100,7 @@ export class MayaJS {
     if (bool) {
       this.logsEnable = true;
       this.app.use(morgan(this.isProd ? "common" : "dev"));
-      console.log(`\x1b[33mLOGS\x1b[36m is enable.`);
+      console.log(`\x1b[33mLOGS\x1b[36m is enabled.`);
     }
   }
 
