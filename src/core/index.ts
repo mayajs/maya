@@ -11,7 +11,7 @@ import path from "path";
  * @returns Function(param: IMethod) => MethodDecorator
  */
 function MethodDecoratorFactory(method: RequestMethod): (param: IMethod) => MethodDecorator {
-  return ({ path, validations = [] }: IMethod): MethodDecorator => {
+  return ({ path, middlewares = [] }: IMethod): MethodDecorator => {
     return (target: object, propertyKey: string | symbol): void => {
       // In case this is the first route to be registered the `routes` metadata is likely to be undefined at this point.
       // To prevent any further validation simply set it to an empty array here.
@@ -24,9 +24,9 @@ function MethodDecoratorFactory(method: RequestMethod): (param: IMethod) => Meth
 
       routes.push({
         methodName: propertyKey as string,
+        middlewares,
         path,
         requestMethod: method,
-        validations,
       });
 
       // Add routes metadata to the target object
@@ -39,7 +39,7 @@ function MethodDecoratorFactory(method: RequestMethod): (param: IMethod) => Meth
  * GET Method Decorator
  * @param properties - Sets the path and validation for this method.
  */
-export function Get(properties: { path: string; validations?: Array<(...args: any[]) => void> }): MethodDecorator {
+export function Get(properties: { path: string; middlewares?: Array<(...args: any[]) => void> }): MethodDecorator {
   return MethodDecoratorFactory("get")(properties);
 }
 
@@ -47,7 +47,7 @@ export function Get(properties: { path: string; validations?: Array<(...args: an
  * POST Method Decorator
  * @param properties - Sets the path and validation for this method.
  */
-export function Post(properties: { path: string; validations?: Array<(...args: any[]) => void> }): MethodDecorator {
+export function Post(properties: { path: string; middlewares?: Array<(...args: any[]) => void> }): MethodDecorator {
   return MethodDecoratorFactory("post")(properties);
 }
 
@@ -55,7 +55,7 @@ export function Post(properties: { path: string; validations?: Array<(...args: a
  * PATCH Method Decorator
  * @param properties - Sets the path and validation for this method.
  */
-export function Patch(properties: { path: string; validations?: Array<(...args: any[]) => void> }): MethodDecorator {
+export function Patch(properties: { path: string; middlewares?: Array<(...args: any[]) => void> }): MethodDecorator {
   return MethodDecoratorFactory("patch")(properties);
 }
 
@@ -63,7 +63,7 @@ export function Patch(properties: { path: string; validations?: Array<(...args: 
  * PUT Method Decorator
  * @param properties - Sets the path and validation for this method.
  */
-export function Put(properties: { path: string; validations?: Array<(...args: any[]) => void> }): MethodDecorator {
+export function Put(properties: { path: string; middlewares?: Array<(...args: any[]) => void> }): MethodDecorator {
   return MethodDecoratorFactory("put")(properties);
 }
 
@@ -71,7 +71,7 @@ export function Put(properties: { path: string; validations?: Array<(...args: an
  * DELETE Method Decorator
  * @param properties - Sets the path and validation for this method.
  */
-export function Delete(properties: { path: string; validations?: Array<(...args: any[]) => void> }): MethodDecorator {
+export function Delete(properties: { path: string; middlewares?: Array<(...args: any[]) => void> }): MethodDecorator {
   return MethodDecoratorFactory("delete")(properties);
 }
 

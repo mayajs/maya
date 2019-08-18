@@ -6,12 +6,12 @@ export interface IRoute {
   path: string; // Path to our route
   requestMethod: RequestMethod; // HTTP Request method (get, post, patch, delete, put)
   methodName: string; // Method name within our class responsible for this route
-  validations: Callback[]; // Middleware for validition of route
+  middlewares: Callback[]; // Middleware for validition of route
 }
 
 export interface IMethod {
   path: string; // Path to our method
-  validations?: Callback[]; // Middleware for validition of method
+  middlewares?: Callback[]; // Middleware for validition of method
 }
 
 export interface IFunctions<Chain> {
