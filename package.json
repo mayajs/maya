@@ -1,6 +1,6 @@
 {
   "name": "@mayajs/core",
-  "version": "0.2.3",
+  "version": "0.2.4",
   "description": "A Node.js framework with Angular inspired development for REST API server-side-applications.",
   "main": "index",
   "types": "index.d.ts",
@@ -15,12 +15,16 @@
   },
   "keywords": [
     "nodejs",
+    "server",
     "nodejs-server",
     "express",
     "typescript",
+    "decorators",
     "rest",
-    "rest",
-    "api"
+    "api",
+    "rest-api",
+    "ioc",
+    "mongoose"
   ],
   "author": "Mark Anthony C. Ignacio",
   "license": "MIT",
