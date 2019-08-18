@@ -1,12 +1,11 @@
 {
   "name": "@mayajs/core",
-  "version": "0.2.0",
+  "version": "0.2.3",
   "description": "A Node.js framework with Angular inspired development for REST API server-side-applications.",
   "main": "index",
   "types": "index.d.ts",
   "scripts": {
-    "build": "rimraf dist && tsc",
-    "build-test": "npm run clean && tsc --outDir .",
+    "build": "npm run clean && tsc -w --outDir .",
     "clean": "rimraf index.js && rimraf index.d.ts && rimraf common && rimraf core && rimraf interfaces && rimraf models && rimraf typings && rimraf validator",
     "gulp": "gulp publish"
   },
@@ -30,6 +29,8 @@
   },
   "homepage": "https://github.com/Mackignacio/maya#readme",
   "dependencies": {
+    "@types/mongoose": "^5.5.11",
+    "@types/mongoose-paginate": "^5.0.6",
     "body-parser": "^1.19.0",
     "callsite": "^1.0.0",
     "cors": "^2.8.5",
@@ -44,8 +45,6 @@
     "@types/callsite": "^1.0.30",
     "@types/cors": "^2.8.5",
     "@types/express": "^4.17.0",
-    "@types/mongoose": "^5.5.11",
-    "@types/mongoose-paginate": "^5.0.6",
     "@types/morgan": "^1.7.36",
     "cross-spawn": "^6.0.5",
     "del": "^5.0.0",

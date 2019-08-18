@@ -24,7 +24,7 @@ export function App(settings: IAppSettings): <T extends new (...args: Array<{}>)
 
         const routes: IRoute[] = Reflect.getMetadata("routes", controller);
         const method = (name: string): Callback => (req: Request, res: Response, next: NextFunction): void => instance[name](req, res, next);
-        routes.map(route => router[route.requestMethod](prefix + route.path, route.validations, method(route.methodName), callback));
+        routes.map(route => router[route.requestMethod](prefix + route.path, route.middlewares, method(route.methodName), callback));
       });
       return { path: args.path || "", middlewares, router };
     };

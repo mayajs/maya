@@ -21,9 +21,8 @@ export function Models(name: string): (target: any, key: string) => void {
     };
 
     // property setter method
-    const setter = (newVal: any) => {
-      console.log(`Set: ${key} => ${newVal}`);
-      value = newVal;
+    const setter = (newVal: string) => {
+      value = models.filter(e => e[newVal])[0][newVal];
     };
 
     // Delete property.

@@ -29,7 +29,7 @@ import { AppModule } from "./app.module";
 import { MayaJS } from "@mayajs/core";
 
 const server = new MayaJS(AppModule);
-server.start();
+server.start(); // Start the server
 ```
 
 #### app.module.ts
@@ -45,14 +45,15 @@ import { App } from "@mayajs/core";
     connectionString: process.env.MONGO_CONNECTION_URL,
     options: { useCreateIndex: true, useNewUrlParser: true, useFindAndModify: false },
   },
+  port: 3333,
   routes: [
     {
       callback: (req: Request, res: Response) => {
-          // This function will be called last in the sequence
-          // You can put some response logic here like sanitizing the response and etc.
+        // This function will be called last in the sequence
+        // You can put some response logic here like sanitizing the response and etc.
       },
       controllers: [SampleController],
-      middlewares: [jwtAuth], // This is a list of middleware functions
+      middlewares: [], // Put express middlewares here for this whole route
       path: "",
     },
   ],
@@ -65,52 +66,125 @@ export class AppModule {}
 ```javascript
 import { Controller, Get, Patch, Post, Delete } from "@mayajs/core";
 import { NextFunction, Request, Response } from "express";
+import { SampleServices } from "./sample.service";
 
 @Controller({
-  model: "sample.model", // Name of the model for this controller
-  route: "/sample", // This route is equal to "/sample"
+
+  // Path to model
+  model: "./sample.model",
+
+  // <main-route> is the **path** on the routes option in AppModule
+  // This route is equal to "<domain>/<main-route>/sample"
+  route: "/sample",
 })
 export class SampleController {
-  // This is a GET request equal to "/sample"
-  @Get({ path: "/", validations: [] })
+
+  // Inject SampleServices to services variable
+  constructor(private services: SampleServices) {}
+
+  // This is a GET request equal to "<domain>/<main-route>/sample"
+  @Get({
+    path: "/",
+    middlewares: [
+       // Put express middlewares here for this specific route
+    ]
+  })
   get(req: Request, res: Response, next: NextFunction): void {
     // Do some GET stuff here
   }
 
-  // This is a GET request equal to "/sample/:id"
-  @Get({ path: "/:id", validations: [] })
+  // This is a GET request equal to "<domain>/<main-route>/sample/:id"
+  @Get({
+    path: "/:id",
+    middlewares: [
+       // Put express middlewares here for this specific route
+    ]
+  })
   getId(req: Request, res: Response, next: NextFunction): void {
     // Do some GET stuff here
   }
 
-  // This is a POST request equal to "/sample/:id/:name"
-  @Post({ path: "/:id/:name", validations: [] })
+  // This is a POST request equal to "<domain>/<main-route>/sample/:id/:name"
+  // This route has validations using Check
+  @Post({
+    path: "/:id/:name",
+    middlewares: [
+       // Put express middlewares here for this specific route
+    ]
+  })
   post(req: Request, res: Response, next: NextFunction): void {
     // Do some POST stuff here
   }
 
-  // This is a PATCH request equal to "/sample/:id/custom-path"
-  @Patch({ path: "/:id/custom-path", validations: [] })
+  // This is a PATCH request equal to "<domain>/<main-route>/sample/:id/custom-path"
+  @Patch({
+    path: "/:id/custom-path",
+    middlewares: [
+       // Put express middlewares here for this specific route
+    ]
+  })
   patch(req: Request, res: Response, next: NextFunction): void {
     // Do some PATCH stuff here
   }
 
-  // This is a PUT request equal to "/sample/:id"
-  @Put({ path: "/:id", validations: [] })
+  // This is a PUT request equal to "<domain>/<main-route>/sample/:id"
+  @Put({
+    path: "/:id",
+    middlewares: [
+       // Put express middlewares here for this specific route
+    ]
+  })
   put(req: Request, res: Response, next: NextFunction): void {
     // Do some PUT stuff here
   }
 
-  // This is a DELETE request equal to "/sample/:id"
-  @Delete({ path: "/:id", validations: [] })
+  // This is a DELETE request equal to "<domain>/<main-route>/sample/:id"
+  @Delete({
+    path: "/:id",
+    middlewares: [
+       // Put express middlewares here for this specific route
+    ]
+  })
   delete(req: Request, res: Response, next: NextFunction): void {
     // Do some DELETE stuff here
   }
 }
 ```
 
+#### sample.model.ts
+
+```javascript
+import { Schema, model } from "mongoose";
+import paginate from "mongoose-paginate";
+
+const schema = new Schema({
+  name: {
+    required: [true, "Name is required."],
+    type: String,
+    unique: true,
+  },
+});
+
+schema.plugin(paginate);
+
+export default model("Sample", schema);
+```
+
 > **NOTE: sample.model.ts** must be on the same folder of the **controller.ts** that is referencing it.
 > **sample.model.ts** must be exported as **default** too.
+
+#### sample.service.ts
+
+```javascript
+import { Injectable, Models } from "@mayajs/core";
+
+@Injectable() // This decorator allows this class to be injected on other modules
+export class SampleServices {
+  @Models("sample") model: any; // Create an instance of `sample` model
+}
+```
+
+> **NOTE: Services** must have an **Injectable Decorator** for it to be used on any controller or other services.
 
 If you don't want to create these files there is a [sample project here](https://github.com/Mackignacio/maya-sample.git) that you can clone or download. This sample project is up to date with the latest version of mayajs.
 
