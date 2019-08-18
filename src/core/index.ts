@@ -83,13 +83,12 @@ export function Controller({ route, model }: { route: string; model: string }): 
   let modelPath = "";
 
   callsite().forEach(site => {
-    const filename = site.getFileName();
-    const isController = new RegExp(`(src\\\\controllers?${route.replace("/", "\\\\")})`, "g").test(filename);
-
-    if (isController) {
-      const pattern = new RegExp(`(${route.replace("/", "")}\\.controllers?\\.ts)`, "g");
-      const controllerDir = filename.replace(pattern, "");
-      modelPath = path.join(controllerDir, model).replace(/\\/g, "/");
+    const fullPath = site.getFileName();
+    if (fullPath.includes(".controller.ts")) {
+      const fileDir = fullPath.split("\\");
+      const filename = fileDir[fileDir.length - 1];
+      const noFilename = fullPath.replace(filename, "");
+      modelPath = path.join(noFilename, model).replace(/\\/g, "/");
     }
   });
 
