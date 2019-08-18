@@ -5,7 +5,7 @@
   "main": "index",
   "types": "index.d.ts",
   "scripts": {
-    "build": "npm run clean && tsc --outDir .",
+    "build": "npm run clean && tsc -w --outDir .",
     "clean": "rimraf index.js && rimraf index.d.ts && rimraf common && rimraf core && rimraf interfaces && rimraf models && rimraf typings && rimraf validator",
     "gulp": "gulp publish"
   },
