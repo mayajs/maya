@@ -191,7 +191,7 @@ If you don't want to create these files there is a [sample project here](https:/
 How to clone repository
 
 - Open command line terminal ( cmd or shell).
-- Run `git clone https://github.com/Mackignacio/maya-sample.git`.
+- Run `git clone https://github.com/mayajs/maya.git`.
 - Run `npm i` to install all dependency.
 
 ### Step 2 : Run your app
