@@ -186,12 +186,12 @@ export class SampleServices {
 
 > **NOTE: Services** must have an **Injectable Decorator** for it to be used on any controller or other services.
 
-If you don't want to create these files there is a [sample project here](https://github.com/Mackignacio/maya-sample.git) that you can clone or download. This sample project is up to date with the latest version of mayajs.
+If you don't want to create these files there is a [sample project here](https://github.com/mayajs/sample.git) that you can clone or download. This sample project is up to date with the latest version of mayajs.
 
 How to clone repository
 
 - Open command line terminal ( cmd or shell).
-- Run `git clone https://github.com/mayajs/maya.git`.
+- Run `git clone https://github.com/mayajs/sample.git`.
 - Run `npm i` to install all dependency.
 
 ### Step 2 : Run your app
