@@ -91,10 +91,10 @@ export class MayaJS {
     }
   }
 
-  private logs(bool: boolean): void {
-    if (bool) {
+  private logs(bool: string): void {
+    if (bool !== "") {
       this.hasLogs = true;
-      this.app.use(morgan(this.isProd ? "common" : "dev"));
+      this.app.use(morgan(this.isProd || bool ? "common" : "dev"));
       console.log(`\x1b[33mLOGS\x1b[36m is enabled.`);
     }
   }
