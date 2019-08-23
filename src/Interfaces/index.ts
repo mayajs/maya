@@ -1,5 +1,4 @@
 import { Callback, RequestMethod, ErrorCallback } from "../typings";
-import { ConnectionOptions } from "mongoose";
 import { Router } from "express";
 
 export interface IRoute {
@@ -31,17 +30,30 @@ export interface IChain extends IFunctions<IChain> {
   (req: any, res: any, next: (error?: any) => void): void;
 }
 
-export interface MongoConnectionOptions {
-  connectionString: string; // Connection string
-  options?: ConnectionOptions | undefined; // Mongoose connect options OPTIONAL
+export interface Database {
+  connect: () => Promise<any>;
+  connection: (logs: boolean) => void;
 }
 
 export interface IAppSettings {
   cors?: boolean; // Enable CORS default false
+  database?: Database; // Database module
   logs?: string; // Enable logging OPTIONAL
-  mongoConnection?: MongoConnectionOptions; // Connect to MongoDB OPTIONAL
   port?: number; // Port number where the server will listen Default 3333
   routes: IRoutesOptions[]; // List of routes with controllers and middlewares
+}
+
+export interface ModelList {
+  [k: string]: string;
+}
+
+export interface AppModule {
+  models: ModelList[];
+  cors: boolean;
+  database: Database;
+  logs: string;
+  port: number;
+  routes: IRoutes[];
 }
 
 export interface IRoutesOptions {
