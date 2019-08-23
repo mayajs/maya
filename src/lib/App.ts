@@ -33,7 +33,7 @@ export function App(settings: IAppSettings): <T extends new (...args: Array<{}>)
     });
 
     target.routes = routes;
-    target.port = port;
+    target.port = !isNaN(port) ? port : 3333;
     target.cors = cors;
     target.logs = logs;
     target.models = models;
