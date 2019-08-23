@@ -33,30 +33,37 @@ server.start(); // Start the server
 #### app.module.ts
 
 ```javascript
-import { SampleController } from "./controllers/sample/sample.controllers";
 import { App } from "@mayajs/core";
+import { Mongo } from "@mayajs/mongo";
+import { routes } from "./app.routing.module";
+import { config } from "dotenv";
+config();
 
 @App({
-  cors: true,
-  logs: true,
-  mongoConnection: {
-    connectionString: process.env.MONGO_CONNECTION_URL,
+  cors: true, // Default false
+  logs: process.env.NODE_ENV, // Default false
+  database: Mongo({
+    connectionString: process.env.MONGO_CONNECTION_URL || "your-connection-string-here",
     options: { useCreateIndex: true, useNewUrlParser: true, useFindAndModify: false },
-  },
-  port: 3333,
-  routes: [
-    {
-      callback: (req: Request, res: Response) => {
-        // This function will be called last in the sequence
-        // You can put some response logic here like sanitizing the response and etc.
-      },
-      controllers: [SampleController],
-      middlewares: [], // Put express middlewares here for this whole route
-      path: "",
-    },
-  ],
+  }),
+  port: Number(process.env.PORT), // Default port:3333
+  routes,
 })
 export class AppModule {}
+```
+
+#### app.routing.module
+
+```javascript
+import { SampleController } from "./controllers/sample/sample.controller";
+
+export const routes = [
+  {
+    controllers: [SampleController],
+    middlewares: [],
+    path: "",
+  },
+];
 ```
 
 #### controller.ts
