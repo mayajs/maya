@@ -1,5 +1,5 @@
 import express, { Request, RequestHandler, Response, Express, NextFunction } from "express";
-import { Database, IRoutes, AppModule } from "./interfaces";
+import { Database, IRoutes } from "./interfaces";
 import * as bodyparser from "body-parser";
 import morgan from "morgan";
 import cors from "cors";
@@ -16,7 +16,7 @@ export class MayaJS {
   private isProd = false;
   private hasLogs = false;
 
-  constructor(appModule: AppModule) {
+  constructor(appModule: any) {
     this.app = express();
     this.app.use(bodyparser.json({ limit: "50mb" }));
     this.app.use(bodyparser.urlencoded({ extended: true, limit: "50mb", parameterLimit: 100000000 }));
