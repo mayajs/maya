@@ -101,13 +101,9 @@ export class MayaJS {
     }
   }
 
-  private connectDatabase(mongoConnection: MongoConnectionOptions): void {
-    if (mongoConnection !== undefined && connection.readyState === 0) {
-      const { connectionString, options } = mongoConnection;
-      connect(
-        connectionString,
-        options
-      )
+  private connectDatabase(db: Database): void {
+    if (db) {
+      db.connect()
         .then(conn => {
           console.log("\x1b[36mDatabase \x1b[32mconnected.\x1b[0m");
         })
@@ -115,17 +111,7 @@ export class MayaJS {
           console.log("\x1b[31mDatabase connection problem.\x1b[0m", error);
         });
 
-      let isConnecting = false;
-      const checkConnection = setInterval(() => {
-        if (connection.readyState === 2 && !isConnecting) {
-          isConnecting = true;
-          if (this.logsEnable) {
-            console.log("\n\x1b[33mTrying to connect database.\x1b[0m");
-          }
-        } else {
-          clearInterval(checkConnection);
-        }
-      }, 1000);
+      db.connection(this.hasLogs);
     }
   }
 }
