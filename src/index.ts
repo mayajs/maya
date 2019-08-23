@@ -49,6 +49,7 @@ export class MayaJS {
       });
       return Promise.resolve("Server running!");
     } catch (error) {
+      console.log(error);
       return Promise.resolve(error);
     }
   }
@@ -96,7 +97,7 @@ export class MayaJS {
   private logs(bool: string): void {
     if (bool !== "") {
       this.hasLogs = true;
-      this.app.use(morgan(this.isProd || bool ? "common" : "dev"));
+      this.app.use(morgan(this.isProd || bool === "production" ? "common" : "dev"));
       console.log(`\x1b[33mLOGS\x1b[36m is enabled.`);
     }
   }
