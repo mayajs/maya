@@ -44,7 +44,8 @@ export interface IAppSettings {
 }
 
 export interface ModelList {
-  [k: string]: string;
+  name: string;
+  path: string;
 }
 
 export interface AppModule {
