@@ -1,5 +1,4 @@
 import express, { Request, RequestHandler, Response, Express } from "express";
-import { connect, connection, Schema, model, Types } from "mongoose";
 import { MongoConnectionOptions, IRoutes } from "./interfaces";
 import paginate from "mongoose-paginate";
 import * as bodyparser from "body-parser";
@@ -10,8 +9,6 @@ import http from "http";
 export * from "./core";
 export * from "./common/App";
 export * from "./common/Models";
-export * from "mongoose";
-export { paginate, Schema, model, Types };
 
 export class MayaJS {
   private app: Express;
