@@ -1,5 +1,5 @@
 import express, { Request, RequestHandler, Response, Express } from "express";
-import { MongoConnectionOptions, IRoutes } from "./interfaces";
+import { Database, IRoutes } from "./interfaces";
 import paginate from "mongoose-paginate";
 import * as bodyparser from "body-parser";
 import morgan from "morgan";
