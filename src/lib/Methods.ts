@@ -85,7 +85,7 @@ export function Controller({ route, model }: { route: string; model: string }): 
   callsite().forEach(site => {
     const fullPath = site.getFileName();
     if (fullPath.includes(".controller.")) {
-      const fileDir = fullPath.split("\\");
+      const fileDir = fullPath.includes("/") ? fullPath.split("/") : fullPath.split("\\");
       const filename = fileDir[fileDir.length - 1];
       const noFilename = fullPath.replace(filename, "");
       modelPath = path.join(noFilename, model).replace(/\\/g, "/");

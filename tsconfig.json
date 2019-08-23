@@ -1,19 +1,11 @@
 {
-  "exclude": [
-    "sample", "dist"
-  ],
+  "exclude": [".vscode", ".github", ".git", "node_modules", "core/**", "interfaces/**", "lib/**", "typings/**", "validator/**"],
   "compilerOptions": {
     "target": "es6",
     "module": "commonjs",
-    "lib": [
-      "es5",
-      "es2015",
-      "es2016",
-      "es2017",
-      "esnext"
-    ],
+    "lib": ["es5", "es2015", "es2016", "es2017", "esnext"],
     "declaration": true,
-    "outDir": "./dist",
+    "outDir": "./",
     "rootDir": "./src",
     "strict": true,
     "moduleResolution": "node",

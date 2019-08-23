@@ -1,32 +1,31 @@
-import express, { Request, RequestHandler, Response, Express } from "express";
-import { connect, connection, Schema, model, Types } from "mongoose";
-import { MongoConnectionOptions, IRoutes } from "./interfaces";
-import paginate from "mongoose-paginate";
+import express, { Request, RequestHandler, Response, Express, NextFunction } from "express";
+import { Database, IRoutes } from "./interfaces";
 import * as bodyparser from "body-parser";
 import morgan from "morgan";
 import cors from "cors";
 import http from "http";
 
-export * from "./core";
-export * from "./common/App";
-export * from "./common/Models";
-export * from "mongoose";
-export { paginate, Schema, model, Types };
+export * from "./interfaces";
+export * from "./lib/App";
+export * from "./lib/Methods";
+export { Request, Response, NextFunction };
 
 export class MayaJS {
   private app: Express;
   private port: number;
+  private models: any[];
   private isProd = false;
-  private logsEnable = false;
+  private hasLogs = false;
 
   constructor(appModule: any) {
     this.app = express();
     this.app.use(bodyparser.json({ limit: "50mb" }));
     this.app.use(bodyparser.urlencoded({ extended: true, limit: "50mb", parameterLimit: 100000000 }));
     this.port = appModule.port;
+    this.models = appModule.models;
     this.logs(appModule.logs);
     this.cors(appModule.cors);
-    this.connectDatabase(appModule.mongoConnection);
+    this.connectDatabase(appModule.database);
     this.setRoutes(appModule.routes);
     this.unhandleErrors(this.app);
   }
@@ -52,6 +51,7 @@ export class MayaJS {
       });
       return Promise.resolve("Server running!");
     } catch (error) {
+      console.log(error);
       return Promise.resolve(error);
     }
   }
@@ -81,7 +81,7 @@ export class MayaJS {
   }
 
   private onListen(port: any): void {
-    if (this.logsEnable) {
+    if (this.hasLogs) {
       console.log(`\n\x1b[32mServer is running on \x1b[31m${this.isProd ? "PROD" : "DEV"} MODE.\x1b[0m`);
     }
     console.log("\x1b[32mListening on port:", `\x1b[36m${port}\x1b[0m`);
@@ -90,27 +90,23 @@ export class MayaJS {
   private cors(bool: boolean): void {
     if (bool) {
       this.app.use(cors());
-      if (this.logsEnable) {
+      if (this.hasLogs) {
         console.log("\x1b[33mCORS\x1b[36m is enabled.\x1b[0m");
       }
     }
   }
 
-  private logs(bool: boolean): void {
-    if (bool) {
-      this.logsEnable = true;
-      this.app.use(morgan(this.isProd ? "common" : "dev"));
+  private logs(bool: string): void {
+    if (bool !== "") {
+      this.hasLogs = true;
+      this.app.use(morgan(this.isProd || bool === "production" ? "common" : "dev"));
       console.log(`\x1b[33mLOGS\x1b[36m is enabled.`);
     }
   }
 
-  private connectDatabase(mongoConnection: MongoConnectionOptions): void {
-    if (mongoConnection !== undefined && connection.readyState === 0) {
-      const { connectionString, options } = mongoConnection;
-      connect(
-        connectionString,
-        options
-      )
+  private connectDatabase(db: Database): void {
+    if (db) {
+      db.connect()
         .then(conn => {
           console.log("\x1b[36mDatabase \x1b[32mconnected.\x1b[0m");
         })
@@ -118,17 +114,11 @@ export class MayaJS {
           console.log("\x1b[31mDatabase connection problem.\x1b[0m", error);
         });
 
-      let isConnecting = false;
-      const checkConnection = setInterval(() => {
-        if (connection.readyState === 2 && !isConnecting) {
-          isConnecting = true;
-          if (this.logsEnable) {
-            console.log("\n\x1b[33mTrying to connect database.\x1b[0m");
-          }
-        } else {
-          clearInterval(checkConnection);
-        }
-      }, 1000);
+      db.connection(this.hasLogs);
+
+      if (db.constructor.name === "MongoDatabase") {
+        (db as any).models(this.models);
+      }
     }
   }
 }
