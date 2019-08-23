@@ -6,6 +6,7 @@ import cors from "cors";
 import http from "http";
 
 export * from "./core";
+export * from "./interfaces";
 export * from "./lib/App";
 
 export class MayaJS {
