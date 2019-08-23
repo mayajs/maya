@@ -1,0 +1,9 @@
+node_modules
+.vscode
+.github
+.src
+CODE_OF_CONDUCT.md
+COLLABORATOR_GUIDE.md
+gulpfile.js
+tsconfig.json
+tslint.json
