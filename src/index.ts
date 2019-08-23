@@ -14,7 +14,7 @@ export class MayaJS {
   private app: Express;
   private port: number;
   private isProd = false;
-  private logsEnable = false;
+  private hasLogs = false;
 
   constructor(appModule: any) {
     this.app = express();
@@ -78,7 +78,7 @@ export class MayaJS {
   }
 
   private onListen(port: any): void {
-    if (this.logsEnable) {
+    if (this.hasLogs) {
       console.log(`\n\x1b[32mServer is running on \x1b[31m${this.isProd ? "PROD" : "DEV"} MODE.\x1b[0m`);
     }
     console.log("\x1b[32mListening on port:", `\x1b[36m${port}\x1b[0m`);
@@ -87,7 +87,7 @@ export class MayaJS {
   private cors(bool: boolean): void {
     if (bool) {
       this.app.use(cors());
-      if (this.logsEnable) {
+      if (this.hasLogs) {
         console.log("\x1b[33mCORS\x1b[36m is enabled.\x1b[0m");
       }
     }
@@ -95,7 +95,7 @@ export class MayaJS {
 
   private logs(bool: boolean): void {
     if (bool) {
-      this.logsEnable = true;
+      this.hasLogs = true;
       this.app.use(morgan(this.isProd ? "common" : "dev"));
       console.log(`\x1b[33mLOGS\x1b[36m is enabled.`);
     }
