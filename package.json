@@ -11,9 +11,9 @@
     "!.git"
   ],
   "scripts": {
+    "tsc": "tsc -w",
     "start": "npm run clean && wait-on -r index.js && npm run tsc",
     "clean": "rimraf index.js && rimraf index.d.ts && rimraf lib && rimraf core && rimraf interfaces && rimraf typings && rimraf validator && rimraf *.tgz",
-    "tsc": "tsc -w",
     "prepack": "npm run clean && wait-on -r index.js && tsc"
   },
   "repository": {
