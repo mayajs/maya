@@ -1,6 +1,5 @@
 import express, { Request, RequestHandler, Response, Express } from "express";
 import { Database, IRoutes } from "./interfaces";
-import paginate from "mongoose-paginate";
 import * as bodyparser from "body-parser";
 import morgan from "morgan";
 import cors from "cors";
