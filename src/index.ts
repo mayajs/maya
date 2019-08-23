@@ -21,7 +21,7 @@ export class MayaJS {
     this.port = appModule.port;
     this.logs(appModule.logs);
     this.cors(appModule.cors);
-    this.connectDatabase(appModule.mongoConnection);
+    this.connectDatabase(appModule.database);
     this.setRoutes(appModule.routes);
     this.unhandleErrors(this.app);
   }
