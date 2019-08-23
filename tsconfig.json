@@ -1,6 +1,6 @@
 {
   "exclude": [
-    "sample", "dist"
+    "sample", "dist", "core/**", "interfaces/**", "lib/**"
   ],
   "compilerOptions": {
     "target": "es6",
