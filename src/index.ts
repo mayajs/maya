@@ -8,7 +8,6 @@ import http from "http";
 
 export * from "./core";
 export * from "./common/App";
-export * from "./common/Models";
 
 export class MayaJS {
   private app: Express;
