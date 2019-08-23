@@ -18,7 +18,7 @@ export function App(settings: IAppSettings): <T extends new (...args: Array<{}>)
         const model: string = Reflect.getMetadata("model", controller);
 
         if (model) {
-          models.push({ name: [prefix.replace("/", "")], path: model });
+          models.push({ name: prefix.replace("/", ""), path: model });
         }
 
         const routes: IRoute[] = Reflect.getMetadata("routes", controller);
