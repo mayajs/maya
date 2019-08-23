@@ -2,7 +2,6 @@ import express, { NextFunction, Request, Response } from "express";
 import { IAppSettings, IRoute, IRoutesOptions, IRoutes } from "../interfaces";
 import { Callback } from "../typings";
 import { Injector } from "./Injector";
-import { addModel } from "./Models";
 
 export function App(settings: IAppSettings): <T extends new (...args: Array<{}>) => any>(target: T) => void {
   const { port = 3333, cors = false, logs = "", database } = settings;
@@ -19,10 +18,7 @@ export function App(settings: IAppSettings): <T extends new (...args: Array<{}>)
         const model: string = Reflect.getMetadata("model", controller);
 
         if (model) {
-          models.push({ [prefix.replace("/", "")]: model });
-          import(model).then(e => {
-            addModel({ [prefix.replace("/", "")]: e.default });
-          });
+          models.push({ name: [prefix.replace("/", "")], path: model });
         }
 
         const routes: IRoute[] = Reflect.getMetadata("routes", controller);
