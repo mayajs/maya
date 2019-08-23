@@ -5,7 +5,9 @@ import { Injector } from "./Injector";
 import { addModel } from "./Models";
 
 export function App(settings: IAppSettings): <T extends new (...args: Array<{}>) => any>(target: T) => void {
-  const { port = 3333, cors = false, logs = "", mongoConnection } = settings;
+  const { port = 3333, cors = false, logs = "", database } = settings;
+  const models: any[] = [];
+
   return (target: any): void => {
     const configRoutes = (args: IRoutesOptions): IRoutes => {
       const { middlewares = [], callback = (error: any, req: Request, res: Response, next: NextFunction): void => next() } = args;
@@ -17,6 +19,7 @@ export function App(settings: IAppSettings): <T extends new (...args: Array<{}>)
         const model: string = Reflect.getMetadata("model", controller);
 
         if (model) {
+          models.push({ [prefix.replace("/", "")]: model });
           import(model).then(e => {
             addModel({ [prefix.replace("/", "")]: e.default });
           });
@@ -37,6 +40,7 @@ export function App(settings: IAppSettings): <T extends new (...args: Array<{}>)
     target.port = port;
     target.cors = cors;
     target.logs = logs;
-    target.mongoConnection = mongoConnection;
+    target.models = models;
+    target.database = database;
   };
 }
