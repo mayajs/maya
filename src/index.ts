@@ -1,4 +1,4 @@
-import express, { Request, RequestHandler, Response, Express } from "express";
+import express, { Request, RequestHandler, Response, Express, NextFunction } from "express";
 import { Database, IRoutes, AppModule } from "./interfaces";
 import * as bodyparser from "body-parser";
 import morgan from "morgan";
@@ -8,6 +8,7 @@ import http from "http";
 export * from "./core";
 export * from "./interfaces";
 export * from "./lib/App";
+export { Request, Response, NextFunction };
 
 export class MayaJS {
   private app: Express;
