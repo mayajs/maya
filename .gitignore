@@ -5,14 +5,11 @@ logs
 dist
 
 # Test directories
-common/**
-core/**
-interfaces/**
-models/**
-validator/**
-typings/**
-index.js
+**.js
 **.d.ts
+
+#gulp
+!gulpfile.js
 
 # Log files
 *.log
