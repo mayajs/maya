@@ -13,6 +13,7 @@ export { Request, Response, NextFunction };
 export class MayaJS {
   private app: Express;
   private port: number;
+  private models: any[];
   private isProd = false;
   private hasLogs = false;
 
@@ -21,6 +22,7 @@ export class MayaJS {
     this.app.use(bodyparser.json({ limit: "50mb" }));
     this.app.use(bodyparser.urlencoded({ extended: true, limit: "50mb", parameterLimit: 100000000 }));
     this.port = appModule.port;
+    this.models = appModule.models;
     this.logs(appModule.logs);
     this.cors(appModule.cors);
     this.connectDatabase(appModule.database);
@@ -113,6 +115,10 @@ export class MayaJS {
         });
 
       db.connection(this.hasLogs);
+
+      if (db.constructor.name === "MongoDatabase") {
+        (db as any).models(this.models);
+      }
     }
   }
 }
