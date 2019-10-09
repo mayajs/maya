@@ -42,6 +42,7 @@ function MethodDecoratorFactory(method: RequestMethod): (param: IMethod) => Meth
  * @param properties - Sets the path and validation for this method.
  */
 export function Get(properties: { path: string; middlewares?: Array<(...args: any[]) => void> }): MethodDecorator {
+  console.log("Get Decorator is deprecated since version 0.3.0. Will be deleted in version 1.0.0. Import this decorator in @mayajs/common instead.");
   return MethodDecoratorFactory("get")(properties);
 }
 
@@ -51,6 +52,7 @@ export function Get(properties: { path: string; middlewares?: Array<(...args: an
  * @param properties - Sets the path and validation for this method.
  */
 export function Post(properties: { path: string; middlewares?: Array<(...args: any[]) => void> }): MethodDecorator {
+  console.log("Post decorator is deprecated since version 0.3.0. Will be deleted in version 1.0.0. Import this decorator in @mayajs/common instead.");
   return MethodDecoratorFactory("post")(properties);
 }
 
@@ -60,6 +62,7 @@ export function Post(properties: { path: string; middlewares?: Array<(...args: a
  * @param properties - Sets the path and validation for this method.
  */
 export function Patch(properties: { path: string; middlewares?: Array<(...args: any[]) => void> }): MethodDecorator {
+  console.log("Patch decorator is deprecated since version 0.3.0. Will be deleted in version 1.0.0. Import this decorator in @mayajs/common instead.");
   return MethodDecoratorFactory("patch")(properties);
 }
 
@@ -69,6 +72,7 @@ export function Patch(properties: { path: string; middlewares?: Array<(...args: 
  * @param properties - Sets the path and validation for this method.
  */
 export function Put(properties: { path: string; middlewares?: Array<(...args: any[]) => void> }): MethodDecorator {
+  console.log("Put decorator is deprecated since version 0.3.0. Will be deleted in version 1.0.0. Import this decorator in @mayajs/common instead.");
   return MethodDecoratorFactory("put")(properties);
 }
 
@@ -78,6 +82,7 @@ export function Put(properties: { path: string; middlewares?: Array<(...args: an
  * @param properties - Sets the path and validation for this method.
  */
 export function Delete(properties: { path: string; middlewares?: Array<(...args: any[]) => void> }): MethodDecorator {
+  console.log("Delete decorator is deprecated since version 0.3.0. Will be deleted in version 1.0.0. Import this decorator in @mayajs/common instead.");
   return MethodDecoratorFactory("delete")(properties);
 }
 
@@ -125,6 +130,7 @@ export function Injectable(): InjectableDecorator<Type<any>> {
  * @param fieldName name of the field to be checked
  */
 export function Check(fieldName: string): IChain {
+  console.log("Check is deprecated since version 0.3.0. Will be deleted in version 1.0.0. Import this decorator in @mayajs/common instead.");
   const runner = new Runner(fieldName);
   const middleware: any = (req: Request, res: Response, next: NextFunction) => {
     const error = runner.run(req);
