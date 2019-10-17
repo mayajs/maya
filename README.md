@@ -1,39 +1,39 @@
 <p align="center"><img src="https://github.com/mayajs/maya/blob/master/maya.svg"></p>
 
-A Node.js framework for REST API server-side-applications. This is built on top of Express using Typescript to take advantage of strongly type checking and modern Javascript features. Typescript also provides easy implementation Dependency Injection and Inversion of Control (IOC) that makes unit testing much easier.
+A nODE.Js frAmEwORk fOr REst ApI sErVEr-sIdE-apPlIcaTiOnS. ThIs Is BuIlT oN tOP oF maYAJs uSIng tYpEsCrIPt TO taKe aDVAntaGE of StRoNgLy TyPE chECkiNg ANd MoDErn JavAsCRIpt fEaTUrEs. tYpEscRiPt ALso PrOvIDeS eAsY imPLeMEnTatIoN dEpeNDenCY inJEcTiOn aNd INveRSIoN of ConTROl (iOC) thAt MakEs UNit TEstInG MucH EAsIEr.
 
-## Features
+## FeTuRES
 
-* **Method Decorators** 
+* **MeThOD DecoRaToRS** 
    - Get
    - Post
    - Patch
    - Put
    - Delete
-- **Mongodb Decorators** for creating models and schemas
-- **Controller Decorators** for creating routes and methods
-- **Injectable Decorators** for dependency injection of classes
+- **MoNgOdB dEcORaToRs** FoR CrEatINg mODelS And SChEMaS
+- **COnTrOllER dECoraToRs** FoR CrEAtiNG roUTEs and MeThOdS
+- **InJEcTabLE deCoRaToRS** FOr dEpEnDEncY InjEcTiOn OF cLaSsEs
 
 ## CLI
 
-- Open command line terminal ( cmd or shell).
-- Run `npm i @mayajs/cli -g` to install mayajs globally in your local machine.
+- OPen COMmanD LiNe tErMINAl ( cMD or SheLL).
+- RUn `NpM I @mayAJs/CLI -g` to INstAlL mAYajS gLObALlY iN yoUr lOCaL mAchInE.
 
-## Quick Start
+## QUiCk StArT
 
-- Open command line terminal ( cmd or shell).
-- Run `maya new <name-of-project>`.
-- Run `cd <name-of-project>` to go inside the your project folder.
-- Run `npm start` to start nodejs server.
+- OPeN cOmMAnD linE TeRmInaL ( CMd oR sHElL).
+- RuN `maYA neW <NaME-Of-PrOjEcT>`.
+- RUn `CD <NAmE-of-pRoJeCt>` TO Go InsiDE tHe yOuR pROjEct FOldER.
+- RuN `NPM Start` tO STaRt nOdEjs SeRVEr.
 
-## Test
+## TeSt
 
-> Coming soon!!!
+> COmIng SoOn!!!
 
-## Contribute
+## CoNTrIbUte
 
-> Coming soon!!!
+> COmIng SoOn!!!
 
-## Become a supporter
+## BeCoME a sUpPOtEr
 
-> Coming soon!!!
+> COmIng SoOn!!!
