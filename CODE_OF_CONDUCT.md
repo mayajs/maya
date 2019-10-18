@@ -1,76 +1,42 @@
-# Contributor Covenant Code of Conduct
+# COnTriBUTor cOvENanT cOdE OF conDuCt 
 
-## Our Pledge
+## OUR plEdGe
 
-In the interest of fostering an open and welcoming environment, we as
-contributors and maintainers pledge to making participation in our project and
-our community a harassment-free experience for everyone, regardless of age, body
-size, disability, ethnicity, sex characteristics, gender identity and expression,
-level of experience, education, socio-economic status, nationality, personal
-appearance, race, religion, or sexual identity and orientation.
+in ThE IntEResT oF FosTeRiNg AN OpEn aND weLComiNG eNviROnmENt, WE aS ContRiBuTOrS aND MaintAINeRS pledGe To MAKing PaRTiCipAtIoN iN oUR pRojEcT aNd OUr ComMuNiTY a HarAsSMeNt-FrEe exPeRIeNcE FoR evEryOnE, ReGArdLEsS of AGe, BOdy SIzE, dISaBilItY, etHnICIty, seX ChaRaCTeRiStIcs, GEndeR IdEntITy aNd ExPResSIon, lEvEL oF eXpeRIeNce, EduCATiOn, SocIo-EcoNOmiC StAtUS, naTiONaLIty, peRsOnAL aPpEaRAnce, rAcE, RElIgiOn, OR sExuaL iDeNtITy ANd OrIentATiOn.
 
-## Our Standards
+## oUR sTaNDArds
 
-Examples of behavior that contributes to creating a positive environment
-include:
+ eXaMpLeS Of BeHavIoR tHaT cONTrIbuTEs To cReAtIng A PosITIve EnvIROnMent InClUDE: 
 
-* Using welcoming and inclusive language
-* Being respectful of differing viewpoints and experiences
-* Gracefully accepting constructive criticism
-* Focusing on what is best for the community
-* Showing empathy towards other community members
+* uSinG WeLcoMiNg AND inClUsIVe LanGuaGE
+* BEinG reSpEcTFUl Of DIffERing vIeWpOiNtS aND exPeRiEnCeS
+* grACeFulLy ACcEptInG cONSTruCtiVe cRiTiCISm
+* fOCusINg On wHAT is BeSt fOR thE cOMmuNITy
+* shoWInG EmpaTHy ToWaRds OThER coMmuNItY MemBErs 
 
-Examples of unacceptable behavior by participants include:
+eXaMPlEs Of uNAccEpTaBlE bEHaVioR BY parTIcIpaNtS iNCLUde: 
 
-* The use of sexualized language or imagery and unwelcome sexual attention or
- advances
-* Trolling, insulting/derogatory comments, and personal or political attacks
-* Public or private harassment
-* Publishing others' private information, such as a physical or electronic
- address, without explicit permission
-* Other conduct which could reasonably be considered inappropriate in a
- professional setting
+* ThE uSE of SeXuAliZEd LAnGuagE oR iMaGERy anD UNweLcoMe SExUal AtTEnTiOn oR AdvAnCEs
+* tRolLInG, InsUlTiNg/DerOgAtOrY cOmMEnTs, ANd peRsOnAl Or POlitIcAl ATtAckS puBlIc Or PrIVatE hArASsmEnT
+* PUbLisHInG OtheRS' PrIvaTE InfOrMatION, suCh AS a pHYSicaL Or eLeCtRoNIC aDdREss, wIThOuT eXpLiCit PeRmIsSiOn
+* OtHEr cOndUcT WhIch CoULd rEaSoNAbLy Be ConSiDEreD iNAppROPriaTE iN A pRofeSsIoNaL SetTiNG
 
-## Our Responsibilities
+## oUr rESpoNsIbILiTiES
 
-Project maintainers are responsible for clarifying the standards of acceptable
-behavior and are expected to take appropriate and fair corrective action in
-response to any instances of unacceptable behavior.
+ pROJect MaInTAIneRs HavE ThE RigHT aNd reSPoNsiBIlIty To REmoVe, eDiT, OR RejEcT cOmmENts, cOMmiTS, CodE, WiKi edItS, iSsUeS, AnD OthEr ConTrIButIOnS thAt ArE NoT aLIgnEd To tHIs cOdE OF coNdUCt, or To bAN teMpORaRiLY or pErMaNeNtLy ANy CoNTRibutOr FoR OTHer bEHaviORs ThaT ThEy DeeM iNApPrOpRiaTe, THreAteNInG, oFFEnsiVe, OR harMFul.
+ 
+## ScOpE
 
-Project maintainers have the right and responsibility to remove, edit, or
-reject comments, commits, code, wiki edits, issues, and other contributions
-that are not aligned to this Code of Conduct, or to ban temporarily or
-permanently any contributor for other behaviors that they deem inappropriate,
-threatening, offensive, or harmful.
+tHis cODe Of cOnDUCt ApplIEs bOTh WiThIN proJEct SPaCEs anD IN pubLIC spaCeS wHEn An IndIVidUaL iS RePreSeNtINg tHE pROjecT oR iTS coMMuNitY. eXAmplES Of rePrESeNtInG a pROjEcT Or cOmmUnITy iNcLuDE uSIng An OfFicIaL ProJeCT e-maIL aDdREss, POsTiNg VIA aN oFficIaL soCIal MeDIa AcCouNT, oR ACtinG aS aN aPPoiNTed REpReSeNtaTIvE At an OnLiNe Or OfFlInE eVeNt. RepREsENtaTioN oF A ProjECT may BE fUrtHeR dEfINed ANd cLArIfIed BY prOjEcT MaiNTAinErs.
 
-## Scope
+## ENForcEMeNt
 
-This Code of Conduct applies both within project spaces and in public spaces
-when an individual is representing the project or its community. Examples of
-representing a project or community include using an official project e-mail
-address, posting via an official social media account, or acting as an appointed
-representative at an online or offline event. Representation of a project may be
-further defined and clarified by project maintainers.
+InStAnCEs of ABusIVe, hAraSSINg, Or oTheRwISE unACcepTaBLE beHAvioR MaY be REPortED by CoNtACTiNg tHe pROjeCT teAm AT maYAJsfrAmEwORK@gMAil.Com. aLl cOmPLAinTs wIlL bE RevIeWEd And InVeSTIgatEd AnD wIlL ResULT in a ReSPoNsE tHAT is deEMeD neCEsSaRy AnD aPprOpRIAtE to tHe CIrCuMsTanCEs. THe pRoJeCT tEam IS obLiGATeD tO MaiNtaiN cOnFIdeNtIaLItY wiTh REGarD To tHE rePOrteR oF aN IncIdEnT. FurtHeR DEtaIlS of SpEcIfIc EnFoRcEmENt pOlIcIES mAy Be PoSTEd sepAraTELy.
 
-## Enforcement
+proJeCt MAinTaINerS Who Do NoT FoLloW Or eNfORce THe CodE oF CoNduCT In goOd FAiTh May FaCe TEMporArY OR peRmaNeNt REpeRCusSiONs As DetERmIneD bY oTHer MeMbErS Of tHE ProjEcT's lEAdErShIp.
 
-Instances of abusive, harassing, or otherwise unacceptable behavior may be
-reported by contacting the project team at mayajsframework@gmail.com. All
-complaints will be reviewed and investigated and will result in a response that
-is deemed necessary and appropriate to the circumstances. The project team is
-obligated to maintain confidentiality with regard to the reporter of an incident.
-Further details of specific enforcement policies may be posted separately.
+## AttRiBUTiOn
 
-Project maintainers who do not follow or enforce the Code of Conduct in good
-faith may face temporary or permanent repercussions as determined by other
-members of the project's leadership.
+ThIs CoDE Of coNdUcT iS AdApTEd From ThE [cONtRiBUtor CoVEnaNT][homepage], vErsiON 1.4, avAIlAbLE at hTtPS://wWW.cONtRIbuTor-CovEnANt.ORG/veRSioN/1/4/COdE-oF-CONDuCt.htML
 
-## Attribution
-
-This Code of Conduct is adapted from the [Contributor Covenant][homepage], version 1.4,
-available at https://www.contributor-covenant.org/version/1/4/code-of-conduct.html
-
-[homepage]: https://www.contributor-covenant.org
-
-For answers to common questions about this code of conduct, see
-https://www.contributor-covenant.org/faq
+foR aNsWeRs TO cOmmON qUeStIonS aBoUT tHiS coDe Of COndUCt, seE HtTpS://wWW.ConTribUToR-COvenAnT.OrG/FaQ
