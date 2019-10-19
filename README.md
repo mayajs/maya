@@ -11,6 +11,7 @@ A Node.js framework for REST API server-side-applications. This is built on top 
    - Put
    - Delete
 - **Mongodb Decorators** for creating models and schemas
+- **Sql Methods** for creating MySQL Databases
 - **Controller Decorators** for creating routes and methods
 - **Injectable Decorators** for dependency injection of classes
 
@@ -26,11 +27,11 @@ A Node.js framework for REST API server-side-applications. This is built on top 
 - Run `cd <name-of-project>` to go inside the your project folder.
 - Run `npm start` to start nodejs server.
 
-## Test
-
-> Coming soon!!!
-
 ## Contribute
+
+> **READ FIRST:** Any violation to the [CODE OF CONDUCT](https://github.com/mayajs/maya/blob/master/CODE_OF_CONDUCT.md) is an automatic blocking of your account. Read it first before making a `PULL REQUEST`. [Request to delete everything](https://github.com/mayajs/maya/pull/27), [trolling](https://github.com/mayajs/maya/pull/28), [personal attacks](https://github.com/mayajs/maya/pull/30), [harrassments](https://github.com/mayajs/maya/pull/31), [inappropriate and unprofessional](https://github.com/mayajs/maya/pull/32) pull request are not tollerated and subject to permanent ban. Also `users` who participated and join this kind of actions will be reported immediately. We promote safe and friendly contribution on this platform.
+
+## Test
 
 > Coming soon!!!
 
