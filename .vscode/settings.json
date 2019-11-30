@@ -3,7 +3,6 @@
     "editor.fontFamily": "Fira Code, Consolas, 'Courier New', monospace",
     "editor.minimap.enabled": false,
     "editor.fontWeight": "500",
-    "prettier.tslintIntegration": true,
     "[typescript]": {
         "editor.defaultFormatter": "esbenp.prettier-vscode"
     },
