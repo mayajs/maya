@@ -95,7 +95,7 @@ export function Delete(properties: { path: string; middlewares?: Array<(...args:
  * Decorator for a controller of a route
  * @param prefix name of the controller that will be added on the route name
  */
-export function Controller({ route, model }: { route: string; model: string }): ClassDecorator {
+export function Controller({ route, model = "" }: { route: string; model: string }): ClassDecorator {
   let modelPath = "";
 
   callsite().forEach(site => {
@@ -104,7 +104,7 @@ export function Controller({ route, model }: { route: string; model: string }): 
       const fileDir = fullPath.includes("/") ? fullPath.split("/") : fullPath.split("\\");
       const filename = fileDir[fileDir.length - 1];
       const noFilename = fullPath.replace(filename, "");
-      modelPath = path.join(noFilename, model).replace(/\\/g, "/");
+      modelPath = path.resolve(noFilename, model);
     }
   });
 
