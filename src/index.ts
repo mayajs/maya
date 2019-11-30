@@ -82,25 +82,31 @@ export class MayaJS {
 
   private onListen(port: any): void {
     if (this.hasLogs) {
-      console.log(`\n\x1b[32mServer is running on \x1b[31m${this.isProd ? "PROD" : "DEV"} MODE.\x1b[0m`);
+      console.log(`\x1b[32m[mayajs] server running on port ${port}\x1b[0m`);
     }
-    console.log("\x1b[32mListening on port:", `\x1b[36m${port}\x1b[0m`);
   }
 
   private cors(bool: boolean): void {
     if (bool) {
       this.app.use(cors());
-      if (this.hasLogs) {
-        console.log("\x1b[33mCORS\x1b[36m is enabled.\x1b[0m");
-      }
+    }
+
+    if (bool && this.hasLogs) {
+      console.log(`\x1b[33m[mayajs] enable CORS\x1b[0m`);
     }
   }
 
-  private logs(bool: string): void {
-    if (bool !== "") {
+  private logs(mode: string): void {
+    if (mode === "dev") {
       this.hasLogs = true;
-      this.app.use(morgan(this.isProd || bool === "production" ? "common" : "dev"));
-      console.log(`\x1b[33mLOGS\x1b[36m is enabled.`);
+      this.app.use(morgan("dev"));
+      console.log(`\x1b[33m[mayajs] enable LOGS\x1b[0m`);
+      return;
+    }
+
+    if (this.isProd || mode === "production" || mode === "prod") {
+      this.app.use(morgan("common"));
+      return;
     }
   }
 
@@ -108,10 +114,10 @@ export class MayaJS {
     if (db) {
       db.connect()
         .then(conn => {
-          console.log("\x1b[36mDatabase \x1b[32mconnected.\x1b[0m");
+          console.log("\x1b[32m[mayajs] database connected\x1b[0m");
         })
         .catch(error => {
-          console.log("\x1b[31mDatabase connection problem.\x1b[0m", error);
+          console.log(`\n\x1b[31m${error}\x1b[0m`);
         });
 
       db.connection(this.hasLogs);
