@@ -123,7 +123,7 @@ export class MayaJS {
       db.connection(this.hasLogs);
 
       if (db.constructor.name === "MongoDatabase") {
-        (db as any).models(this.models);
+        db.models(this.models);
       }
     }
   }
