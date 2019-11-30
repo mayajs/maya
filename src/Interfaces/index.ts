@@ -1,4 +1,4 @@
-import { Callback, RequestMethod, ErrorCallback } from "../typings";
+import { Callback, RequestMethod, ErrorCallback } from "../types";
 import { Router } from "express";
 
 export interface IRoute {

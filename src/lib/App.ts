@@ -1,6 +1,6 @@
 import express, { NextFunction, Request, Response } from "express";
 import { IAppSettings, IRoute, IRoutesOptions, IRoutes } from "../interfaces";
-import { Callback } from "../typings";
+import { Callback } from "../types";
 import { Injector } from "./Injector";
 
 export function App(settings: IAppSettings): <T extends new (...args: Array<{}>) => any>(target: T) => void {

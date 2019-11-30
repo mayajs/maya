@@ -1,4 +1,4 @@
-import { Type } from "../typings";
+import { Type } from "../types";
 import "reflect-metadata";
 
 /**

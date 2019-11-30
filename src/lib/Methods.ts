@@ -1,4 +1,4 @@
-import { RequestMethod, InjectableDecorator, Type } from "../typings";
+import { RequestMethod, InjectableDecorator, Type } from "../types";
 import { Runner, Functions, DIContainer } from "../validator";
 import { NextFunction, Request, Response } from "express";
 import { IChain, IRoute, IMethod } from "../interfaces";
