@@ -3,7 +3,6 @@
     "editor.fontFamily": "Fira Code, Consolas, 'Courier New', monospace",
     "editor.minimap.enabled": false,
     "editor.fontWeight": "500",
-    "prettier.tslintIntegration": true,
     "[typescript]": {
         "editor.defaultFormatter": "esbenp.prettier-vscode"
     },
@@ -21,13 +20,6 @@
     "git.confirmSync": false,
     "terminal.integrated.shell.windows": "C:\\Windows\\System32\\cmd.exe",
     "window.zoomLevel": 0,
-    "files.watcherExclude": {
-        "**/.git/*/**": true,
-        "**/.git/objects/**": true,
-        "**/.git/subtree-cache/**": true,
-        "**/node_modules/*/**": true,
-        "**/build": true
-    },
     "vsicons.projectDetection.autoReload": true,
     "workbench.colorCustomizations": {}
 }

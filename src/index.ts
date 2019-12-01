@@ -4,6 +4,8 @@ import * as bodyparser from "body-parser";
 import morgan from "morgan";
 import cors from "cors";
 import http from "http";
+import * as shell from "shelljs";
+import { argv } from "yargs";
 
 export * from "./interfaces";
 export * from "./lib/App";
@@ -21,13 +23,14 @@ export class MayaJS {
     this.app = express();
     this.app.use(bodyparser.json({ limit: "50mb" }));
     this.app.use(bodyparser.urlencoded({ extended: true, limit: "50mb", parameterLimit: 100000000 }));
-    this.port = appModule.port;
+    this.port = argv.port ? argv.port : appModule.port;
     this.models = appModule.models;
     this.logs(appModule.logs);
     this.cors(appModule.cors);
     this.connectDatabase(appModule.database);
     this.setRoutes(appModule.routes);
     this.unhandleErrors(this.app);
+    this.warnings();
   }
 
   /**
@@ -82,25 +85,31 @@ export class MayaJS {
 
   private onListen(port: any): void {
     if (this.hasLogs) {
-      console.log(`\n\x1b[32mServer is running on \x1b[31m${this.isProd ? "PROD" : "DEV"} MODE.\x1b[0m`);
+      console.log(`\x1b[32m[mayajs] server running on port ${port}\x1b[0m`);
     }
-    console.log("\x1b[32mListening on port:", `\x1b[36m${port}\x1b[0m`);
   }
 
   private cors(bool: boolean): void {
     if (bool) {
       this.app.use(cors());
-      if (this.hasLogs) {
-        console.log("\x1b[33mCORS\x1b[36m is enabled.\x1b[0m");
-      }
+    }
+
+    if (bool && this.hasLogs) {
+      console.log(`\x1b[33m[mayajs] enable CORS\x1b[0m`);
     }
   }
 
-  private logs(bool: string): void {
-    if (bool !== "") {
+  private logs(mode: string): void {
+    if (mode === "dev") {
       this.hasLogs = true;
-      this.app.use(morgan(this.isProd || bool === "production" ? "common" : "dev"));
-      console.log(`\x1b[33mLOGS\x1b[36m is enabled.`);
+      this.app.use(morgan("dev"));
+      console.log(`\x1b[33m[mayajs] enable LOGS\x1b[0m`);
+      return;
+    }
+
+    if (this.isProd || mode === "production" || mode === "prod") {
+      this.app.use(morgan("common"));
+      return;
     }
   }
 
@@ -108,17 +117,36 @@ export class MayaJS {
     if (db) {
       db.connect()
         .then(conn => {
-          console.log("\x1b[36mDatabase \x1b[32mconnected.\x1b[0m");
+          console.log("\x1b[32m[mayajs] database connected\x1b[0m");
         })
         .catch(error => {
-          console.log("\x1b[31mDatabase connection problem.\x1b[0m", error);
+          console.log(`\n\x1b[31m${error}\x1b[0m`);
         });
 
       db.connection(this.hasLogs);
 
       if (db.constructor.name === "MongoDatabase") {
-        (db as any).models(this.models);
+        db.models(this.models);
       }
+    }
+  }
+
+  private warnings(): void {
+    const { stdout } = shell.exec("npm list --depth=0", { silent: true });
+    const iSMongoDeprecated = stdout.includes("@mayajs/mongo@0.1.0");
+
+    if (iSMongoDeprecated) {
+      console.log(
+        `\n\x1b[33mWARNING: MayaJS is now using MongoSchema and MongoModel for adding Mongoose models. This will be the standard way in the future. You can update to latest @mayajs/mongo version to use this feature.\x1b[0m\n`
+      );
+      console.log(`Usage:\n
+      import { MongoSchema, MongoModel } from "@mayajs/mongo";
+      
+      const schema = MongoSchema({
+        fieldName: String,
+      }, options);
+
+      export default MongoModel("Sample", schema);\n`);
     }
   }
 }
