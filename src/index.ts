@@ -5,6 +5,7 @@ import morgan from "morgan";
 import cors from "cors";
 import http from "http";
 import * as shell from "shelljs";
+import { argv } from "yargs";
 
 export * from "./interfaces";
 export * from "./lib/App";
@@ -22,7 +23,7 @@ export class MayaJS {
     this.app = express();
     this.app.use(bodyparser.json({ limit: "50mb" }));
     this.app.use(bodyparser.urlencoded({ extended: true, limit: "50mb", parameterLimit: 100000000 }));
-    this.port = appModule.port;
+    this.port = argv.port ? argv.port : appModule.port;
     this.models = appModule.models;
     this.logs(appModule.logs);
     this.cors(appModule.cors);
