@@ -4,6 +4,7 @@ import * as bodyparser from "body-parser";
 import morgan from "morgan";
 import cors from "cors";
 import http from "http";
+import * as shell from "shelljs";
 
 export * from "./interfaces";
 export * from "./lib/App";
@@ -28,6 +29,7 @@ export class MayaJS {
     this.connectDatabase(appModule.database);
     this.setRoutes(appModule.routes);
     this.unhandleErrors(this.app);
+    this.warnings();
   }
 
   /**
@@ -125,13 +127,25 @@ export class MayaJS {
       if (db.constructor.name === "MongoDatabase") {
         db.models(this.models);
       }
+    }
+  }
 
-      if (this.models.length) {
-        console.log(
-          `\n\x1b[33mWARNING: MayaJS is now using MongoSchema and MongoModel for adding Mongoose models. This will be the standard way in the future. You can update to latest @mayajs/mongo version to use this feature.\x1b[0m\n`
-        );
-        console.log(`Usage:\n\n  import { MongoSchema, MongoModel } from "@mayajs/mongo";\n`);
-      }
+  private warnings(): void {
+    const { stdout } = shell.exec("npm list --depth=0", { silent: true });
+    const iSMongoDeprecated = stdout.includes("@mayajs/mongo@0.1.0");
+
+    if (iSMongoDeprecated) {
+      console.log(
+        `\n\x1b[33mWARNING: MayaJS is now using MongoSchema and MongoModel for adding Mongoose models. This will be the standard way in the future. You can update to latest @mayajs/mongo version to use this feature.\x1b[0m\n`
+      );
+      console.log(`Usage:\n
+      import { MongoSchema, MongoModel } from "@mayajs/mongo";
+      
+      const schema = MongoSchema({
+        fieldName: String,
+      }, options);
+
+      export default MongoModel("Sample", schema);\n`);
     }
   }
 }
