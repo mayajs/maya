@@ -1,23 +1,28 @@
 <p align="center"><img src="https://github.com/mayajs/maya/blob/master/maya.svg"></p>
 
-## Description
-A simple Node.js Framework for creating REST API server-side-applications. This is built on top of Express using Typescript to take advantage of strongly type checking and modern Javascript features. It also provides easy implementation Dependency Injection and Inversion of Control (IOC) that makes unit testing much easier. MayaJS is built with simplicity in mind and ease of use. 
+A simple Node.js Framework for creating REST API server-side-applications. MayaJS is designed for simplicity and ease of use for beginners. MayaJS is built using Typescript to take advantage of strongly type checking for easy code troubleshooting in development. MayaJS uses express under the hood for routing and middlewares. MayaJS hides any boiler plate code that are hard to setup for begginers when creating any nodejs server applications. Controllers, Models and Services are the key features of MayaJS. Developers are no longer to write complicated code MayaJS will do it for them. Validation of request is builtin on MayaJS without any third party library. We are trying to make MayaJS as simple as possible for every type developer. 
 
-## CLI
+# Installation
 
-- Open command line terminal ( cmd or shell).
-- Run `npm i @mayajs/cli -g` to install mayajs globally in your local machine.
+- Run `npm i @mayajs/cli -g` to install MayaJS globally in your local machine.
 
-## Quick Start
+# Quick Start
 
-- Open command line terminal ( cmd or shell).
-- Run `maya new <name-of-project>` Example: `maya new my-new-project`.
+- Run `maya new <name-of-project>` e.i. `maya new my-new-app`.
 - Run `cd <name-of-project>` to go inside the your project folder.
-- Run `npm start` to start nodejs server.
+- Run `maya serve` or `maya s` to start your MayaJS project.
+> In case where port number is already in use or you want to run it on a different port number, use `--port` to specify a different port.
 
-## Features
+# Files
 
-#### index.ts
+- [Index](#index)
+- [App](#app)
+- [Routing](#routing)
+- [Controller](#controller)
+- [Model](#model)
+- [Services](#service)
+
+## Index
 
 > Root file of the server. Acts as a bootstrapper for all the routes and models. Accepts `AppModule` that contains all the settings for the server. This also start the server on the defined port number. If there are no port number define it will run on port `3333`.
 
@@ -30,7 +35,7 @@ const prod = process.env.NODE_ENV === "production";
 server.prodMode(prod).start();
 ```
 
-#### app.module.ts
+## App
 
 > This is where you define all the necessary settings for your server. This will also configure your routes and middleware on runtime. Middlewares that are define on the configRoutes function will be applied on all controllers defined in the controllers array.
 
@@ -56,7 +61,7 @@ import { routes } from "./app.routing.module";
 export class AppModule {}
 ```
 
-#### app.routing.module
+## Routing
 
 > This module handles all the routes for our server. You can define a path for your controllers. You can also add middlewares for your route to use. These middlewares will be executed first before your controller. 
 
@@ -72,9 +77,11 @@ export const routes = [
 ];
 ```
 
-#### controller.ts
+## Controller
 
 > Handles all the request. You can define specific middleware or validation here using the METHOD DECORATOR functions. Method decorators are special functions that inject informationt to declaritively specify what type of route is being decorated.
+
+To create a controller all you need to do is to run `maya g conroller [name-of-controller]` or `maya g c [name-of-controller]` via Mayajs CLI. A sample code below shows what you can do inside the controller. You can add `Get, Patch, Post, Delete and Put` request using decorators with the same name.
 
 ```javascript
 import { Get, Patch, Post, Delete, Put } from "@mayajs/common";
@@ -138,15 +145,16 @@ export class SampleController {
 
 ```
 
-#### model.ts
+## Model
 
 > This is a moongoose model that the controller will use to mapped the data to be save or modified from a database.
 
-```javascript
-import { Schema, model } from "mongoose";
-import paginate from "mongoose-paginate";
+To create a model all you need to do is to run `maya g model [name-of-model]` or `maya g m [name-of-model]` via Mayajs CLI. You can create a Schema using `MongoSchema` and a Model using `MongoModel` from `@mayajs/mongo`. Below shows a basic code example inside a model fiel.
 
-const schema = new Schema({
+```javascript
+import { MongoSchema, MongoModel } from "@mayajs/mongo";
+
+const schema = MongoSchema({
   name: {
     required: [true, "Name is required."],
     type: String,
@@ -154,23 +162,21 @@ const schema = new Schema({
   },
 });
 
-schema.plugin(paginate);
-
-export default model("Sample", schema);
+export default MongoModel("Sample", schema);
 ```
 
 > **NOTE: sample.model.ts** must be on the same folder of the **controller.ts** that is referencing it.
 > **sample.model.ts** must be exported as **default** too.
 
-#### sample.service.ts
+## Service
+
+To create a service all you need to do is to run `maya g service [name-of-service]` or `maya g s [name-of-service]` via Mayajs CLI. Services can be injected inside of a controller or another service. This will make your code more reusable and shareable across your code base. Below shows a basic code example inside a sevice fiel.
 
 ```javascript
 import { Injectable } from "@mayajs/core";
-import { Models } from "@mayajs/mongo";
 
 @Injectable() // This decorator allows this class to be injected on other modules
 export class SampleServices {
-  @Models("sample") model: any; // Create an instance of `sample` model
 
   getSamples() {
     // Your business logic here
@@ -180,20 +186,17 @@ export class SampleServices {
 
 > **NOTE: Services** must have an **Injectable Decorator** for it to be used on any controller or other services.
 
-## Dependency
+# Contributor
 
-- Open command line terminal ( cmd or shell).
-- Run `npm i` to install all dependency.
+<table>
+  <tr>
+    <td align="center">
+     <a href="https://kentcdodds.com"><img src="https://avatars2.githubusercontent.com/u/12345233?v=4" width="50px;" alt="Mack Ignacio"/><br /><sub><b>Mack Ignacio</b></sub>
+       </a>
+      </td>
+ </tr>
+</table>
 
-## Run server
-
-- Open command line terminal ( cmd or shell).
-- Run `npm start` to install all dependency.
-
-## Contributor
-
-> [Mark Anthony C. Ignacio](https://github.com/Mackignacio)
-
-## Become a supporter
+# Become a supporter
 
 > Coming soon!!!
