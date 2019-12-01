@@ -48,13 +48,15 @@
     "mongoose": "^5.6.9",
     "mongoose-paginate": "^5.0.3",
     "morgan": "^1.9.1",
-    "reflect-metadata": "^0.1.13"
+    "reflect-metadata": "^0.1.13",
+    "shelljs": "^0.8.3"
   },
   "devDependencies": {
     "@types/body-parser": "^1.17.0",
     "@types/callsite": "^1.0.30",
     "@types/cors": "^2.8.5",
     "@types/morgan": "^1.7.36",
+    "@types/shelljs": "^0.8.6",
     "ts-lint": "^4.5.1",
     "tslint-config-prettier": "^1.18.0",
     "typescript": "^3.5.3",
