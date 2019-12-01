@@ -125,6 +125,13 @@ export class MayaJS {
       if (db.constructor.name === "MongoDatabase") {
         db.models(this.models);
       }
+
+      if (this.models.length) {
+        console.log(
+          `\n\x1b[33mWARNING: MayaJS is now using MongoSchema and MongoModel for adding Mongoose models. This will be the standard way in the future. You can update to latest @mayajs/mongo version to use this feature.\x1b[0m\n`
+        );
+        console.log(`Usage:\n\n  import { MongoSchema, MongoModel } from "@mayajs/mongo";\n`);
+      }
     }
   }
 }
