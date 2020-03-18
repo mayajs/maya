@@ -1,6 +1,13 @@
 <p align="center"><img src="https://github.com/mayajs/maya/blob/master/maya.svg"></p>
 
-A simple Node.js Framework for creating REST API server-side-applications. MayaJS is designed for simplicity and ease of use for beginners. MayaJS is built using Typescript to take advantage of strongly type checking for easy code troubleshooting in development. MayaJS uses express under the hood for routing and middlewares. MayaJS hides any boiler plate code that are hard to setup for begginers when creating any nodejs server applications. Controllers, Models and Services are the key features of MayaJS. Developers are no longer to write complicated code MayaJS will do it for them. Validation of request is builtin on MayaJS without any third party library. We are trying to make MayaJS as simple as possible for every type developer. 
+<p align="center">
+  <a href="https://www.npmjs.com/package/@mayajs/core"><img src="https://img.shields.io/npm/v/@mayajs/core.svg?style=for-the-badge&logo=appveyor" alt="Version"></a>
+  <a href="https://www.npmjs.com/package/@mayajs/core"><img src="https://img.shields.io/npm/dm/@mayajs/core.svg?style=for-the-badge&logo=appveyor" alt="Downloads"></a>
+  <a href="https://www.npmjs.com/package/@mayajs/core"><img src="https://img.shields.io/npm/l/@mayajs/core?style=for-the-badge&logo=appveyor" alt="License"></a>
+  <a href="https://github.com/microsoft/typescript-tslint-plugin"><img src="https://img.shields.io/badge/code%20style-standard-blue.svg?style=for-the-badge&logo=appveyor" alt="Code Style"></a>
+</p>
+
+A simple Node.js Framework for creating REST API server-side-applications. MayaJS is designed for simplicity and ease of use for beginners. MayaJS is built using Typescript to take advantage of strongly type checking for easy code troubleshooting in development. MayaJS uses express under the hood for routing and middlewares. MayaJS hides any boiler plate code that are hard to setup for begginers when creating any nodejs server applications. Controllers, Models and Services are the key features of MayaJS. Developers are no longer to write complicated code MayaJS will do it for them. Validation of request is builtin on MayaJS without any third party library. We are trying to make MayaJS as simple as possible for every type developer.
 
 # Installation
 
@@ -11,6 +18,7 @@ A simple Node.js Framework for creating REST API server-side-applications. MayaJ
 - Run `maya new <name-of-project>` e.i. `maya new my-new-app`.
 - Run `cd <name-of-project>` to go inside the your project folder.
 - Run `maya serve` or `maya s` to start your MayaJS project.
+
 > In case where port number is already in use or you want to run it on a different port number, use `--port` to specify a different port.
 
 # Files
@@ -63,7 +71,7 @@ export class AppModule {}
 
 ## Routing
 
-> This module handles all the routes for our server. You can define a path for your controllers. You can also add middlewares for your route to use. These middlewares will be executed first before your controller. 
+> This module handles all the routes for our server. You can define a path for your controllers. You can also add middlewares for your route to use. These middlewares will be executed first before your controller.
 
 ```javascript
 import { SampleController } from "./controllers/sample/sample.controller";
@@ -177,7 +185,6 @@ import { Injectable } from "@mayajs/core";
 
 @Injectable() // This decorator allows this class to be injected on other modules
 export class SampleServices {
-
   getSamples() {
     // Your business logic here
   }
