@@ -1,7 +1,6 @@
-import { RequestMethod, InjectableDecorator, Type } from "../types";
 import { Runner, Functions, DIContainer } from "../validator";
 import { NextFunction, Request, Response } from "express";
-import { IChain, IRoute, IMethod } from "../interfaces";
+import { IChain } from "../interfaces";
 import { MethodDecoratorFactory } from "./Factory";
 
 /**
@@ -57,16 +56,6 @@ export function Put(properties: { path: string; middlewares?: Array<(...args: an
 export function Delete(properties: { path: string; middlewares?: Array<(...args: any[]) => void> }): MethodDecorator {
   console.log("Delete decorator is deprecated since version 0.3.0. Will be deleted in version 1.0.0. Import this decorator in @mayajs/common instead.");
   return MethodDecoratorFactory("delete")(properties);
-}
-
-/**
- * @returns {InjectableDecaorator<Type<any>>}
- * @constructor
- */
-export function Injectable(): InjectableDecorator<Type<any>> {
-  return <T extends new (...args: any[]) => {}>(constructor: T): T => {
-    return class extends constructor {};
-  };
 }
 
 /**
