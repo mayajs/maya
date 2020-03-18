@@ -59,6 +59,7 @@
     "@types/morgan": "^1.7.36",
     "@types/shelljs": "^0.8.6",
     "@types/yargs": "^13.0.3",
+    "ts-jest": "^25.2.1",
     "ts-lint": "^4.5.1",
     "tslint-config-prettier": "^1.18.0",
     "typescript": "^3.5.3",
