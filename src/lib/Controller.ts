@@ -8,17 +8,24 @@ import path from "path";
 export function Controller({ route, model = "" }: { route: string; model?: string }): ClassDecorator {
   let modelPath = "";
 
-  callsite().forEach(site => {
-    const fullPath = site.getFileName();
-    if (fullPath.includes(".controller.")) {
+  if (model) {
+    callsite().forEach(site => {
+      const fullPath = site.getFileName();
+
+      if (!fullPath || !fullPath.includes(".controller.")) {
+        return;
+      }
+
       const fileDir = fullPath.includes("/") ? fullPath.split("/") : fullPath.split("\\");
       const filename = fileDir[fileDir.length - 1];
       const noFilename = fullPath.replace(filename, "");
-      if (model) {
-        modelPath = path.resolve(noFilename, model);
-      }
-    }
-  });
+      modelPath = path.resolve(noFilename, model);
+    });
+  }
+
+  if (!modelPath) {
+    console.log(`Model not found for controller ${route}.`);
+  }
 
   return (target: any): void => {
     Reflect.defineMetadata("prefix", route, target);
