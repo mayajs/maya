@@ -1,5 +1,5 @@
 {
-  "exclude": [".vscode", ".github", ".git", "node_modules", "core/**", "interfaces/**", "lib/**", "typings/**", "validator/**"],
+  "exclude": ["test", ".vscode", ".github", ".git", "node_modules", "core/**", "interfaces/**", "lib/**", "typings/**", "validator/**"],
   "compilerOptions": {
     "target": "es6",
     "module": "commonjs",
