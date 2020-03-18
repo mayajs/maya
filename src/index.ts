@@ -11,6 +11,7 @@ export * from "./interfaces";
 export * from "./lib/App";
 export * from "./lib/Methods";
 export * from "./lib/Controller";
+export * from "./lib/Injectable";
 export { Request, Response, NextFunction };
 
 export class MayaJS {
