@@ -1,21 +1,28 @@
+import { Get, Post, Put, Delete, Patch } from "../../src/lib/Methods";
+
 describe("Method Decorator functions", () => {
   test("Test GET MethodDecorator", () => {
-    expect("").toBe("");
+    const method = Get({ path: "test" });
+    expect(typeof method).toBe("function");
   });
 
   test("Test POST MethodDecorator", () => {
-    expect("").toBe("");
+    const method = Post({ path: "test" });
+    expect(typeof method).toBe("function");
   });
 
   test("Test PUT MethodDecorator", () => {
-    expect("").toBe("");
+    const method = Put({ path: "test" });
+    expect(typeof method).toBe("function");
   });
 
   test("Test PATCH MethodDecorator", () => {
-    expect("").toBe("");
+    const method = Delete({ path: "test" });
+    expect(typeof method).toBe("function");
   });
 
   test("Test DELETE MethodDecorator", () => {
-    expect("").toBe("");
+    const method = Patch({ path: "test" });
+    expect(typeof method).toBe("function");
   });
 });
