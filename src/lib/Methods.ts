@@ -1,40 +1,7 @@
-import { RequestMethod, InjectableDecorator, Type } from "../types";
 import { Runner, Functions, DIContainer } from "../validator";
 import { NextFunction, Request, Response } from "express";
-import { IChain, IRoute, IMethod } from "../interfaces";
-import callsite from "callsite";
-import path from "path";
-
-/**
- * @deprecated Since version 0.3.0. Will be deleted in version 1.0.0.
- * Factory function for a decorator that recieve a method type and return a MethodDecorator
- * @param method Type of method to be applied on the route ie: "get" | "post" | "delete" | "options" | "put" | "patch"
- * @returns Function(param: IMethod) => MethodDecorator
- */
-function MethodDecoratorFactory(method: RequestMethod): (param: IMethod) => MethodDecorator {
-  return ({ path, middlewares = [] }: IMethod): MethodDecorator => {
-    return (target: object, propertyKey: string | symbol): void => {
-      // In case this is the first route to be registered the `routes` metadata is likely to be undefined at this point.
-      // To prevent any further validation simply set it to an empty array here.
-      if (!Reflect.hasMetadata("routes", target.constructor)) {
-        Reflect.defineMetadata("routes", [], target.constructor);
-      }
-
-      // Get the routes stored so far, extend it by the new route and re-set the metadata.
-      const routes = Reflect.getMetadata("routes", target.constructor) as IRoute[];
-
-      routes.push({
-        methodName: propertyKey as string,
-        middlewares,
-        path,
-        requestMethod: method,
-      });
-
-      // Add routes metadata to the target object
-      Reflect.defineMetadata("routes", routes, target.constructor);
-    };
-  };
-}
+import { IChain } from "../interfaces";
+import { MethodDecoratorFactory } from "./Factory";
 
 /**
  * GET Method Decorator
@@ -89,46 +56,6 @@ export function Put(properties: { path: string; middlewares?: Array<(...args: an
 export function Delete(properties: { path: string; middlewares?: Array<(...args: any[]) => void> }): MethodDecorator {
   console.log("Delete decorator is deprecated since version 0.3.0. Will be deleted in version 1.0.0. Import this decorator in @mayajs/common instead.");
   return MethodDecoratorFactory("delete")(properties);
-}
-
-/**
- * Decorator for a controller of a route
- * @param prefix name of the controller that will be added on the route name
- */
-export function Controller({ route, model = "" }: { route: string; model?: string }): ClassDecorator {
-  let modelPath = "";
-
-  callsite().forEach(site => {
-    const fullPath = site.getFileName();
-    if (fullPath.includes(".controller.")) {
-      const fileDir = fullPath.includes("/") ? fullPath.split("/") : fullPath.split("\\");
-      const filename = fileDir[fileDir.length - 1];
-      const noFilename = fullPath.replace(filename, "");
-      if (model) {
-        modelPath = path.resolve(noFilename, model);
-      }
-    }
-  });
-
-  return (target: any): void => {
-    Reflect.defineMetadata("prefix", route, target);
-    Reflect.defineMetadata("model", modelPath, target);
-
-    // Since routes are set by our methods this should almost never be true (except the controller has no methods)
-    if (!Reflect.hasMetadata("routes", target)) {
-      Reflect.defineMetadata("routes", [], target);
-    }
-  };
-}
-
-/**
- * @returns {InjectableDecaorator<Type<any>>}
- * @constructor
- */
-export function Injectable(): InjectableDecorator<Type<any>> {
-  return <T extends new (...args: any[]) => {}>(constructor: T): T => {
-    return class extends constructor {};
-  };
 }
 
 /**

@@ -70,5 +70,3 @@ export interface IRoutes {
   middlewares?: any;
   router: Router;
 }
-
-export interface Controllers {}
