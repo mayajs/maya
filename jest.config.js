@@ -2,11 +2,15 @@ module.exports = {
   preset: "ts-jest",
   testEnvironment: "node",
   setupFiles: ["./jest-setup-file.ts"],
-  moduleDirectories: ["node_modules", "src"],
+  moduleDirectories: ["node_modules"],
   roots: ["<rootDir>"],
-  modulePaths: ["<rootDir>", "./src/interface"],
+  modulePaths: ["<rootDir>", "<rootDir>/src/**/**/**.**"],
+  moduleNameMapper: {
+    "^.*interfaces/(.*)": "<rootDir>/src/interfaces/$1",
+    "^.*validator/(.*)": "<rootDir>/src/validator/$1",
+  },
   transform: {
-    "^.+\\.tsx?$": "ts-jest"
+    "^.+\\.tsx?$": "ts-jest",
   },
   globals: {
     "ts-jest": {
