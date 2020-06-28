@@ -198,7 +198,7 @@ export class SampleServices {
 <table>
   <tr>
     <td align="center">
-     <a href="https://kentcdodds.com"><img src="https://avatars2.githubusercontent.com/u/12345233?v=4" width="50px;" alt="Mack Ignacio"/><br /><sub><b>Mack Ignacio</b></sub>
+     <a href="https://www.mayajs.io"><img src="https://avatars2.githubusercontent.com/u/12345233?v=4" width="50px;" alt="Mack Ignacio"/><br /><sub><b>Mack Ignacio</b></sub>
        </a>
       </td>
  </tr>
