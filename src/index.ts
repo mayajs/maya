@@ -102,14 +102,14 @@ export class MayaJS {
   }
 
   private logs(mode: string): void {
-    if (mode === "dev") {
+    if (mode.includes("dev")) {
       this.hasLogs = true;
       this.app.use(morgan("dev"));
       console.log(`\x1b[33m[mayajs] enable LOGS\x1b[0m`);
       return;
     }
 
-    if (this.isProd || mode === "production" || mode === "prod") {
+    if (this.isProd || mode.includes("prod")) {
       this.app.use(morgan("common"));
       return;
     }
@@ -118,10 +118,10 @@ export class MayaJS {
   private connectDatabase(db: Database): void {
     if (db) {
       db.connect()
-        .then(conn => {
+        .then((conn: any) => {
           console.log("\x1b[32m[mayajs] database connected\x1b[0m");
         })
-        .catch(error => {
+        .catch((error: any) => {
           console.log(`\n\x1b[31m${error}\x1b[0m`);
         });
 
