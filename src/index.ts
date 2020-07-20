@@ -8,10 +8,10 @@ import * as shell from "shelljs";
 import { argv } from "yargs";
 
 export * from "./interfaces";
-export * from "./lib/App";
-export * from "./lib/Methods";
-export { Controller } from "./lib/Controller";
-export { Injectable } from "./lib/Injectable";
+export * from "./utils/App";
+export * from "./utils/Methods";
+export { Controller } from "./utils/Controller";
+export { Injectable } from "./utils/Injectable";
 export { Request, Response, NextFunction };
 
 export class MayaJS {
