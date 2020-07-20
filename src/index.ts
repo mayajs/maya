@@ -95,17 +95,12 @@ export class MayaJS {
     if (bool) {
       this.app.use(cors());
     }
-
-    if (bool && this.hasLogs) {
-      console.log(`\x1b[33m[mayajs] enable CORS\x1b[0m`);
-    }
   }
 
   private logs(mode: string): void {
     if (mode.includes("dev")) {
       this.hasLogs = true;
       this.app.use(morgan("dev"));
-      console.log(`\x1b[33m[mayajs] enable LOGS\x1b[0m`);
       return;
     }
 
