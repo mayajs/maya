@@ -1,6 +1,6 @@
 {
   "name": "@mayajs/core",
-  "version": "0.3.2",
+  "version": "0.3.3",
   "description": "A simple Node.js Framework for creating REST API server-side-applications. MayaJS is designed for simplicity and ease of use for beginners. MayaJS is built using Typescript to take advantage of strongly type checking for easy code troubleshooting in development. MayaJS uses express under the hood for routing and middlewares. MayaJS hides any boiler plate code that are hard to setup for begginers when creating any nodejs server applications. Controllers, Models and Services are the key features of MayaJS. Developers are no longer to write complicated code MayaJS will do it for them. Validation of request is builtin on MayaJS without any third party library. We are trying to make MayaJS as simple as possible for every type developer.",
   "main": "index.js",
   "files": [
