@@ -53,18 +53,14 @@ import { Mongo } from "@mayajs/mongo";
 import { routes } from "./app.routing.module";
 
 @App({
-  cors: true,
-  logs: "dev",
-  database: Mongo({
-    connectionString: "your-connection-string-here",
-    options: {
-      useCreateIndex: true,
-      useNewUrlParser: true,
-      useFindAndModify: false,
-    },
-  }),
-  port: 3333,
-  routes,
+  cors: true, // Sets the CORS options
+  logs: "dev", // Sets the logger mode DEFAULT is dev
+  databases: [
+    // You can add multiple database in this array
+    Mongo({ connectionString: "your-connection-string-here" }),
+  ],
+  port: 3333, // Sets the port number of your nodejs server
+  routes, // Define your routes here
 })
 export class AppModule {}
 ```
@@ -78,9 +74,9 @@ import { SampleController } from "./controllers/sample/sample.controller";
 
 export const routes = [
   {
-    controllers: [SampleController],
-    middlewares: [],
-    path: "",
+    controllers: [SampleController], // Add your controllers for this route
+    middlewares: [], // Define custom middlewares here
+    path: "", // Path name of this route
   },
 ];
 ```
