@@ -29,7 +29,8 @@ export class MayaJS {
     this.models = appModule.models;
     this.logs(appModule.logs);
     this.cors(appModule.cors);
-    this.connectDatabase([appModule.database, ...appModule.databases]);
+    const databases = appModule.databases.length > 0 ? appModule.databases : [appModule.database];
+    this.connectDatabase(databases);
     this.setRoutes(appModule.routes);
     this.unhandleErrors(this.app);
     this.warnings();
