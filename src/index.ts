@@ -114,13 +114,9 @@ export class MayaJS {
   private connectDatabase(databases: Database[]): void {
     if (databases.length > 0) {
       databases.map((db: Database) => {
-        db.connect()
-          .then((conn: any) => {
-            console.log("\x1b[32m[mayajs] database connected\x1b[0m");
-          })
-          .catch((error: any) => {
-            console.log(`\n\x1b[31m${error}\x1b[0m`);
-          });
+        db.connect().catch((error: any) => {
+          console.log(`\n\x1b[31m${error}\x1b[0m`);
+        });
 
         db.connection(this.hasLogs);
 
