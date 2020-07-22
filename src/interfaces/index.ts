@@ -39,6 +39,7 @@ export interface Database {
 export interface IAppSettings {
   cors?: boolean; // Enable CORS default false
   database?: Database; // Database module
+  databases?: Database[]; // List of Database module
   logs?: string; // Enable logging OPTIONAL
   port?: number; // Port number where the server will listen Default 3333
   routes: IRoutesOptions[]; // List of routes with controllers and middlewares

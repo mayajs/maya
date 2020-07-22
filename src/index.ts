@@ -8,10 +8,10 @@ import * as shell from "shelljs";
 import { argv } from "yargs";
 
 export * from "./interfaces";
-export * from "./lib/App";
-export * from "./lib/Methods";
-export * from "./lib/Controller";
-export * from "./lib/Injectable";
+export * from "./utils/App";
+export * from "./utils/Methods";
+export { Controller } from "./utils/Controller";
+export { Injectable } from "./utils/Injectable";
 export { Request, Response, NextFunction };
 
 export class MayaJS {
@@ -29,7 +29,8 @@ export class MayaJS {
     this.models = appModule.models;
     this.logs(appModule.logs);
     this.cors(appModule.cors);
-    this.connectDatabase(appModule.database);
+    const databases = appModule.databases.length > 0 ? appModule.databases : [appModule.database];
+    this.connectDatabase(databases);
     this.setRoutes(appModule.routes);
     this.unhandleErrors(this.app);
     this.warnings();
@@ -95,17 +96,12 @@ export class MayaJS {
     if (bool) {
       this.app.use(cors());
     }
-
-    if (bool && this.hasLogs) {
-      console.log(`\x1b[33m[mayajs] enable CORS\x1b[0m`);
-    }
   }
 
   private logs(mode: string): void {
     if (mode.includes("dev")) {
       this.hasLogs = true;
       this.app.use(morgan("dev"));
-      console.log(`\x1b[33m[mayajs] enable LOGS\x1b[0m`);
       return;
     }
 
@@ -115,21 +111,19 @@ export class MayaJS {
     }
   }
 
-  private connectDatabase(db: Database): void {
-    if (db) {
-      db.connect()
-        .then((conn: any) => {
-          console.log("\x1b[32m[mayajs] database connected\x1b[0m");
-        })
-        .catch((error: any) => {
+  private connectDatabase(databases: Database[]): void {
+    if (databases.length > 0) {
+      databases.map((db: Database) => {
+        db.connect().catch((error: any) => {
           console.log(`\n\x1b[31m${error}\x1b[0m`);
         });
 
-      db.connection(this.hasLogs);
+        db.connection(this.hasLogs);
 
-      if (db.constructor.name === "MongoDatabase") {
-        db.models(this.models);
-      }
+        if (db.constructor.name === "MongoDatabase") {
+          db.models(this.models);
+        }
+      });
     }
   }
 
