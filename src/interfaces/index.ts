@@ -31,9 +31,11 @@ export interface IChain extends IFunctions<IChain> {
 }
 
 export interface Database {
+  name: string;
+  instance: any;
   connect: () => Promise<any>;
   connection: (logs: boolean) => void;
-  models: (array: ModelList[]) => void;
+  models: (array?: ModelList[]) => any;
 }
 
 export interface IAppSettings {
