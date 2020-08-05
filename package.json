@@ -44,7 +44,7 @@
     "singleQuote": false,
     "printWidth": 160,
     "arrowParens": "avoid",
-    "trailingComma": "all"
+    "trailingComma": "es5"
   },
   "dependencies": {
     "@types/express": "^4.17.0",
