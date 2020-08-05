@@ -26,7 +26,7 @@ export class MayaJS {
     this.app.use(bodyparser.json({ limit: "50mb" }));
     this.app.use(bodyparser.urlencoded({ extended: true, limit: "50mb", parameterLimit: 100000000 }));
     this.port = argv.port ? argv.port : appModule.port;
-    this.models = appModule.models;
+    this.models = [];
     this.logs(appModule.logs);
     this.cors(appModule.cors);
     const databases = appModule.databases.length > 0 ? appModule.databases : [appModule.database];
@@ -116,7 +116,7 @@ export class MayaJS {
       databases.map((db: Database) => {
         db.connect()
           .then(() => {
-            db.models(this.models);
+            db.models();
           })
           .catch((error: any) => {
             console.log(`\n\x1b[31m${error}\x1b[0m`);
