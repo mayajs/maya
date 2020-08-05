@@ -20,6 +20,8 @@ export class MayaJS {
   private models: any[];
   private isProd = false;
   private hasLogs = false;
+  private databases: Database[] = [];
+  private routes: IRoutes[] = [];
 
   constructor(appModule: any) {
     this.app = express();
@@ -29,11 +31,8 @@ export class MayaJS {
     this.models = [];
     this.logs(appModule.logs);
     this.cors(appModule.cors);
-    const databases = appModule.databases.length > 0 ? appModule.databases : [appModule.database];
-    this.connectDatabase(databases);
-    this.setRoutes(appModule.routes);
-    this.unhandleErrors(this.app);
-    this.warnings();
+    this.databases = appModule.databases.length > 0 ? appModule.databases : [appModule.database];
+    this.routes = appModule.routes;
   }
 
   /**
@@ -48,17 +47,20 @@ export class MayaJS {
    * Run the server using the port specified or the default port : 3333
    * @param port number - Specify port number that the server will listen too.
    */
-  start(port?: number): Promise<string> {
+  start(port: number = 3333): any {
     port = port ? port : this.port;
     const server = http.createServer(this.app);
     try {
       server.listen(port, () => {
         this.onListen(port);
+        this.connectDatabase(this.databases);
+        this.setRoutes(this.routes);
+        this.unhandleErrors(this.app);
+        this.warnings();
       });
-      return Promise.resolve("Server running!");
     } catch (error) {
-      console.log(error);
-      return Promise.resolve(error);
+      server.close();
+      throw new Error(error);
     }
   }
 
