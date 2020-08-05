@@ -15,12 +15,6 @@ export function App(settings: IAppSettings): <T extends new (...args: Array<{}>)
       args.controllers.map((controller: any) => {
         const instance = Injector.resolve<typeof controller>(controller);
         const prefix: string = Reflect.getMetadata("prefix", controller);
-        const model: string = Reflect.getMetadata("model", controller);
-
-        if (model) {
-          models.push({ name: prefix.replace("/", ""), path: model });
-        }
-
         const routes: IRoute[] = Reflect.getMetadata("routes", controller);
         const method = (name: string): Callback => (req: Request, res: Response, next: NextFunction): void => instance[name](req, res, next);
         routes.map((route: IRoute) => router[route.requestMethod](prefix + route.path, route.middlewares, method(route.methodName), callback));
