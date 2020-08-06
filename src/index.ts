@@ -49,7 +49,27 @@ export class MayaJS {
    */
   start(port: number = 3333): any {
     port = port ? port : this.port;
-    const server = http.createServer(this.app);
+
+    const server = http.createServer((req: http.IncomingMessage, res: http.ServerResponse) => {
+      req.connection.on("close", data => {
+        // code to handle connection abort
+      });
+
+      this.app(req, res);
+
+      process
+        .on("unhandledRejection", (reason, promise) => {
+          console.log(reason, "Unhandled Rejection", promise);
+          res.statusCode = 500;
+          res.end();
+        })
+        .on("uncaughtException", err => {
+          console.log(err, "Uncaught Exception thrown");
+          res.statusCode = 500;
+          res.end();
+        });
+    });
+
     try {
       server.listen(port, () => {
         this.onListen(port);
