@@ -1,5 +1,5 @@
 import express, { Request, RequestHandler, Response, Express, NextFunction } from "express";
-import { Database, IRoutes } from "./interfaces";
+import { IRoutes, DatabaseModule } from "./interfaces";
 import * as bodyparser from "body-parser";
 import morgan from "morgan";
 import cors from "cors";
@@ -20,7 +20,7 @@ export class MayaJS {
   private models: any[];
   private isProd = false;
   private hasLogs = false;
-  private databases: Database[] = [];
+  private databases: DatabaseModule[] = [];
   private routes: IRoutes[] = [];
 
   constructor(appModule: any) {
@@ -73,10 +73,15 @@ export class MayaJS {
     try {
       server.listen(port, () => {
         this.onListen(port);
-        this.connectDatabase(this.databases);
-        this.setRoutes(this.routes);
-        this.unhandleErrors(this.app);
-        this.warnings();
+        this.connectDatabase(this.databases)
+          .then(() => {
+            this.setRoutes(this.routes);
+            this.unhandleErrors(this.app);
+            this.warnings();
+          })
+          .catch(error => {
+            console.log(`\n\x1b[31m${error}\x1b[0m`);
+          });
       });
     } catch (error) {
       server.close();
@@ -133,20 +138,19 @@ export class MayaJS {
     }
   }
 
-  private connectDatabase(databases: Database[]): void {
+  private connectDatabase(databases: DatabaseModule[]): Promise<void[]> {
     if (databases.length > 0) {
-      databases.map((db: Database) => {
-        db.connect()
-          .then(() => {
+      return Promise.all(
+        databases.map((db: DatabaseModule) => {
+          db.connect().then(() => {
             db.models();
-          })
-          .catch((error: any) => {
-            console.log(`\n\x1b[31m${error}\x1b[0m`);
           });
-
-        db.connection(this.hasLogs);
-      });
+          db.connection(this.hasLogs);
+        })
+      );
     }
+
+    return Promise.resolve([]);
   }
 
   private warnings(): void {
