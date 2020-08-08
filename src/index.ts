@@ -41,6 +41,7 @@ export class MayaJS {
 
   /**
    * Enable production mode
+   * @param boolean bool - Turn on prod mode
    */
   prodMode(bool: boolean): this {
     this.isProd = bool ? true : this.isProd;
