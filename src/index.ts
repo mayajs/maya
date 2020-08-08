@@ -49,8 +49,9 @@ export class MayaJS {
   /**
    * Run the server using the port specified or the default port : 3333
    * @param port number - Specify port number that the server will listen too.
+   * @returns An instance of http.Server
    */
-  start(port: number = 3333): any {
+  start(port: number = 3333): http.Server {
     port = this.port ? this.port : port;
 
     const server = http.createServer(this.onInit());
@@ -61,6 +62,8 @@ export class MayaJS {
       server.close();
       throw new Error(error);
     }
+
+    return server;
   }
 
   /**
