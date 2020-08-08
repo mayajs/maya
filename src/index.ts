@@ -24,7 +24,7 @@ export class MayaJS {
   private isProd = false;
   private hasLogs = false;
   private databases: DatabaseModule[] = [];
-  private routes: IRoutes[] = [];
+  private routes: IRoutesOptions[] = [];
 
   constructor(appModule: any) {
     this.app = express();
@@ -100,8 +100,14 @@ export class MayaJS {
     return this;
   }
 
-  private setRoutes(routes: IRoutes[]): void {
-    routes.map(({ path, middlewares, router }) => {
+  /**
+   * Sets the routes to be injected as a middleware
+   *
+   * @param routes IRoutesOptions[] - A list of routes options for each routes
+   */
+  private setRoutes(routes: IRoutesOptions[]): void {
+    routes.map((route: IRoutesOptions) => {
+      const { path, middlewares, router } = this.configRoutes(route);
       this.app.use(path, middlewares, router);
     });
   }
