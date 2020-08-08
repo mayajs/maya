@@ -80,7 +80,6 @@ export class MayaJS {
           .then(() => {
             this.setRoutes(this.routes);
             this.unhandleErrors(this.app);
-            this.warnings();
           })
           .catch(error => {
             console.log(`\n\x1b[31m${error}\x1b[0m`);
@@ -155,25 +154,6 @@ export class MayaJS {
     }
 
     return Promise.resolve([]);
-  }
-
-  private warnings(): void {
-    const { stdout } = shell.exec("npm list --depth=0", { silent: true });
-    const iSMongoDeprecated = stdout.includes("@mayajs/mongo@0.1.0");
-
-    if (iSMongoDeprecated) {
-      console.log(
-        `\n\x1b[33mWARNING: MayaJS is now using MongoSchema and MongoModel for adding Mongoose models. This will be the standard way in the future. You can update to latest @mayajs/mongo version to use this feature.\x1b[0m\n`
-      );
-      console.log(`Usage:\n
-      import { MongoSchema, MongoModel } from "@mayajs/mongo";
-      
-      const schema = MongoSchema({
-        fieldName: String,
-      }, options);
-
-      export default MongoModel("Sample", schema);\n`);
-    }
   }
 
   private configRoutes(args: IRoutesOptions): IRoutes {
