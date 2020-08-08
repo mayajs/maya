@@ -1,5 +1,5 @@
 import express, { Request, RequestHandler, Response, Express, NextFunction } from "express";
-import { IRoutes, DatabaseModule, IRoutesOptions, IRoute } from "./interfaces";
+import { DatabaseModule, IRoutes, IRoutesOptions, IRoute } from "./interfaces";
 import * as bodyparser from "body-parser";
 import morgan from "morgan";
 import cors from "cors";
@@ -21,7 +21,6 @@ export { Request, Response, NextFunction };
 export class MayaJS {
   private app: Express;
   private port: number;
-  private models: any[];
   private isProd = false;
   private hasLogs = false;
   private databases: DatabaseModule[] = [];
@@ -32,7 +31,6 @@ export class MayaJS {
     this.app.use(bodyparser.json({ limit: "50mb" }));
     this.app.use(bodyparser.urlencoded({ extended: true, limit: "50mb", parameterLimit: 100000000 }));
     this.port = argv.port ? argv.port : appModule.port;
-    this.models = [];
     this.logs(appModule.logs);
     this.cors(appModule.cors);
     this.databases = appModule.databases.length > 0 ? appModule.databases : [appModule.database];
