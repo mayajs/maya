@@ -160,12 +160,12 @@ export class MayaJS {
   private connectDatabase(databases: DatabaseModule[]): Promise<void[]> {
     if (databases.length > 0) {
       return Promise.all(
-        databases.map((db: DatabaseModule) => {
-          db.connect().then(() => {
+        databases.map(async (db: DatabaseModule) => {
+          db.connection(this.hasLogs);
+          return await db.connect().then(() => {
             const models = db.models();
             addDatabase(db, models);
           });
-          db.connection(this.hasLogs);
         })
       );
     }
