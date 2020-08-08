@@ -51,7 +51,7 @@ export class MayaJS {
    * @param port number - Specify port number that the server will listen too.
    */
   start(port: number = 3333): any {
-    port = port ? port : this.port;
+    port = this.port ? this.port : port;
 
     const server = http.createServer((req: http.IncomingMessage, res: http.ServerResponse) => {
       req.connection.on("close", data => {
