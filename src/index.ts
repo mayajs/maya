@@ -56,17 +56,7 @@ export class MayaJS {
     const server = http.createServer(this.onInit());
 
     try {
-      server.listen(port, () => {
-        this.onListen(port);
-        this.connectDatabase(this.databases)
-          .then(() => {
-            this.setRoutes(this.routes);
-            this.unhandleErrors(this.app);
-          })
-          .catch(error => {
-            console.log(`\n\x1b[31m${error}\x1b[0m`);
-          });
-      });
+      server.listen(port, this.onListen(port));
     } catch (error) {
       server.close();
       throw new Error(error);
@@ -128,10 +118,21 @@ export class MayaJS {
     });
   }
 
-  private onListen(port: any): void {
-    if (this.hasLogs) {
-      console.log(`\x1b[32m[mayajs] Server running on port ${port}\x1b[0m`);
-    }
+  private onListen(port: any): () => void {
+    return () => {
+      if (this.hasLogs) {
+        console.log(`\x1b[32m[mayajs] Server running on port ${port}\x1b[0m`);
+      }
+
+      this.connectDatabase(this.databases)
+        .then(() => {
+          this.setRoutes(this.routes);
+          this.unhandleErrors(this.app);
+        })
+        .catch(error => {
+          console.log(`\n\x1b[31m${error}\x1b[0m`);
+        });
+    };
   }
 
   private cors(bool: boolean): void {
