@@ -6,6 +6,7 @@ import cors from "cors";
 import http from "http";
 import * as shell from "shelljs";
 import { argv } from "yargs";
+import { addDatabase } from "./utils/Database";
 
 export * from "./interfaces";
 export * from "./utils/App";
@@ -143,7 +144,8 @@ export class MayaJS {
       return Promise.all(
         databases.map((db: DatabaseModule) => {
           db.connect().then(() => {
-            db.models();
+            const models = db.models();
+            addDatabase(db, models);
           });
           db.connection(this.hasLogs);
         })
