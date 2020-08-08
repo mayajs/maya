@@ -15,6 +15,7 @@ export * from "./utils/App";
 export * from "./utils/Methods";
 export { Controller } from "./utils/Controller";
 export { Injectable } from "./utils/Injectable";
+export { Database } from "./utils/Database";
 export { Request, Response, NextFunction };
 
 export class MayaJS {
