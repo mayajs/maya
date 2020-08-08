@@ -1,5 +1,5 @@
 import express, { Request, RequestHandler, Response, Express, NextFunction } from "express";
-import { IRoutes, DatabaseModule } from "./interfaces";
+import { IRoutes, DatabaseModule, IRoutesOptions, IRoute } from "./interfaces";
 import * as bodyparser from "body-parser";
 import morgan from "morgan";
 import cors from "cors";
@@ -7,6 +7,8 @@ import http from "http";
 import * as shell from "shelljs";
 import { argv } from "yargs";
 import { addDatabase } from "./utils/Database";
+import { Injector } from "./utils/Injector";
+import { Callback } from "./types";
 
 export * from "./interfaces";
 export * from "./utils/App";
@@ -172,5 +174,19 @@ export class MayaJS {
 
       export default MongoModel("Sample", schema);\n`);
     }
+  }
+
+  private configRoutes(args: IRoutesOptions): IRoutes {
+    const { middlewares = [], callback = (error: any, req: Request, res: Response, next: NextFunction): void => next() } = args;
+    const router = express.Router();
+
+    args.controllers.map((controller: any) => {
+      const instance = Injector.resolve<typeof controller>(controller);
+      const prefix: string = Reflect.getMetadata("prefix", controller);
+      const routes: IRoute[] = Reflect.getMetadata("routes", controller);
+      const method = (name: string): Callback => (req: Request, res: Response, next: NextFunction): void => instance[name](req, res, next);
+      routes.map((route: IRoute) => router[route.requestMethod](prefix + route.path, route.middlewares, method(route.methodName), callback));
+    });
+    return { path: args.path || "", middlewares, router };
   }
 }
