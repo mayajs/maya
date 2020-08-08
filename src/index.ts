@@ -53,25 +53,7 @@ export class MayaJS {
   start(port: number = 3333): any {
     port = this.port ? this.port : port;
 
-    const server = http.createServer((req: http.IncomingMessage, res: http.ServerResponse) => {
-      req.connection.on("close", data => {
-        // code to handle connection abort
-      });
-
-      this.app(req, res);
-
-      process
-        .on("unhandledRejection", (reason, promise) => {
-          console.log(reason, "Unhandled Rejection", promise);
-          res.statusCode = 500;
-          res.end();
-        })
-        .on("uncaughtException", err => {
-          console.log(err, "Uncaught Exception thrown");
-          res.statusCode = 500;
-          res.end();
-        });
-    });
+    const server = http.createServer(this.onInit());
 
     try {
       server.listen(port, () => {
@@ -98,6 +80,31 @@ export class MayaJS {
   use(middleware: RequestHandler): this {
     this.app.use(middleware);
     return this;
+  }
+
+  /**
+   * Initialize server
+   */
+  private onInit(): (req: http.IncomingMessage, res: http.ServerResponse) => void {
+    return (req: http.IncomingMessage, res: http.ServerResponse) => {
+      req.connection.on("close", data => {
+        // code to handle connection abort
+      });
+
+      this.app(req, res);
+
+      process
+        .on("unhandledRejection", (reason, promise) => {
+          console.log(reason, "Unhandled Rejection", promise);
+          res.statusCode = 500;
+          res.end();
+        })
+        .on("uncaughtException", err => {
+          console.log(err, "Uncaught Exception thrown");
+          res.statusCode = 500;
+          res.end();
+        });
+    };
   }
 
   /**
