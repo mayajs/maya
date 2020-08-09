@@ -1,4 +1,4 @@
-import { MethodDecoratorFactory } from "../../src/lib/Factory";
+import { MethodDecoratorFactory } from "../../src/utils/Factory";
 
 test("should output a get function", () => {
   const methodFactory = MethodDecoratorFactory("get");

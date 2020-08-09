@@ -1,7 +1,7 @@
 {
   "name": "@mayajs/core",
-  "version": "0.3.2",
-  "description": "A simple Node.js Framework for creating REST API server-side-applications. MayaJS is designed for simplicity and ease of use for beginners. MayaJS is built using Typescript to take advantage of strongly type checking for easy code troubleshooting in development. MayaJS uses express under the hood for routing and middlewares. MayaJS hides any boiler plate code that are hard to setup for begginers when creating any nodejs server applications. Controllers, Models and Services are the key features of MayaJS. Developers are no longer to write complicated code MayaJS will do it for them. Validation of request is builtin on MayaJS without any third party library. We are trying to make MayaJS as simple as possible for every type developer.",
+  "version": "0.4.0",
+  "description": "MayaJS is designed for simplicity and ease of use for beginners. It is built using [Typescript](https://www.typescriptlang.org/) to take advantage of strong type checking and at the same time preserving support for pure Javascript. It also has support for [MongoDb](https://www.mongodb.com/) and SQL databases. It has its own routing library and don't needed a third party routing library to run under the hood.",
   "main": "index.js",
   "files": [
     "*.d.ts",
@@ -40,14 +40,18 @@
     "url": "https://github.com/Mackignacio/maya/issues"
   },
   "homepage": "https://github.com/Mackignacio/maya#readme",
+  "prettier": {
+    "singleQuote": false,
+    "printWidth": 160,
+    "arrowParens": "avoid",
+    "trailingComma": "es5"
+  },
   "dependencies": {
     "@types/express": "^4.17.0",
     "body-parser": "^1.19.0",
     "callsite": "^1.0.0",
     "cors": "^2.8.5",
     "express": "^4.17.1",
-    "mongoose": "^5.6.9",
-    "mongoose-paginate": "^5.0.3",
     "morgan": "^1.9.1",
     "reflect-metadata": "^0.1.13",
     "shelljs": "^0.8.3",
@@ -58,6 +62,7 @@
     "@types/callsite": "^1.0.30",
     "@types/cors": "^2.8.5",
     "@types/jest": "^25.1.4",
+    "@types/mongoose": "^5.7.32",
     "@types/morgan": "^1.7.36",
     "@types/shelljs": "^0.8.6",
     "@types/yargs": "^13.0.3",

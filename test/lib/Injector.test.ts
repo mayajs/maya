@@ -1,4 +1,4 @@
-import { Injector } from "../../src/lib/Injector";
+import { Injector } from "../../src/utils/Injector";
 import "reflect-metadata";
 
 test("should output an object", () => {

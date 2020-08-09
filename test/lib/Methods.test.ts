@@ -1,4 +1,4 @@
-import { Get, Post, Put, Delete, Patch } from "../../src/lib/Methods";
+import { Get, Post, Put, Delete, Patch } from "../../src/utils/Methods";
 
 describe("Method Decorator functions", () => {
   test("Test GET MethodDecorator", () => {
