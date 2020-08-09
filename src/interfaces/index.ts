@@ -30,16 +30,18 @@ export interface IChain extends IFunctions<IChain> {
   (req: any, res: any, next: (error?: any) => void): void;
 }
 
-export interface Database {
+export interface DatabaseModule {
+  name: string;
+  instance: any;
   connect: () => Promise<any>;
   connection: (logs: boolean) => void;
-  models: (array: ModelList[]) => void;
+  models: (array?: ModelList[]) => any;
 }
 
 export interface IAppSettings {
   cors?: boolean; // Enable CORS default false
-  database?: Database; // Database module
-  databases?: Database[]; // List of Database module
+  database?: DatabaseModule; // Database module
+  databases?: DatabaseModule[]; // List of Database module
   logs?: string; // Enable logging OPTIONAL
   port?: number; // Port number where the server will listen Default 3333
   routes: IRoutesOptions[]; // List of routes with controllers and middlewares
@@ -53,7 +55,7 @@ export interface ModelList {
 export interface AppModule {
   models: ModelList[];
   cors: boolean;
-  database: Database;
+  database: DatabaseModule;
   logs: string;
   port: number;
   routes: IRoutes[];
@@ -70,4 +72,8 @@ export interface IRoutes {
   path: string;
   middlewares?: any;
   router: Router;
+}
+
+export interface ModelDictionary<T> {
+  [k: string]: T;
 }
