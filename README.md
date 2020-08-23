@@ -7,7 +7,7 @@
   <a href="https://github.com/microsoft/typescript-tslint-plugin"><img src="https://img.shields.io/badge/code%20style-standard-blue.svg?style=for-the-badge&logo=appveyor" alt="Code Style"></a>
 </p>
 
-MayaJS is designed for simplicity and ease of use for beginners. It is built using [Typescript](https://www.typescriptlang.org/) to take advantage of strong type checking and at the same time preserving support for pure Javascript. It also has support for [MongoDb](https://www.mongodb.com/) and SQL databases. It has its own routing library and don't needed a third party routing library to run under the hood.
+MayaJS is designed for simplicity and ease of use for beginners. It is built using [Typescript](https://www.typescriptlang.org/) to take advantage of strong type checking and at the same time preserving support for pure Javascript. It also has support for [MongoDb](https://www.mongodb.com/) and SQL databases. It has its own routing library and doesn't need third party routing libraries to run under the hood.
 
 # Installation
 
@@ -20,7 +20,7 @@ MayaJS is designed for simplicity and ease of use for beginners. It is built usi
 - Run `cd my-new-app` to go inside your project folder.
 - Run `maya serve` to start your MayaJS project.
 
-> In case where port number is already in use or you want to run it on a different port number, use `--port` to specify a different port. **i.e. `maya serve --port=4444`**
+> In the case where the port number is already in use or in the case when you want to run it on a different port number, use `--port` to specify a different port. **i.e. `maya serve --port=4444`**
 
 # Ecosystem
 
