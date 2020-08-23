@@ -20,7 +20,7 @@ MayaJS is designed for simplicity and ease of use for beginners. It is built usi
 - Run `cd my-new-app` to go inside your project folder.
 - Run `maya serve` to start your MayaJS project.
 
-> In the case where the port number is already in use or where you want to run it on a different port number, use `--port` to specify a different port. **i.e. `maya serve --port=4444`**
+> In the case where the port number is already in use or in the case when you want to run it on a different port number, use `--port` to specify a different port. **i.e. `maya serve --port=4444`**
 
 # Ecosystem
 
