@@ -54,7 +54,7 @@ export class MayaJS {
   start(port: number = 3333): http.Server {
     port = this.port ? this.port : port;
 
-    const server = http.createServer(this.onInit());
+    const server = http.createServer(this.app);
 
     try {
       server.listen(port, this.onListen(port));
@@ -62,6 +62,14 @@ export class MayaJS {
       server.close();
       throw new Error(error);
     }
+
+    process
+      .on("unhandledRejection", (reason, promise) => {
+        console.log(reason, "Unhandled Rejection", promise);
+      })
+      .on("uncaughtException", err => {
+        console.log(err, "Uncaught Exception thrown");
+      });
 
     return server;
   }
@@ -73,31 +81,6 @@ export class MayaJS {
   use(middleware: RequestHandler): this {
     this.app.use(middleware);
     return this;
-  }
-
-  /**
-   * Initialize server
-   */
-  private onInit(): (req: http.IncomingMessage, res: http.ServerResponse) => void {
-    return (req: http.IncomingMessage, res: http.ServerResponse) => {
-      req.connection.on("close", data => {
-        // code to handle connection abort
-      });
-
-      this.app(req, res);
-
-      process
-        .on("unhandledRejection", (reason, promise) => {
-          console.log(reason, "Unhandled Rejection", promise);
-          res.statusCode = 500;
-          res.end();
-        })
-        .on("uncaughtException", err => {
-          console.log(err, "Uncaught Exception thrown");
-          res.statusCode = 500;
-          res.end();
-        });
-    };
   }
 
   /**
@@ -116,7 +99,7 @@ export class MayaJS {
     app.use((req: Request, res: Response) => {
       if (!req.route) {
         const url = `${req.protocol}://${req.get("host")}${req.originalUrl}`;
-        res.status(405).json({ status: "Invalid Request", message: `Request: (${req.method}) ${url} is invalid!` });
+        return res.status(405).json({ status: "Invalid Request", message: `Request: (${req.method}) ${url} is invalid!` });
       }
     });
   }
