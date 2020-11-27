@@ -23,14 +23,15 @@ export class MayaJS {
   private hasLogs = false;
   private databases: DatabaseModule[] = [];
   private routes: IRoutesOptions[] = [];
+  private cors!: RequestHandler;
   private bodyParser: { json?: RequestHandler; urlencoded?: RequestHandler } = {};
 
   constructor(appModule: AppModule) {
     this.app = express();
     this.bodyParser["json"] = bodyparser.json({ limit: "50mb" });
     this.bodyParser["urlencoded"] = bodyparser.urlencoded({ extended: true, limit: "50mb", parameterLimit: 100000000 });
+    this.cors = cors();
     this.logs(appModule.logs as string);
-    this.cors(appModule.cors as boolean);
     this.databases = appModule?.databases && appModule?.databases?.length > 0 ? appModule.databases : [];
     this.routes = appModule.routes as any[];
   }
@@ -102,6 +103,15 @@ export class MayaJS {
   }
 
   /**
+   * Set default CORS options
+   * @param bodyParser A middleware function that sets the cors settings of a request
+   */
+  setCORS(cors: RequestHandler): this {
+    this.cors = cors;
+    return this;
+  }
+
+  /**
    * Sets the routes to be injected as a middleware
    *
    * @param routes IRoutesOptions[] - A list of routes options for each routes
@@ -131,6 +141,7 @@ export class MayaJS {
       // Sets default settings
       this.app.use(this.bodyParser.json as RequestHandler);
       this.app.use(this.bodyParser.urlencoded as RequestHandler);
+      this.app.use(this.cors);
 
       this.connectDatabase(this.databases)
         .then(() => {
@@ -141,12 +152,6 @@ export class MayaJS {
           console.log(`\n\x1b[31m${error}\x1b[0m`);
         });
     };
-  }
-
-  private cors(bool: boolean): void {
-    if (bool) {
-      this.app.use(cors());
-    }
   }
 
   private logs(mode: string): void {
