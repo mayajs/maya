@@ -39,6 +39,7 @@ export interface DatabaseModule {
 }
 
 export interface IAppSettings {
+  plugins?: any[]; // Enable CORS default false
   cors?: boolean; // Enable CORS default false
   database?: DatabaseModule; // Database module
   databases?: DatabaseModule[]; // List of Database module
@@ -53,12 +54,13 @@ export interface ModelList {
 }
 
 export interface AppModule {
-  models: ModelList[];
-  cors: boolean;
-  database: DatabaseModule;
-  logs: string;
-  port: number;
-  routes: IRoutes[];
+  new (): {};
+  cors?: boolean;
+  logs?: string;
+  port?: number;
+  databases?: DatabaseModule[];
+  plugins?: any[];
+  routes?: IRoutes[];
 }
 
 export interface IRoutesOptions {
