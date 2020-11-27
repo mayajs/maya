@@ -60,7 +60,7 @@ export interface AppModule {
   port?: number;
   databases?: DatabaseModule[];
   plugins?: any[];
-  routes?: IRoutes[];
+  routes?: IRoutesOptions[];
 }
 
 export interface IRoutesOptions {
