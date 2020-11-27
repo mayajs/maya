@@ -74,6 +74,17 @@ export class MayaJS {
   }
 
   /**
+   * Adds array of middlewares before initializing routes
+   * @param plugins RequestHandler[] - Callback function from a middleware
+   */
+  plugins(plugins: RequestHandler[]): this {
+    for (const plugin of plugins) {
+      this.app.use(plugin);
+    }
+    return this;
+  }
+
+  /**
    * Adds middleware to our route
    * @param middleware RequestHandler - Callback function from a middleware
    */
