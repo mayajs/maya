@@ -1,10 +1,9 @@
 import express, { Request, RequestHandler, Response, Express, NextFunction } from "express";
-import { DatabaseModule, IRoutes, IRoutesOptions, IRoute } from "./interfaces";
+import { DatabaseModule, IRoutes, IRoutesOptions, IRoute, AppModule } from "./interfaces";
 import * as bodyparser from "body-parser";
 import morgan from "morgan";
 import cors from "cors";
 import http from "http";
-import * as shell from "shelljs";
 import { argv } from "yargs";
 import { addDatabase } from "./utils/Database";
 import { Injector } from "./utils/Injector";
@@ -26,15 +25,15 @@ export class MayaJS {
   private databases: DatabaseModule[] = [];
   private routes: IRoutesOptions[] = [];
 
-  constructor(appModule: any) {
+  constructor(appModule: AppModule) {
     this.app = express();
     this.app.use(bodyparser.json({ limit: "50mb" }));
     this.app.use(bodyparser.urlencoded({ extended: true, limit: "50mb", parameterLimit: 100000000 }));
-    this.port = argv.port ? argv.port : appModule.port;
-    this.logs(appModule.logs);
-    this.cors(appModule.cors);
-    this.databases = appModule.databases.length > 0 ? appModule.databases : [appModule.database];
-    this.routes = appModule.routes;
+    this.port = argv.port ? (argv.port as number) : (appModule.port as number);
+    this.logs(appModule.logs as string);
+    this.cors(appModule.cors as boolean);
+    this.databases = appModule?.databases && appModule?.databases?.length > 0 ? appModule.databases : [];
+    this.routes = appModule.routes as any[];
   }
 
   /**
@@ -128,13 +127,13 @@ export class MayaJS {
   }
 
   private logs(mode: string): void {
-    if (mode.includes("dev")) {
+    if (mode?.includes("dev")) {
       this.hasLogs = true;
       this.app.use(morgan("dev"));
       return;
     }
 
-    if (this.isProd || mode.includes("prod")) {
+    if (this.isProd || mode?.includes("prod")) {
       this.app.use(morgan("common"));
       return;
     }
