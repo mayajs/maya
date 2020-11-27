@@ -19,17 +19,16 @@ export { Request, Response, NextFunction };
 
 export class MayaJS {
   private app: Express;
-  private port: number;
   private isProd = false;
   private hasLogs = false;
   private databases: DatabaseModule[] = [];
   private routes: IRoutesOptions[] = [];
+  private bodyParser: { json?: RequestHandler; urlencoded?: RequestHandler } = {};
 
   constructor(appModule: AppModule) {
     this.app = express();
-    this.app.use(bodyparser.json({ limit: "50mb" }));
-    this.app.use(bodyparser.urlencoded({ extended: true, limit: "50mb", parameterLimit: 100000000 }));
-    this.port = argv.port ? (argv.port as number) : (appModule.port as number);
+    this.bodyParser["json"] = bodyparser.json({ limit: "50mb" });
+    this.bodyParser["urlencoded"] = bodyparser.urlencoded({ extended: true, limit: "50mb", parameterLimit: 100000000 });
     this.logs(appModule.logs as string);
     this.cors(appModule.cors as boolean);
     this.databases = appModule?.databases && appModule?.databases?.length > 0 ? appModule.databases : [];
@@ -51,8 +50,6 @@ export class MayaJS {
    * @returns An instance of http.Server
    */
   start(port: number = 3333): http.Server {
-    port = this.port ? this.port : port;
-
     const server = http.createServer(this.app);
 
     try {
@@ -94,6 +91,17 @@ export class MayaJS {
   }
 
   /**
+   * Set default body parser
+   * @param bodyParser A set of functions that parses an incoming request body
+   */
+  setBodyParser(bodyParser: { json?: RequestHandler; urlencoded?: RequestHandler }): this {
+    if (Object.keys(bodyParser).length > 0) {
+      this.bodyParser = bodyParser;
+    }
+    return this;
+  }
+
+  /**
    * Sets the routes to be injected as a middleware
    *
    * @param routes IRoutesOptions[] - A list of routes options for each routes
@@ -119,6 +127,10 @@ export class MayaJS {
       if (this.hasLogs) {
         console.log(`\x1b[32m[mayajs] Server running on port ${port}\x1b[0m`);
       }
+
+      // Sets default settings
+      this.app.use(this.bodyParser.json as RequestHandler);
+      this.app.use(this.bodyParser.urlencoded as RequestHandler);
 
       this.connectDatabase(this.databases)
         .then(() => {
