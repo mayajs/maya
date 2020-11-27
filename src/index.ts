@@ -4,7 +4,6 @@ import * as bodyparser from "body-parser";
 import morgan from "morgan";
 import cors from "cors";
 import http from "http";
-import { argv } from "yargs";
 import { addDatabase } from "./utils/Database";
 import { Injector } from "./utils/Injector";
 import { Callback } from "./types";
@@ -24,16 +23,14 @@ export class MayaJS {
   private databases: DatabaseModule[] = [];
   private routes: IRoutesOptions[] = [];
   private cors!: RequestHandler;
+  private logger!: RequestHandler;
   private bodyParser: { json?: RequestHandler; urlencoded?: RequestHandler } = {};
 
   constructor(appModule: AppModule) {
+    this.setDefaultPluginsSettings();
     this.app = express();
-    this.bodyParser["json"] = bodyparser.json({ limit: "50mb" });
-    this.bodyParser["urlencoded"] = bodyparser.urlencoded({ extended: true, limit: "50mb", parameterLimit: 100000000 });
-    this.cors = cors();
-    this.logs(appModule.logs as string);
-    this.databases = appModule?.databases && appModule?.databases?.length > 0 ? appModule.databases : [];
-    this.routes = appModule.routes as any[];
+    this.databases = appModule?.databases ?? [];
+    this.routes = appModule?.routes ?? [];
   }
 
   /**
@@ -72,7 +69,7 @@ export class MayaJS {
   }
 
   /**
-   * Adds array of middlewares before initializing routes
+   * Adds array of middleware functions before initialization routes
    * @param plugins RequestHandler[] - Callback function from a middleware
    */
   plugins(plugins: RequestHandler[]): this {
@@ -83,7 +80,7 @@ export class MayaJS {
   }
 
   /**
-   * Adds middleware to our route
+   * Adds middleware function before initialization of routes
    * @param middleware RequestHandler - Callback function from a middleware
    */
   use(middleware: RequestHandler): this {
@@ -93,7 +90,7 @@ export class MayaJS {
 
   /**
    * Set default body parser
-   * @param bodyParser A set of functions that parses an incoming request body
+   * @param bodyParser A set of middleware functions that parses an incoming request body
    */
   setBodyParser(bodyParser: { json?: RequestHandler; urlencoded?: RequestHandler }): this {
     if (Object.keys(bodyParser).length > 0) {
@@ -104,10 +101,19 @@ export class MayaJS {
 
   /**
    * Set default CORS options
-   * @param bodyParser A middleware function that sets the cors settings of a request
+   * @param cors A middleware function that sets the cors settings of a request
    */
   setCORS(cors: RequestHandler): this {
     this.cors = cors;
+    return this;
+  }
+
+  /**
+   * Set default logger
+   * @param logger A middleware function that logs request
+   */
+  setLogger(logger: RequestHandler): this {
+    this.logger = logger;
     return this;
   }
 
@@ -121,6 +127,25 @@ export class MayaJS {
       const { path, middlewares, router } = this.configRoutes(route);
       this.app.use(path, middlewares, router);
     });
+  }
+
+  /**
+   * Sets the default plugins settings for MayaJS
+   */
+  private setDefaultPluginsSettings() {
+    this.bodyParser["json"] = bodyparser.json({ limit: "50mb" });
+    this.bodyParser["urlencoded"] = bodyparser.urlencoded({ extended: true, limit: "50mb", parameterLimit: 100000000 });
+    this.cors = cors();
+  }
+
+  /**
+   * Sets the default plugins for MayaJS
+   */
+  private setDefaultPlugins() {
+    this.app.use(this.cors);
+    this.app.use(this.bodyParser.json as RequestHandler);
+    this.app.use(this.bodyParser.urlencoded as RequestHandler);
+    this.app.use(this.logger ? this.logger : morgan(this.isProd ? "tiny" : "dev"));
   }
 
   private unhandleErrors(app: Express): void {
@@ -138,11 +163,7 @@ export class MayaJS {
         console.log(`\x1b[32m[mayajs] Server running on port ${port}\x1b[0m`);
       }
 
-      // Sets default settings
-      this.app.use(this.bodyParser.json as RequestHandler);
-      this.app.use(this.bodyParser.urlencoded as RequestHandler);
-      this.app.use(this.cors);
-
+      this.setDefaultPlugins();
       this.connectDatabase(this.databases)
         .then(() => {
           this.setRoutes(this.routes);
@@ -152,19 +173,6 @@ export class MayaJS {
           console.log(`\n\x1b[31m${error}\x1b[0m`);
         });
     };
-  }
-
-  private logs(mode: string): void {
-    if (mode?.includes("dev")) {
-      this.hasLogs = true;
-      this.app.use(morgan("dev"));
-      return;
-    }
-
-    if (this.isProd || mode?.includes("prod")) {
-      this.app.use(morgan("common"));
-      return;
-    }
   }
 
   private connectDatabase(databases: DatabaseModule[]): Promise<void[]> {
