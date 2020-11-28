@@ -1,4 +1,4 @@
-import { Callback, RequestMethod, ErrorCallback } from "../types";
+import { Callback, RequestMethod } from "../types";
 import { Router } from "express";
 
 export interface IRoute {
@@ -38,9 +38,12 @@ export interface DatabaseModule {
   models: (array?: ModelList[]) => any;
 }
 
-export interface IAppSettings {
+export interface IAppModuleOptions {
+  declarations?: any[];
+  imports?: any[];
+  exports?: any[];
   databases?: DatabaseModule[]; // List of Database module
-  routes: IRoutesOptions[]; // List of routes with controllers and middlewares
+  routes?: IRoutesOptions[]; // List of routes with controllers and middlewares
 }
 
 export interface ModelList {
@@ -48,21 +51,20 @@ export interface ModelList {
   path: string;
 }
 
-export interface AppModule {
+export interface AppModule extends IAppModuleOptions {
   new (): {};
-  cors?: boolean;
-  logs?: string;
-  port?: number;
-  databases?: DatabaseModule[];
-  plugins?: any[];
-  routes?: IRoutesOptions[];
+}
+
+export interface Class<T> extends Function {
+  new (...args: any[]): T;
 }
 
 export interface IRoutesOptions {
-  path?: string;
-  controllers: any[];
-  middlewares?: any[];
-  callback?: ErrorCallback;
+  path: string;
+  canActivate?: Class<any>;
+  canActivateChild?: Class<any>;
+  controller?: Class<any>;
+  children?: IRoutesOptions[];
 }
 
 export interface IRoutes {
