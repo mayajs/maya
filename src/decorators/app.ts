@@ -6,7 +6,7 @@ import { IAppModuleOptions } from "../interfaces";
  * @param options Settings for app module
  */
 export function App(options: IAppModuleOptions): <T extends new (...args: Array<{}>) => any>(target: T) => void {
-  const { databases = [], routes = [], exports = [], imports = [], declarations = [] } = options;
+  const { databases = [], routes = [], exports = [], imports = [], declarations = [], bootstrap } = options;
 
   return (target: any): void => {
     target.routes = routes;
@@ -14,5 +14,6 @@ export function App(options: IAppModuleOptions): <T extends new (...args: Array<
     target.exports = exports;
     target.imports = imports;
     target.declarations = declarations;
+    target.bootstrap = bootstrap;
   };
 }
