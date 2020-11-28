@@ -9,7 +9,7 @@ import morgan from "morgan";
 import cors from "cors";
 
 // Local imports
-import { setRoutes, resolveControllerRoutes, connectDatabase } from "./modules";
+import { setRoutes, resolveControllerRoutes, unhandleRoutes, connectDatabase } from "./modules";
 import { DatabaseModule, AppModule } from "./interfaces";
 
 // MayaJS exports
@@ -120,6 +120,7 @@ export class MayaJS {
   setBodyParser(bodyParser: { json?: RequestHandler; urlencoded?: RequestHandler }): this {
     // Check if body parser has keys
     if (Object.keys(bodyParser).length > 0) {
+      // Set body parser object
       this.bodyParser = bodyParser;
     }
     return this;
@@ -179,21 +180,6 @@ export class MayaJS {
   }
 
   /**
-   * Handles unhandle errors from the app/express instance
-   *
-   * @param app Instance of a Express class
-   */
-  private unhandleErrors(): (req: Request, res: Response) => void {
-    return (req: Request, res: Response) => {
-      if (!req.route) {
-        res.setHeader("X-Powered-By", "MayaJS");
-        const url = `${req.protocol}://${req.get("host")}${req.originalUrl}`;
-        return res.status(500).json({ status: "Invalid Request", message: `MayaJS Error: (${req.method}) ${url} is not defined!` });
-      }
-    };
-  }
-
-  /**
    * A factory function for listening to server calls
    *
    * @param port Port number where the server is running
@@ -211,7 +197,7 @@ export class MayaJS {
       // Use the routes before connecting the database
       this.app.use("/", this.entryPoint);
       this.app.use("/", this.routes);
-      this.app.use(this.unhandleErrors());
+      this.app.use(unhandleRoutes());
 
       // Connects all database instances
       connectDatabase(this.databases, this.hasLogs).catch(error => {
