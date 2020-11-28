@@ -6,28 +6,42 @@ interface DatabaseList<T, U> {
 
 const dbList: DatabaseList<any, any> = {};
 
-export function addDatabase<T extends DatabaseModule, U>(db: T, models: ModelDictionary<U>): void {
+function addDatabase<T extends DatabaseModule, U>(db: T, models: ModelDictionary<U>): void {
   dbList[db.name] = {
     instance: db.instance,
     models,
   };
 }
 
-export function Database<T, U>(name: string): any {
-  return (target: any, key: string): any => {
-    // property getter method
-    const getter = (): { instance: T; models: ModelDictionary<U> } => {
-      return dbList[name];
-    };
+export { dbList };
 
-    // Delete property.
-    if (delete target[key]) {
-      // Create new property with getter and setter
-      Object.defineProperty(target, key, {
-        configurable: true,
-        enumerable: true,
-        get: getter,
-      });
-    }
-  };
+/**
+ * Connects all the database
+ *
+ * @param databases Array of database modules
+ * @returns A Promise of void[]
+ */
+export function connectDatabase(databases: DatabaseModule[], hasLogs: boolean): Promise<void[]> {
+  // Checks if there are any databases
+  if (databases.length > 0) {
+    // Return an array of connection promise
+    return Promise.all(
+      // Map databases
+      databases.map(async (db: DatabaseModule) => {
+        // Logs the connection if there is any
+        db.connection(hasLogs);
+
+        // Conencts to database
+        return await db.connect().then(() => {
+          const models = db.models();
+
+          // Add database intance
+          addDatabase(db, models);
+        });
+      })
+    );
+  }
+
+  // Returns an empty array of promise
+  return Promise.resolve([]);
 }
