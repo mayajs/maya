@@ -25,7 +25,7 @@ export class MayaJS {
 
   // Defines 3rd party plugins
   private cors: RequestHandler = cors();
-  private logger: RequestHandler = () => {};
+  private logger: RequestHandler | null = null;
   private bodyParser: { json?: RequestHandler; urlencoded?: RequestHandler } = {
     json: bodyparser.json({ limit: "50mb" }),
     urlencoded: bodyparser.urlencoded({ extended: true, limit: "50mb", parameterLimit: 100000000 }),
@@ -183,13 +183,14 @@ export class MayaJS {
    *
    * @param app Instance of a Express class
    */
-  private unhandleErrors(app: Express): void {
-    app.use((req: Request, res: Response) => {
+  private unhandleErrors(): (req: Request, res: Response) => void {
+    return (req: Request, res: Response) => {
       if (!req.route) {
+        res.setHeader("X-Powered-By", "MayaJS");
         const url = `${req.protocol}://${req.get("host")}${req.originalUrl}`;
-        return res.status(405).json({ status: "Invalid Request", message: `Request: (${req.method}) ${url} is invalid!` });
+        return res.status(500).json({ status: "Invalid Request", message: `MayaJS Error: (${req.method}) ${url} is not defined!` });
       }
-    });
+    };
   }
 
   /**
@@ -204,23 +205,19 @@ export class MayaJS {
         console.log(`\x1b[32m[mayajs] Server running on port ${port}\x1b[0m`);
       }
 
-      // Use the routes before connecting the database
-      this.app.use("", [], this.entryPoint);
-      this.app.use("", [], this.routes);
-
       // Sets default logger, body parser and cors plugin
       this.setDefaultPlugins();
 
+      // Use the routes before connecting the database
+      this.app.use("/", this.entryPoint);
+      this.app.use("/", this.routes);
+      this.app.use(this.unhandleErrors());
+
       // Connects all database instances
-      connectDatabase(this.databases, this.hasLogs)
-        .then(() => {
-          // This will caught any unhandled routes
-          this.unhandleErrors(this.app);
-        })
-        .catch(error => {
-          // Catch any errors
-          console.log(`\n\x1b[31m${error}\x1b[0m`);
-        });
+      connectDatabase(this.databases, this.hasLogs).catch(error => {
+        // Catch any errors
+        console.log(`\n\x1b[31m${error}\x1b[0m`);
+      });
     };
   }
 }
