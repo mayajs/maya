@@ -1,7 +1,7 @@
 import express, { NextFunction, Request, Response, Router } from "express";
 import { IRoute, IRoutesOptions } from "..";
 import { Callback } from "../types";
-import { Injector } from "../utils/Injector";
+import { Injector } from "../di";
 
 /**
  * Sets the routes to be injected as a middleware
