@@ -1,4 +1,4 @@
-import { Injectable } from "../../src/utils/Injectable";
+import { Injectable } from "../../src/di";
 
 test("should output a anonymouse class", () => {
   const injectable = Injectable();

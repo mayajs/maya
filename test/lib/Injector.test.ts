@@ -1,5 +1,4 @@
-import { Injector } from "../../src/utils/Injector";
-import "reflect-metadata";
+import { Injector } from "../../src/di";
 
 test("should output an object", () => {
   const controller = class {};
