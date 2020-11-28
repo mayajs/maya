@@ -9,7 +9,7 @@ import morgan from "morgan";
 import cors from "cors";
 
 // Local imports
-import { setRoutes, connectDatabase } from "./modules";
+import { setRoutes, resolveControllerRoutes, connectDatabase } from "./modules";
 import { DatabaseModule, AppModule } from "./interfaces";
 
 // MayaJS exports
@@ -34,6 +34,7 @@ export class MayaJS {
   // Local variables
   private isProd = false;
   private hasLogs = false;
+  private entryPoint = express.Router();
 
   // Array of database
   private databases: DatabaseModule[] = [];
@@ -154,8 +155,12 @@ export class MayaJS {
   private parseAppModuleOptions(module: AppModule) {
     // Sets database value
     this.databases = module?.databases ?? [];
+
     // Sets routes value
     this.routes = setRoutes(module?.routes);
+
+    // Sets entry point
+    this.entryPoint = resolveControllerRoutes(module?.bootstrap, "", express.Router());
   }
 
   /**
@@ -200,6 +205,7 @@ export class MayaJS {
       }
 
       // Use the routes before connecting the database
+      this.app.use("", [], this.entryPoint);
       this.app.use("", [], this.routes);
 
       // Sets default logger, body parser and cors plugin
