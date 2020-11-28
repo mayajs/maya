@@ -39,11 +39,12 @@ export interface DatabaseModule {
 }
 
 export interface IAppModuleOptions {
-  declarations?: any[];
-  imports?: any[];
-  exports?: any[];
-  databases?: DatabaseModule[]; // List of Database module
-  routes?: IRoutesOptions[]; // List of routes with controllers and middlewares
+  bootstrap: Class<any>;
+  declarations: Class<any>[];
+  imports: Class<any>[];
+  exports?: Class<any>[];
+  databases?: DatabaseModule[];
+  routes?: IRoutesOptions[];
 }
 
 export interface ModelList {
@@ -51,7 +52,7 @@ export interface ModelList {
   path: string;
 }
 
-export interface AppModule extends IAppModuleOptions {
+export interface AppModule extends Partial<IAppModuleOptions> {
   new (): {};
 }
 
