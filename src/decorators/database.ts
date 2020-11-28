@@ -1,6 +1,12 @@
 import { ModelDictionary } from "../interfaces";
 import { dbList } from "../modules";
 
+/**
+ * Decorator for database modules
+ *
+ * @param name Database name for this module
+ * @returns Database class
+ */
 export function Database<T, U>(name: string): any {
   return (target: any, key: string): any => {
     // property getter method
