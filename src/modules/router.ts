@@ -63,7 +63,7 @@ function mapRouteChildren(route: IRoutesOptions, parentPath: string, router: Rou
  * @param parent The name of the parent route
  * @param router Instance of a Router class
  */
-function resolveControllerRoutes(controller: any, parent: string, router: Router) {
+export function resolveControllerRoutes(controller: any, parent: string, router: Router) {
   // Create a callback function
   const callback = (error: any, req: Request, res: Response, next: NextFunction): void => next();
 
