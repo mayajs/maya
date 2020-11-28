@@ -1,19 +1,21 @@
-import express, { Request, RequestHandler, Response, Express, NextFunction } from "express";
-import { DatabaseModule, IRoutes, IRoutesOptions, IRoute, AppModule } from "./interfaces";
+import express, { Request, RequestHandler, Response, Express, NextFunction, Router } from "express";
+
+// Node import
+import http from "http";
+
+// 3rd party plugin imports
 import * as bodyparser from "body-parser";
 import morgan from "morgan";
 import cors from "cors";
-import http from "http";
-import { addDatabase } from "./utils/Database";
-import { Injector } from "./utils/Injector";
-import { Callback } from "./types";
 
+// Local imports
+import { setRoutes, connectDatabase } from "./modules";
+import { DatabaseModule, AppModule } from "./interfaces";
+
+// MayaJS exports
 export * from "./interfaces";
-export * from "./utils/App";
-export * from "./utils/Methods";
-export { Controller } from "./utils/Controller";
-export { Injectable } from "./utils/Injectable";
-export { Database } from "./utils/Database";
+export * from "./decorators";
+export * from "./di";
 export { Request, Response, NextFunction };
 
 export class MayaJS {
@@ -21,23 +23,30 @@ export class MayaJS {
   private isProd = false;
   private hasLogs = false;
   private databases: DatabaseModule[] = [];
-  private routes: IRoutesOptions[] = [];
+  private routes: Router = express.Router();
   private cors!: RequestHandler;
   private logger!: RequestHandler;
   private bodyParser: { json?: RequestHandler; urlencoded?: RequestHandler } = {};
 
-  constructor(appModule: AppModule) {
-    this.setDefaultPluginsSettings();
+  constructor(module: AppModule) {
+    // Creates an express instance
     this.app = express();
-    this.databases = appModule?.databases ?? [];
-    this.routes = appModule?.routes ?? [];
+
+    // Sets default plugins settings for MayaJS
+    this.setDefaultPluginsSettings();
+
+    // Sets default values from app module options
+    this.parseAppModuleOptions(module);
   }
 
   /**
    * Enable production mode
+   *
    * @param boolean bool - Turn on prod mode
+   * @returns MayaJS instance
    */
   prodMode(bool: boolean): this {
+    // Sets the MayaJS to production if true
     this.isProd = bool ? true : this.isProd;
     return this;
   }
@@ -48,8 +57,10 @@ export class MayaJS {
    * @returns An instance of http.Server
    */
   start(port: number = 3333): http.Server {
+    // Create server instance
     const server = http.createServer(this.app);
 
+    // Try to start the server
     try {
       server.listen(port, this.onListen(port));
     } catch (error) {
@@ -57,6 +68,7 @@ export class MayaJS {
       throw new Error(error);
     }
 
+    // Catch any unhandled error if any
     process
       .on("unhandledRejection", (reason, promise) => {
         console.log(reason, "Unhandled Rejection", promise);
@@ -65,14 +77,18 @@ export class MayaJS {
         console.log(err, "Uncaught Exception thrown");
       });
 
+    // Returns a server instance
     return server;
   }
 
   /**
    * Adds array of middleware functions before initialization routes
+   *
    * @param plugins RequestHandler[] - Callback function from a middleware
+   * @returns MayaJS instance
    */
   plugins(plugins: RequestHandler[]): this {
+    // Iterate all plugins
     for (const plugin of plugins) {
       this.app.use(plugin);
     }
@@ -81,7 +97,9 @@ export class MayaJS {
 
   /**
    * Adds middleware function before initialization of routes
+   *
    * @param middleware RequestHandler - Callback function from a middleware
+   * @returns MayaJS instance
    */
   use(middleware: RequestHandler): this {
     this.app.use(middleware);
@@ -90,9 +108,12 @@ export class MayaJS {
 
   /**
    * Set default body parser
+   *
    * @param bodyParser A set of middleware functions that parses an incoming request body
+   * @returns MayaJS instance
    */
   setBodyParser(bodyParser: { json?: RequestHandler; urlencoded?: RequestHandler }): this {
+    // Check if body parser has keys
     if (Object.keys(bodyParser).length > 0) {
       this.bodyParser = bodyParser;
     }
@@ -101,7 +122,9 @@ export class MayaJS {
 
   /**
    * Set default CORS options
+   *
    * @param cors A middleware function that sets the cors settings of a request
+   * @returns MayaJS instance
    */
   setCORS(cors: RequestHandler): this {
     this.cors = cors;
@@ -110,7 +133,9 @@ export class MayaJS {
 
   /**
    * Set default logger
+   *
    * @param logger A middleware function that logs request
+   * @returns MayaJS instance
    */
   setLogger(logger: RequestHandler): this {
     this.logger = logger;
@@ -118,36 +143,49 @@ export class MayaJS {
   }
 
   /**
-   * Sets the routes to be injected as a middleware
+   * Parse app module options for initialization
    *
-   * @param routes IRoutesOptions[] - A list of routes options for each routes
+   * @param module AppModule - A simple class that invoke before initialization
    */
-  private setRoutes(routes: IRoutesOptions[]): void {
-    routes.map((route: IRoutesOptions) => {
-      const { path, middlewares, router } = this.configRoutes(route);
-      this.app.use(path, middlewares, router);
-    });
+  private parseAppModuleOptions(module: AppModule) {
+    // Sets database value
+    this.databases = module?.databases ?? [];
+    // Sets routes value
+    this.routes = setRoutes(module?.routes);
   }
 
   /**
-   * Sets the default plugins settings for MayaJS
+   * Sets the default plugins settings for MayaJS plugins
    */
   private setDefaultPluginsSettings() {
+    // Sets default settings for body parser plugin
     this.bodyParser["json"] = bodyparser.json({ limit: "50mb" });
     this.bodyParser["urlencoded"] = bodyparser.urlencoded({ extended: true, limit: "50mb", parameterLimit: 100000000 });
+
+    // Sets default settings for cors plugin
     this.cors = cors();
   }
 
   /**
-   * Sets the default plugins for MayaJS
+   * Sets the default plugins for MayaJS routes
    */
   private setDefaultPlugins() {
+    // Sets default cors plugin
     this.app.use(this.cors);
+
+    // Sets default body parser plugin
     this.app.use(this.bodyParser.json as RequestHandler);
     this.app.use(this.bodyParser.urlencoded as RequestHandler);
+
+    // Sets default logger plugin
     this.app.use(this.logger ? this.logger : morgan(this.isProd ? "tiny" : "dev"));
   }
 
+  /**
+   * Handles unhandle errors from the app/express instance
+   *
+   * @param app Instance of a Express class
+   */
   private unhandleErrors(app: Express): void {
     app.use((req: Request, res: Response) => {
       if (!req.route) {
@@ -157,51 +195,34 @@ export class MayaJS {
     });
   }
 
-  private onListen(port: any): () => void {
+  /**
+   * A factory function for listening to server calls
+   *
+   * @param port Port number where the server is running
+   */
+  private onListen(port: number): () => void {
     return () => {
+      // Check if logs are enable
       if (this.hasLogs) {
         console.log(`\x1b[32m[mayajs] Server running on port ${port}\x1b[0m`);
       }
 
+      // Use the routes before connecting the database
+      this.app.use("", [], this.routes);
+
+      // Sets default logger, body parser and cors plugin
       this.setDefaultPlugins();
-      this.connectDatabase(this.databases)
+
+      // Connects all database instances
+      connectDatabase(this.databases, this.hasLogs)
         .then(() => {
-          this.setRoutes(this.routes);
+          // This will caught any unhandled routes
           this.unhandleErrors(this.app);
         })
         .catch(error => {
+          // Catch any errors
           console.log(`\n\x1b[31m${error}\x1b[0m`);
         });
     };
-  }
-
-  private connectDatabase(databases: DatabaseModule[]): Promise<void[]> {
-    if (databases.length > 0) {
-      return Promise.all(
-        databases.map(async (db: DatabaseModule) => {
-          db.connection(this.hasLogs);
-          return await db.connect().then(() => {
-            const models = db.models();
-            addDatabase(db, models);
-          });
-        })
-      );
-    }
-
-    return Promise.resolve([]);
-  }
-
-  private configRoutes(args: IRoutesOptions): IRoutes {
-    const { middlewares = [], callback = (error: any, req: Request, res: Response, next: NextFunction): void => next() } = args;
-    const router = express.Router();
-
-    args.controllers.map((controller: any) => {
-      const instance = Injector.resolve<typeof controller>(controller);
-      const prefix: string = Reflect.getMetadata("prefix", controller);
-      const routes: IRoute[] = Reflect.getMetadata("routes", controller);
-      const method = (name: string): Callback => (req: Request, res: Response, next: NextFunction): void => instance[name](req, res, next);
-      routes.map((route: IRoute) => router[route.requestMethod](prefix + route.path, route.middlewares, method(route.methodName), callback));
-    });
-    return { path: args.path || "", middlewares, router };
   }
 }
