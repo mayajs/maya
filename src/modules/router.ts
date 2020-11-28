@@ -56,6 +56,12 @@ function mapRouteChildren(route: IRoutesOptions, parentPath: string, router: Rou
   return router;
 }
 
+/**
+ * Factory method for generating instance route
+ *
+ * @param instance Instance of a controller class
+ * @param name The name of the method
+ */
 function instanceMethodFactory(instance: any, name: string): Callback {
   return async (req: Request, res: Response, next: NextFunction): Promise<void> => {
     // Set header to powered by MayaJS
@@ -74,7 +80,7 @@ function instanceMethodFactory(instance: any, name: string): Callback {
         delete object.statusCode;
       }
 
-      // Send data.response if there is any
+      // Send response from data object if there is any
       if (object.response) {
         res.send(object.response);
         return;
@@ -116,4 +122,17 @@ export function resolveControllerRoutes(controller: any, parent: string, router:
 
   // Return router instance
   return router;
+}
+
+/**
+ * Function that checks unhandle route errors from the app/express instance
+ */
+export function unhandleRoutes(): (req: Request, res: Response) => void {
+  return (req: Request, res: Response) => {
+    if (!req.route) {
+      res.setHeader("X-Powered-By", "MayaJS");
+      const url = `${req.protocol}://${req.get("host")}${req.originalUrl}`;
+      return res.status(500).json({ status: "Invalid Request", message: `MayaJS Error: (${req.method}) ${url} is not defined!` });
+    }
+  };
 }
