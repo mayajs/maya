@@ -19,22 +19,26 @@ export * from "./di";
 export { Request, Response, NextFunction };
 
 export class MayaJS {
-  private app: Express;
+  // Express variables
+  private app: Express = express();
+  private routes: Router = express.Router();
+
+  // Defines 3rd party plugins
+  private cors: RequestHandler = cors();
+  private logger: RequestHandler = () => {};
+  private bodyParser: { json?: RequestHandler; urlencoded?: RequestHandler } = {
+    json: bodyparser.json({ limit: "50mb" }),
+    urlencoded: bodyparser.urlencoded({ extended: true, limit: "50mb", parameterLimit: 100000000 }),
+  };
+
+  // Local variables
   private isProd = false;
   private hasLogs = false;
+
+  // Array of database
   private databases: DatabaseModule[] = [];
-  private routes: Router = express.Router();
-  private cors!: RequestHandler;
-  private logger!: RequestHandler;
-  private bodyParser: { json?: RequestHandler; urlencoded?: RequestHandler } = {};
 
   constructor(module: AppModule) {
-    // Creates an express instance
-    this.app = express();
-
-    // Sets default plugins settings for MayaJS
-    this.setDefaultPluginsSettings();
-
     // Sets default values from app module options
     this.parseAppModuleOptions(module);
   }
@@ -152,18 +156,6 @@ export class MayaJS {
     this.databases = module?.databases ?? [];
     // Sets routes value
     this.routes = setRoutes(module?.routes);
-  }
-
-  /**
-   * Sets the default plugins settings for MayaJS plugins
-   */
-  private setDefaultPluginsSettings() {
-    // Sets default settings for body parser plugin
-    this.bodyParser["json"] = bodyparser.json({ limit: "50mb" });
-    this.bodyParser["urlencoded"] = bodyparser.urlencoded({ extended: true, limit: "50mb", parameterLimit: 100000000 });
-
-    // Sets default settings for cors plugin
-    this.cors = cors();
   }
 
   /**
