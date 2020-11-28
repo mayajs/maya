@@ -56,6 +56,44 @@ function mapRouteChildren(route: IRoutesOptions, parentPath: string, router: Rou
   return router;
 }
 
+function instanceMethodFactory(instance: any, name: string): Callback {
+  return async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+    // Set header to powered by MayaJS
+    res.setHeader("X-Powered-By", "MayaJS");
+
+    // Try to execute route method
+    try {
+      // Wait for the method to finished
+      const object = await instance[name](req, res, next);
+
+      // Set status code if there is any
+      if (object.statusCode) {
+        res.status(object.statusCode);
+
+        // Remove status code from data object
+        delete object.statusCode;
+      }
+
+      // Send data.response if there is any
+      if (object.response) {
+        res.send(object.response);
+        return;
+      }
+
+      // Send data if there is any
+      if (object) {
+        res.send(object);
+      }
+    } catch (error) {
+      // Creates url request
+      const url = `${req.protocol}://${req.get("host")}${req.originalUrl}`;
+
+      // Send a 500 status code and message when an error is caught
+      res.status(500).json({ status: "Internal Server Error", message: `MayaJS Error: Can't proccess request from ${url}.` });
+    }
+  };
+}
+
 /**
  * Resolves all routes from the controller metadata
  *
@@ -73,10 +111,9 @@ export function resolveControllerRoutes(controller: any, parent: string, router:
   // Get all the routes from metadata
   const routes: IRoute[] = Reflect.getMetadata("routes", controller);
 
-  // Create a function that execute the correct method name
-  const method = (name: string): Callback => (req: Request, res: Response, next: NextFunction): void => instance[name](req, res, next);
+  // Map all the routes from the controller
+  routes.map((route: IRoute) => router[route.requestMethod](parent + route.path, route.middlewares, instanceMethodFactory(instance, route.methodName)));
 
-  // maps all the routes from the controller
-  routes.map((route: IRoute) => router[route.requestMethod](parent + route.path, route.middlewares, method(route.methodName), callback));
+  // Return router instance
   return router;
 }
