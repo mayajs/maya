@@ -22,26 +22,25 @@ export { dbList };
  * @returns A Promise of void[]
  */
 export function connectDatabase(databases: DatabaseModule[], hasLogs: boolean): Promise<void[]> {
-  // Checks if there are any databases
-  if (databases.length > 0) {
-    // Return an array of connection promise
-    return Promise.all(
-      // Map databases
-      databases.map(async (db: DatabaseModule) => {
-        // Logs the connection if there is any
-        db.connection(hasLogs);
-
-        // Conencts to database
-        return await db.connect().then(() => {
-          const models = db.models();
-
-          // Add database intance
-          addDatabase(db, models);
-        });
-      })
-    );
+  if (!databases || databases.length <= 0) {
+    // Returns an empty array of promise if databases is undefined and array is empty
+    return Promise.resolve([]);
   }
 
-  // Returns an empty array of promise
-  return Promise.resolve([]);
+  // Return an array of connection promise
+  return Promise.all(
+    // Map databases
+    databases.map(async (db: DatabaseModule) => {
+      // Logs the connection if there is any
+      db.connection(hasLogs);
+
+      // Conencts to database
+      return await db.connect().then(() => {
+        const models = db.models();
+
+        // Add database intance
+        addDatabase(db, models);
+      });
+    })
+  );
 }
