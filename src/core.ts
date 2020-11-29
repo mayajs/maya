@@ -10,7 +10,7 @@ import cors from "cors";
 
 // Local imports
 import { setRoutes, resolveControllerRoutes, unhandleRoutes, connectDatabase } from "./modules";
-import { DatabaseModule, AppModule } from "./interfaces";
+import { DatabaseModule, AppModule, Class } from "./interfaces";
 import { CONTROLLER_ROUTES, DATABASE, MODULE_BOOTSTRAP } from "./utils";
 
 /**
@@ -104,7 +104,16 @@ export const setPlugins = (plugins: RequestHandler[]) => {
   }
 };
 
-export class MayaJS {
+/**
+ * Creates an instance of MayaJS Server on runtime.
+ *
+ * @param module MayaJS Module
+ */
+export const bootstrapModule = (module: Class<any>) => {
+  return new MayaJS(module);
+};
+
+class MayaJS {
   // Express variables
   private routes: Router = express.Router();
 
