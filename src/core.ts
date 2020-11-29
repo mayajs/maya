@@ -124,19 +124,24 @@ export const bootstrapModule = (module: Class<any>) => {
 };
 
 class MayaJS {
-  // Express variables
+  /**
+   * Defines list of routes
+   */
   private routes: Router = express.Router();
 
-  // Local variables
+  /**
+   * Defines entry point for the main route
+   */
   private entryPoint = express.Router();
+
+  /**
+   * Defines list of databases
+   */
   private databases: DatabaseModule[] = [];
 
-  constructor(module: AppModule) {
-    // Sets default values from app module options
-    this.parseAppModuleOptions(module);
-
-    // Use all defined plugins
-    this.iteratePlugins();
+  constructor(private module: AppModule) {
+    // Initialize MayaJS components
+    this.onInit();
   }
 
   /**
@@ -167,6 +172,21 @@ class MayaJS {
 
     // Returns a server instance
     return server;
+  }
+
+  /**
+   * Inititalize Mayajs
+   *
+   * @returns Mayajs instance
+   */
+  private onInit() {
+    // Sets default values from app module options
+    this.parseAppModuleOptions(this.module);
+
+    // Use all defined plugins
+    this.iteratePlugins();
+
+    return this;
   }
 
   /**
