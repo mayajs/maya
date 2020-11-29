@@ -1,4 +1,5 @@
 import { NextFunction, Request, Response } from "express";
+import { ModuleOptions } from "../interfaces";
 
 /**
  * Type for what object is instances of
@@ -21,3 +22,5 @@ export type Callback = (...args: any[]) => void;
 export type RequestMethod = "get" | "post" | "delete" | "options" | "put" | "patch";
 
 export type ErrorCallback = (error: any, req: Request, res: Response, next: NextFunction) => void;
+
+export type ModuleOptionsKeys = keyof ModuleOptions;
