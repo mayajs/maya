@@ -47,6 +47,11 @@ let BODY_PARSER: { json?: RequestHandler; urlencoded?: RequestHandler } = {
 };
 
 /**
+ * Defines a list of RequestHandler
+ */
+let PLUGINS: RequestHandler[] = [];
+
+/**
  * Enable MayaJS to run on production mode
  */
 export const enableProdMode = () => {
@@ -97,11 +102,7 @@ export const setBodyParser = (parser: { json?: RequestHandler; urlencoded?: Requ
  * @param plugins RequestHandler[] - List callback function from a middleware
  */
 export const setPlugins = (plugins: RequestHandler[]) => {
-  // Iterate all plugins
-  for (const plugin of plugins) {
-    // Use plugins on app instance
-    APP.use(plugin);
-  }
+  PLUGINS = plugins;
 };
 
 /**
@@ -124,6 +125,9 @@ class MayaJS {
   constructor(module: AppModule) {
     // Sets default values from app module options
     this.parseAppModuleOptions(module);
+
+    // Use all defined plugins
+    this.iteratePlugins();
   }
 
   /**
@@ -165,6 +169,17 @@ class MayaJS {
   use(middleware: RequestHandler): this {
     APP.use(middleware);
     return this;
+  }
+
+  /**
+   * Iterate all plugins and use it on the app instance
+   */
+  private iteratePlugins() {
+    // Iterate all plugins
+    for (const plugin of PLUGINS) {
+      // Use plugins on app instance
+      APP.use(plugin);
+    }
   }
 
   /**
