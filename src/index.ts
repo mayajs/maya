@@ -19,7 +19,19 @@ export * from "./decorators";
 export * from "./di";
 export { Request, Response, NextFunction };
 
+/**
+ * Defines production variable. Default = false
+ */
 let PRODUCTION = false;
+
+/**
+ * Defines logging permission. Default = true
+ */
+let LOGS = true;
+
+/**
+ * Defines cors settings
+ */
 let CORS: RequestHandler = cors();
 
 /**
@@ -27,6 +39,13 @@ let CORS: RequestHandler = cors();
  */
 export const enableProdMode = () => {
   PRODUCTION = true;
+};
+
+/**
+ * Sets MayaJS logging permissions
+ */
+export const setLogging = (hasLogs: boolean) => {
+  LOGS = hasLogs;
 };
 
 /**
@@ -51,7 +70,6 @@ export class MayaJS {
   };
 
   // Local variables
-  private hasLogs = false;
   private entryPoint = express.Router();
 
   // Array of database
@@ -174,8 +192,10 @@ export class MayaJS {
     this.app.use(this.bodyParser.json as RequestHandler);
     this.app.use(this.bodyParser.urlencoded as RequestHandler);
 
-    // Sets default logger plugin
-    this.app.use(this.logger ? this.logger : morgan(PRODUCTION ? "tiny" : "dev"));
+    if (LOGS) {
+      // Sets default logger plugin
+      this.app.use(this.logger ? this.logger : morgan(PRODUCTION ? "tiny" : "dev"));
+    }
   }
 
   /**
@@ -186,7 +206,7 @@ export class MayaJS {
   private onListen(port: number): () => void {
     return () => {
       // Check if logs are enable
-      if (this.hasLogs) {
+      if (LOGS) {
         console.log(`\x1b[32m[mayajs] Server running on port ${port}\x1b[0m`);
       }
 
@@ -199,7 +219,7 @@ export class MayaJS {
       this.app.use(unhandleRoutes());
 
       // Connects all database instances
-      connectDatabase(this.databases, this.hasLogs).catch(error => {
+      connectDatabase(this.databases, LOGS).catch(error => {
         // Catch any errors
         console.log(`\n\x1b[31m${error}\x1b[0m`);
       });
