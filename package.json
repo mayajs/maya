@@ -53,8 +53,7 @@
     "cors": "^2.8.5",
     "express": "^4.17.1",
     "morgan": "^1.9.1",
-    "reflect-metadata": "^0.1.13",
-    "yargs": "^15.4.1"
+    "reflect-metadata": "^0.1.13"
   },
   "devDependencies": {
     "@types/body-parser": "^1.17.0",
