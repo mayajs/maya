@@ -1,4 +1,5 @@
 import { IAppModuleOptions } from "../interfaces";
+import { CONTROLLER_ROUTES, DATABASE, MODULE_DECLARATIONS, MODULE_EXPORTS, MODULE_IMPORTS } from "../utils";
 
 /**
  * Decorator for app module
@@ -9,11 +10,11 @@ export function App(options: IAppModuleOptions): <T extends new (...args: Array<
   const { databases = [], routes = [], exports = [], imports = [], declarations = [], bootstrap } = options;
 
   return (target: any): void => {
-    target.routes = routes;
-    target.databases = databases;
-    target.exports = exports;
-    target.imports = imports;
-    target.declarations = declarations;
-    target.bootstrap = bootstrap;
+    Reflect.defineMetadata(CONTROLLER_ROUTES, routes, target);
+    Reflect.defineMetadata(DATABASE, databases, target);
+    Reflect.defineMetadata(MODULE_EXPORTS, exports, target);
+    Reflect.defineMetadata(MODULE_IMPORTS, imports, target);
+    Reflect.defineMetadata(MODULE_DECLARATIONS, declarations, target);
+    Reflect.defineMetadata(MODULE_DECLARATIONS, bootstrap, target);
   };
 }
