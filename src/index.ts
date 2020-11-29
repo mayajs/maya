@@ -20,12 +20,22 @@ export * from "./di";
 export { Request, Response, NextFunction };
 
 let PRODUCTION = false;
+let CORS: RequestHandler = cors();
 
 /**
- * Enable Mayajs to run on production mode
+ * Enable MayaJS to run on production mode
  */
 export const enableProdMode = () => {
   PRODUCTION = true;
+};
+
+/**
+ * Set default CORS options
+ *
+ * @param cors A middleware function that sets the cors settings of an incoming request
+ */
+export const setCORS = (cors: RequestHandler) => {
+  CORS = cors;
 };
 
 export class MayaJS {
@@ -34,7 +44,6 @@ export class MayaJS {
   private routes: Router = express.Router();
 
   // Defines 3rd party plugins
-  private cors: RequestHandler = cors();
   private logger: RequestHandler | null = null;
   private bodyParser: { json?: RequestHandler; urlencoded?: RequestHandler } = {
     json: bodyparser.json({ limit: "50mb" }),
@@ -124,17 +133,6 @@ export class MayaJS {
   }
 
   /**
-   * Set default CORS options
-   *
-   * @param cors A middleware function that sets the cors settings of a request
-   * @returns MayaJS instance
-   */
-  setCORS(cors: RequestHandler): this {
-    this.cors = cors;
-    return this;
-  }
-
-  /**
    * Set default logger
    *
    * @param logger A middleware function that logs request
@@ -170,7 +168,7 @@ export class MayaJS {
    */
   private setDefaultPlugins() {
     // Sets default cors plugin
-    this.app.use(this.cors);
+    this.app.use(CORS);
 
     // Sets default body parser plugin
     this.app.use(this.bodyParser.json as RequestHandler);
