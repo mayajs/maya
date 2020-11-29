@@ -38,6 +38,13 @@ export interface DatabaseModule {
   models: (array?: ModelList[]) => any;
 }
 
+export interface ModuleOptions {
+  bootstrap?: Class<any>;
+  declarations?: Class<any>[];
+  imports?: Class<any>[];
+  exports?: Class<any>[];
+}
+
 export interface IAppModuleOptions {
   bootstrap: Class<any>;
   declarations: Class<any>[];
