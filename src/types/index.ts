@@ -1,5 +1,5 @@
 import { NextFunction, Request, Response } from "express";
-import { ModuleOptions } from "../interfaces";
+import { IBodyParser, ModuleOptions } from "../interfaces";
 import { MODULE_CONSTANTS } from "../utils";
 
 /**
@@ -36,3 +36,8 @@ export type ModuleOptionsKeys = keyof ModuleOptions;
  * List of module constants keys
  */
 export type ModuleConstantsKeys = keyof typeof MODULE_CONSTANTS;
+
+/**
+ * List of body parser keys
+ */
+export type BodyParserKeys = keyof IBodyParser;
