@@ -13,6 +13,11 @@ export function setRoutes(routes: IRoutesOptions[] = []): Router {
   // Create a router instance
   let router = express.Router();
 
+  if (!routes) {
+    // Returns router instance if routes is undefined
+    return router;
+  }
+
   // Map all rooutes
   routes.map((route: IRoutesOptions) => {
     // Resolve route controller
@@ -108,6 +113,11 @@ function instanceMethodFactory(instance: any, name: string): Callback {
  * @param router Instance of a Router class
  */
 export function resolveControllerRoutes(controller: any, parent: string, router: Router) {
+  if (!controller) {
+    // Return router instance if controller is undefined
+    return router;
+  }
+
   // Create a callback function
   const callback = (error: any, req: Request, res: Response, next: NextFunction): void => next();
 
