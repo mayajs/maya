@@ -14,6 +14,11 @@ import { DatabaseModule, AppModule } from "./interfaces";
 import { CONTROLLER_ROUTES, DATABASE, MODULE_BOOTSTRAP } from "./utils";
 
 /**
+ * Defines an instance of ExpressJS
+ */
+const APP: Express = express();
+
+/**
  * Defines production variable. Default = false
  */
 let PRODUCTION = false;
@@ -86,9 +91,21 @@ export const setBodyParser = (parser: { json?: RequestHandler; urlencoded?: Requ
   }
 };
 
+/**
+ * Adds array of middleware functions before initialization routes
+ *
+ * @param plugins RequestHandler[] - List callback function from a middleware
+ */
+export const setPlugins = (plugins: RequestHandler[]) => {
+  // Iterate all plugins
+  for (const plugin of plugins) {
+    // Use plugins on app instance
+    APP.use(plugin);
+  }
+};
+
 export class MayaJS {
   // Express variables
-  private app: Express = express();
   private routes: Router = express.Router();
 
   // Local variables
@@ -107,7 +124,7 @@ export class MayaJS {
    */
   start(port: number = 3333): http.Server {
     // Create server instance
-    const server = http.createServer(this.app);
+    const server = http.createServer(APP);
 
     // Try to start the server
     try {
@@ -131,27 +148,13 @@ export class MayaJS {
   }
 
   /**
-   * Adds array of middleware functions before initialization routes
-   *
-   * @param plugins RequestHandler[] - Callback function from a middleware
-   * @returns MayaJS instance
-   */
-  plugins(plugins: RequestHandler[]): this {
-    // Iterate all plugins
-    for (const plugin of plugins) {
-      this.app.use(plugin);
-    }
-    return this;
-  }
-
-  /**
    * Adds middleware function before initialization of routes
    *
    * @param middleware RequestHandler - Callback function from a middleware
    * @returns MayaJS instance
    */
   use(middleware: RequestHandler): this {
-    this.app.use(middleware);
+    APP.use(middleware);
     return this;
   }
 
@@ -180,16 +183,16 @@ export class MayaJS {
    */
   private setDefaultPlugins() {
     // Sets default cors plugin
-    this.app.use(CORS);
+    APP.use(CORS);
 
     // Sets default body parser plugin
-    this.app.use(BODY_PARSER.json as RequestHandler);
-    this.app.use(BODY_PARSER.urlencoded as RequestHandler);
+    APP.use(BODY_PARSER.json as RequestHandler);
+    APP.use(BODY_PARSER.urlencoded as RequestHandler);
 
     // Only sets logger if logging is enable
     if (LOGS) {
       // Sets default logger plugin
-      this.app.use(LOGGER ? LOGGER : morgan(PRODUCTION ? "tiny" : "dev"));
+      APP.use(LOGGER ? LOGGER : morgan(PRODUCTION ? "tiny" : "dev"));
     }
   }
 
@@ -209,9 +212,9 @@ export class MayaJS {
       this.setDefaultPlugins();
 
       // Use the routes before connecting the database
-      this.app.use("/", this.entryPoint);
-      this.app.use("/", this.routes);
-      this.app.use(unhandleRoutes());
+      APP.use("/", this.entryPoint);
+      APP.use("/", this.routes);
+      APP.use(unhandleRoutes());
 
       // Connects all database instances
       connectDatabase(this.databases, LOGS).catch(error => {
