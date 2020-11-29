@@ -1,5 +1,6 @@
 import { NextFunction, Request, Response } from "express";
 import { ModuleOptions } from "../interfaces";
+import { MODULE_CONSTANTS } from "../utils";
 
 /**
  * Type for what object is instances of
@@ -21,6 +22,17 @@ export type Callback = (...args: any[]) => void;
  */
 export type RequestMethod = "get" | "post" | "delete" | "options" | "put" | "patch";
 
+/**
+ * Callback function for error call
+ */
 export type ErrorCallback = (error: any, req: Request, res: Response, next: NextFunction) => void;
 
+/**
+ * List of module options keys
+ */
 export type ModuleOptionsKeys = keyof ModuleOptions;
+
+/**
+ * List of module constants keys
+ */
+export type ModuleConstantsKeys = keyof typeof MODULE_CONSTANTS;
