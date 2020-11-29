@@ -1,5 +1,5 @@
 import { Callback, RequestMethod } from "../types";
-import { Router } from "express";
+import { RequestHandler, Router } from "express";
 
 export interface IRoute {
   path: string; // Path to our route
@@ -83,4 +83,9 @@ export interface IRoutes {
 
 export interface ModelDictionary<T> {
   [k: string]: T;
+}
+
+export interface IBodyParser {
+  json: RequestHandler;
+  urlencoded: RequestHandler;
 }
