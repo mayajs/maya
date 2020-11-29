@@ -11,12 +11,22 @@ import cors from "cors";
 // Local imports
 import { setRoutes, resolveControllerRoutes, unhandleRoutes, connectDatabase } from "./modules";
 import { DatabaseModule, AppModule } from "./interfaces";
+import { CONTROLLER_ROUTES, DATABASE, MODULE_BOOTSTRAP } from "./utils";
 
 // MayaJS exports
 export * from "./interfaces";
 export * from "./decorators";
 export * from "./di";
 export { Request, Response, NextFunction };
+
+let PRODUCTION = false;
+
+/**
+ * Enable Mayajs to run on production mode
+ */
+export const enableProdMode = () => {
+  PRODUCTION = true;
+};
 
 export class MayaJS {
   // Express variables
@@ -32,7 +42,6 @@ export class MayaJS {
   };
 
   // Local variables
-  private isProd = false;
   private hasLogs = false;
   private entryPoint = express.Router();
 
@@ -42,18 +51,6 @@ export class MayaJS {
   constructor(module: AppModule) {
     // Sets default values from app module options
     this.parseAppModuleOptions(module);
-  }
-
-  /**
-   * Enable production mode
-   *
-   * @param boolean bool - Turn on prod mode
-   * @returns MayaJS instance
-   */
-  prodMode(bool: boolean): this {
-    // Sets the MayaJS to production if true
-    this.isProd = bool ? true : this.isProd;
-    return this;
   }
 
   /**
@@ -154,14 +151,18 @@ export class MayaJS {
    * @param module AppModule - A simple class that invoke before initialization
    */
   private parseAppModuleOptions(module: AppModule) {
+    const routes = Reflect.getMetadata(CONTROLLER_ROUTES, module);
+    const databases = Reflect.getMetadata(DATABASE, module);
+    const entryPoint = Reflect.getMetadata(MODULE_BOOTSTRAP, module);
+
     // Sets database value
-    this.databases = module?.databases ?? [];
+    this.databases = databases;
 
     // Sets routes value
-    this.routes = setRoutes(module?.routes);
+    this.routes = setRoutes(routes);
 
     // Sets entry point
-    this.entryPoint = resolveControllerRoutes(module?.bootstrap, "", express.Router());
+    this.entryPoint = resolveControllerRoutes(entryPoint, "", express.Router());
   }
 
   /**
@@ -176,7 +177,7 @@ export class MayaJS {
     this.app.use(this.bodyParser.urlencoded as RequestHandler);
 
     // Sets default logger plugin
-    this.app.use(this.logger ? this.logger : morgan(this.isProd ? "tiny" : "dev"));
+    this.app.use(this.logger ? this.logger : morgan(PRODUCTION ? "tiny" : "dev"));
   }
 
   /**
