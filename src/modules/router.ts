@@ -62,6 +62,18 @@ function mapRouteChildren(route: IRoutesOptions, parentPath: string, router: Rou
 }
 
 /**
+ * Factory method for setting status code of a response
+ *
+ * @param res  Response object
+ * @returns Middleware
+ */
+function setStatusCode(res: Response) {
+  return (code: number) => {
+    res.status(code);
+  };
+}
+
+/**
  * Factory method for generating instance route
  *
  * @param instance Instance of a controller class
@@ -72,24 +84,13 @@ function instanceMethodFactory(instance: any, name: string): Callback {
     // Set header to powered by MayaJS
     res.setHeader("X-Powered-By", "MayaJS");
 
+    // Defines a function to set response status code
+    const statusCode = setStatusCode(res);
+
     // Try to execute route method
     try {
       // Wait for the method to finished
-      const object = await instance[name](req, res, next);
-
-      // Set status code if there is any
-      if (object.statusCode) {
-        res.status(object.statusCode);
-
-        // Remove status code from data object
-        delete object.statusCode;
-      }
-
-      // Send response from data object if there is any
-      if (object.response) {
-        res.send(object.response);
-        return;
-      }
+      const object = await instance[name]({ req, res, statusCode });
 
       // Send data if there is any
       if (object) {
