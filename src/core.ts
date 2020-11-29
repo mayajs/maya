@@ -10,8 +10,9 @@ import cors from "cors";
 
 // Local imports
 import { setRoutes, resolveControllerRoutes, unhandleRoutes, connectDatabase } from "./modules";
-import { DatabaseModule, AppModule, Class } from "./interfaces";
+import { DatabaseModule, AppModule, Class, IBodyParser } from "./interfaces";
 import { CONTROLLER_ROUTES, DATABASE, MODULE_BOOTSTRAP } from "./utils";
+import { BodyParserKeys } from "./types";
 
 /**
  * Defines an instance of ExpressJS
@@ -41,7 +42,7 @@ let LOGGER: RequestHandler | null = null;
 /**
  * Defines a parsers for request body
  */
-let BODY_PARSER: { json?: RequestHandler; urlencoded?: RequestHandler } = {
+let BODY_PARSER: IBodyParser = {
   json: bodyparser.json({ limit: "50mb" }),
   urlencoded: bodyparser.urlencoded({ extended: true, limit: "50mb", parameterLimit: 100000000 }),
 };
@@ -88,11 +89,18 @@ export const setLogger = (logger: RequestHandler) => {
  *
  * @param parser A set of middleware functions that parses an incoming request body
  */
-export const setBodyParser = (parser: { json?: RequestHandler; urlencoded?: RequestHandler }) => {
+export const setBodyParser = (parser: Partial<IBodyParser>) => {
+  const keys = Object.keys(parser);
   // Check if body parser has keys
-  if (Object.keys(parser).length > 0) {
+  if (keys.length > 0) {
     // Set body parser object
-    BODY_PARSER = parser;
+    keys.map(key => {
+      // Define body parser key
+      const parserKey = key as BodyParserKeys;
+
+      // Set parser key value to BODY_PARSER with the same key
+      BODY_PARSER[parserKey] = parser[parserKey] as RequestHandler;
+    });
   }
 };
 
@@ -228,8 +236,8 @@ class MayaJS {
     APP.use(CORS);
 
     // Sets default body parser plugin
-    APP.use(BODY_PARSER.json as RequestHandler);
-    APP.use(BODY_PARSER.urlencoded as RequestHandler);
+    APP.use(BODY_PARSER.json);
+    APP.use(BODY_PARSER.urlencoded);
 
     // Only sets logger if logging is enable
     if (LOGS) {
