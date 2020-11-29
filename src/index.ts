@@ -35,6 +35,11 @@ let LOGS = true;
 let CORS: RequestHandler = cors();
 
 /**
+ * Defines logger middleware
+ */
+let LOGGER: RequestHandler | null = null;
+
+/**
  * Enable MayaJS to run on production mode
  */
 export const enableProdMode = () => {
@@ -57,13 +62,21 @@ export const setCORS = (cors: RequestHandler) => {
   CORS = cors;
 };
 
+/**
+ * Set default logger
+ *
+ * @param logger A middleware function that logs request
+ */
+export const setLogger = (logger: RequestHandler) => {
+  LOGGER = logger;
+};
+
 export class MayaJS {
   // Express variables
   private app: Express = express();
   private routes: Router = express.Router();
 
   // Defines 3rd party plugins
-  private logger: RequestHandler | null = null;
   private bodyParser: { json?: RequestHandler; urlencoded?: RequestHandler } = {
     json: bodyparser.json({ limit: "50mb" }),
     urlencoded: bodyparser.urlencoded({ extended: true, limit: "50mb", parameterLimit: 100000000 }),
@@ -151,17 +164,6 @@ export class MayaJS {
   }
 
   /**
-   * Set default logger
-   *
-   * @param logger A middleware function that logs request
-   * @returns MayaJS instance
-   */
-  setLogger(logger: RequestHandler): this {
-    this.logger = logger;
-    return this;
-  }
-
-  /**
    * Parse app module options for initialization
    *
    * @param module AppModule - A simple class that invoke before initialization
@@ -192,9 +194,10 @@ export class MayaJS {
     this.app.use(this.bodyParser.json as RequestHandler);
     this.app.use(this.bodyParser.urlencoded as RequestHandler);
 
+    // Only sets logger if logging is enable
     if (LOGS) {
       // Sets default logger plugin
-      this.app.use(this.logger ? this.logger : morgan(PRODUCTION ? "tiny" : "dev"));
+      this.app.use(LOGGER ? LOGGER : morgan(PRODUCTION ? "tiny" : "dev"));
     }
   }
 
