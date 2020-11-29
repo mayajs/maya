@@ -106,6 +106,15 @@ export const setPlugins = (plugins: RequestHandler[]) => {
 };
 
 /**
+ * Adds middleware function to app instance
+ *
+ * @param middleware RequestHandler - Callback function from a middleware
+ */
+export const usePlugin = (middleware: RequestHandler) => {
+  APP.use(middleware);
+};
+
+/**
  * Creates an instance of MayaJS Server on runtime.
  *
  * @param module MayaJS Module
@@ -158,17 +167,6 @@ class MayaJS {
 
     // Returns a server instance
     return server;
-  }
-
-  /**
-   * Adds middleware function before initialization of routes
-   *
-   * @param middleware RequestHandler - Callback function from a middleware
-   * @returns MayaJS instance
-   */
-  use(middleware: RequestHandler): this {
-    APP.use(middleware);
-    return this;
   }
 
   /**
