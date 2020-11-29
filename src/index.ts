@@ -40,6 +40,14 @@ let CORS: RequestHandler = cors();
 let LOGGER: RequestHandler | null = null;
 
 /**
+ * Defines a parsers for request body
+ */
+let BODY_PARSER: { json?: RequestHandler; urlencoded?: RequestHandler } = {
+  json: bodyparser.json({ limit: "50mb" }),
+  urlencoded: bodyparser.urlencoded({ extended: true, limit: "50mb", parameterLimit: 100000000 }),
+};
+
+/**
  * Enable MayaJS to run on production mode
  */
 export const enableProdMode = () => {
@@ -71,21 +79,26 @@ export const setLogger = (logger: RequestHandler) => {
   LOGGER = logger;
 };
 
+/**
+ * Set default parser for request body
+ *
+ * @param parser A set of middleware functions that parses an incoming request body
+ */
+export const setBodyParser = (parser: { json?: RequestHandler; urlencoded?: RequestHandler }) => {
+  // Check if body parser has keys
+  if (Object.keys(parser).length > 0) {
+    // Set body parser object
+    BODY_PARSER = parser;
+  }
+};
+
 export class MayaJS {
   // Express variables
   private app: Express = express();
   private routes: Router = express.Router();
 
-  // Defines 3rd party plugins
-  private bodyParser: { json?: RequestHandler; urlencoded?: RequestHandler } = {
-    json: bodyparser.json({ limit: "50mb" }),
-    urlencoded: bodyparser.urlencoded({ extended: true, limit: "50mb", parameterLimit: 100000000 }),
-  };
-
   // Local variables
   private entryPoint = express.Router();
-
-  // Array of database
   private databases: DatabaseModule[] = [];
 
   constructor(module: AppModule) {
@@ -149,21 +162,6 @@ export class MayaJS {
   }
 
   /**
-   * Set default body parser
-   *
-   * @param bodyParser A set of middleware functions that parses an incoming request body
-   * @returns MayaJS instance
-   */
-  setBodyParser(bodyParser: { json?: RequestHandler; urlencoded?: RequestHandler }): this {
-    // Check if body parser has keys
-    if (Object.keys(bodyParser).length > 0) {
-      // Set body parser object
-      this.bodyParser = bodyParser;
-    }
-    return this;
-  }
-
-  /**
    * Parse app module options for initialization
    *
    * @param module AppModule - A simple class that invoke before initialization
@@ -191,8 +189,8 @@ export class MayaJS {
     this.app.use(CORS);
 
     // Sets default body parser plugin
-    this.app.use(this.bodyParser.json as RequestHandler);
-    this.app.use(this.bodyParser.urlencoded as RequestHandler);
+    this.app.use(BODY_PARSER.json as RequestHandler);
+    this.app.use(BODY_PARSER.urlencoded as RequestHandler);
 
     // Only sets logger if logging is enable
     if (LOGS) {
