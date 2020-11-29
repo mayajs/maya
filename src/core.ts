@@ -127,8 +127,8 @@ class MayaJS {
   }
 
   /**
-   * Run the server using the port specified or the default port : 3333
-   * @param port number - Specify port number that the server will listen too.
+   * Run the server using the port specified.
+   * @param port number - Specify port number that the server will listen too. Default `3333`.
    * @returns An instance of http.Server
    */
   start(port: number = 3333): http.Server {
