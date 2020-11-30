@@ -7,3 +7,8 @@ export const DUPLICATE_DECLARATIONS = (module: string, controller: string) => `$
  * An error message for empty declaration
  */
 export const EMPTY_DECLARATIONS = (module: string) => `${module} has no declared controllers.`;
+
+/**
+ * An error message for not finding something
+ */
+export const NOT_FOUND = (message: string) => `${message} not found.`;
