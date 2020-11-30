@@ -28,7 +28,7 @@ export interface ModelList {
   path: string;
 }
 
-export interface AppModule extends Partial<ModuleOptions> {
+export interface MayaJSModule extends Partial<ModuleOptions> {
   new (): {};
 }
 
