@@ -7,6 +7,7 @@ export const NAME = "__name__";
 export const MIDDLEWARE = "__middleware__";
 export const GUARDS = "__guards__";
 export const MODULE_PATH = "__mod:path__";
+export const MODULE_NAME = "__mod:name__";
 export const MODULE_IMPORTS = "__mod:imports__";
 export const MODULE_EXPORTS = "__mod:exports__";
 export const MODULE_DECLARATIONS = "__mod:declarations__";
