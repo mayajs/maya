@@ -11,4 +11,9 @@ export const EMPTY_DECLARATIONS = (module: string) => `${module} has no declared
 /**
  * An error message for not finding something
  */
-export const NOT_FOUND = (message: string) => `${message} not found.`;
+export const NOT_FOUND = (target: string) => `${target} not found.`;
+
+/**
+ * An error message for undeclared components
+ */
+export const NOT_DECLARED = (target: string) => `${target} not declared.`;
