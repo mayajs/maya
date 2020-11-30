@@ -1,7 +1,7 @@
 // LOCAL IMPORTS
 import { Class, MayaJSModule } from "../interfaces";
 import { DuplicateDeclarationError, EmptyDeclarationError, UndeclaredDeclarationError } from "../exceptions";
-import { CONTROLLER_NAME, MODULE_BOOTSTRAP, MODULE_DECLARATIONS, MODULE_NAME, MODULE_PATH } from "../utils/constants";
+import { CONTROLLER_NAME, MODULE_BOOTSTRAP, MODULE_DECLARATIONS, MODULE_IMPORTS, MODULE_NAME, MODULE_PATH } from "../utils/constants";
 import { Metadata } from "./metadata";
 
 interface MemoizeControllers {
@@ -68,7 +68,7 @@ let CONTROLLERS: MemoizeControllers = {};
  *
  * @param module MayaJSModule
  */
-export function moduleParser(module: MayaJSModule) {
+export function moduleParser(module: MayaJSModule, routes: ModuleController[] = []): ModuleController[] {
   // Create an instance of metadata
   const metadata = new Metadata(module);
   // Get module declaration metadata
@@ -90,7 +90,7 @@ export function moduleParser(module: MayaJSModule) {
   const resolve = resolveBoostrap(bootstrap);
 
   // Map all declarations and return an array of cotrollers
-  let controllers: ModuleController[] = declarations.map(iterateControllerModule(metadata, resolve, entryPoint));
+  let moduleControllers: ModuleController[] = declarations.map(iterateControllerModule(metadata, resolve, entryPoint));
 
   if (!resolve && !entryPoint.declared) {
     // If bootstrap is not resolve throw an error
@@ -100,11 +100,51 @@ export function moduleParser(module: MayaJSModule) {
   // If resolve is not a boolean get the module path and assign it to resolve.path
   if (typeof resolve !== "boolean") {
     // Remove entry point index in controllers
-    controllers.splice(entryPoint.index, 1);
+    moduleControllers.splice(entryPoint.index, 1);
 
     // Add resolve controller in the start of controllers
-    controllers.unshift({ path: metadata.get(MODULE_PATH), controller: resolve.controller });
+    moduleControllers.unshift({ path: metadata.get(MODULE_PATH), controller: resolve.controller });
   }
+
+  mapModuleController(moduleControllers, routes);
+
+  // Get imports metadata in a module
+  const imports: Class<any>[] = metadata.get(MODULE_IMPORTS);
+
+  // Check imports if undefined or empty
+  if (imports === undefined || imports.length === 0) {
+    return routes;
+  }
+
+  // Recursively calls modules in imports
+  return imports.flatMap(imp => {
+    return moduleParser(imp, routes);
+  });
+}
+
+/**
+ * Map and push controllers that are not cached
+ *
+ * @param moduleControllers ModuleController[]
+ * @param routes ModuleController[]
+ */
+function mapModuleController(moduleControllers: ModuleController[], routes: ModuleController[]) {
+  moduleControllers.map(route => {
+    // Get metadata for controller key
+    const controlKey = getControllerKey(route.controller);
+
+    // Create path key
+    const pathKey = `${route.path}-${controlKey}`;
+
+    // Check controller if its already cache
+    if (!CONTROLLERS[pathKey]) {
+      // If not add it on cached controllers
+      CONTROLLERS[pathKey] = route.controller;
+
+      // Push route
+      routes.push(route);
+    }
+  });
 }
 
 /**
@@ -171,10 +211,7 @@ function iterateControllerModule(metadata: Metadata, resolve: boolean | Bootstra
     }
 
     // Check controller if its already cache
-    if (!CONTROLLERS[controlKey]) {
-      // If not add it on cached controllers
-      CONTROLLERS[controlKey] = controller;
-
+    if (!CONTROLLERS[`${modulePath}-${controlKey}`]) {
       // Add control key on declared controllers
       controllers.push(controlKey);
     }
