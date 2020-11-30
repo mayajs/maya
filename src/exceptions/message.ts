@@ -17,3 +17,8 @@ export const NOT_FOUND = (target: string) => `${target} not found.`;
  * An error message for undeclared components
  */
 export const NOT_DECLARED = (target: string) => `${target} not declared.`;
+
+/**
+ * An error message for undeclared components on a module
+ */
+export const NOT_DECLARED_MODULE = (target: string, module: string) => `${target} not declared on ${module}.`;
