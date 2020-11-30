@@ -13,19 +13,6 @@ export interface IMethod {
   middlewares?: Callback[]; // Middleware for validition of method
 }
 
-export interface IFunctions<Chain> {
-  body(): this;
-  params(): this;
-  isBoolean(value?: RegExp): Chain;
-  isString(value?: RegExp): Chain;
-  isAddress(value?: RegExp): Chain;
-  minLength(value: number): Chain;
-  maxLength(value: number): Chain;
-  isDate(): Chain;
-  isEmail(): Chain;
-  isPassword(): Chain;
-}
-
 export interface DatabaseModule {
   name: string;
   instance: any;
