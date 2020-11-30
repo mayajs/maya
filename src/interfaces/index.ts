@@ -29,7 +29,7 @@ export interface IAppModuleOptions {
   imports: Class<any>[];
   exports?: Class<any>[];
   databases?: DatabaseModule[];
-  routes?: IRoutesOptions[];
+  routes?: RoutesOptions[];
 }
 
 export interface ModelList {
@@ -45,12 +45,12 @@ export interface Class<T> extends Function {
   new (...args: any[]): T;
 }
 
-export interface IRoutesOptions {
+export interface RoutesOptions {
   path: string;
   canActivate?: Class<any>;
   canActivateChild?: Class<any>;
   controller?: Class<any>;
-  children?: IRoutesOptions[];
+  children?: RoutesOptions[];
 }
 
 export interface IRoutes {
