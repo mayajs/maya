@@ -1,4 +1,4 @@
-import { DUPLICATE_DECLARATIONS, EMPTY_DECLARATIONS, NOT_FOUND } from "./message";
+import { DUPLICATE_DECLARATIONS, EMPTY_DECLARATIONS, NOT_DECLARED, NOT_FOUND } from "./message";
 
 /**
  * Create an Error instance for duplicated declaration
@@ -13,4 +13,9 @@ export const EmptyDeclarationError = (module: string) => new Error(EMPTY_DECLARA
 /**
  * Create an Error instance for not found
  */
-export const NotFoundError = (message: string) => new Error(NOT_FOUND(message));
+export const NotFoundError = (target: string) => new Error(NOT_FOUND(target));
+
+/**
+ * Create an Error instance for undeclared components
+ */
+export const NotDeclaredError = (target: string) => new Error(NOT_DECLARED(target));
