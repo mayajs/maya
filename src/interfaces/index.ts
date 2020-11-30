@@ -23,21 +23,12 @@ export interface ModuleOptions {
   exports?: Class<any>[];
 }
 
-export interface IAppModuleOptions {
-  bootstrap: Class<any>;
-  declarations: Class<any>[];
-  imports: Class<any>[];
-  exports?: Class<any>[];
-  databases?: DatabaseModule[];
-  routes?: RoutesOptions[];
-}
-
 export interface ModelList {
   name: string;
   path: string;
 }
 
-export interface AppModule extends Partial<IAppModuleOptions> {
+export interface AppModule extends Partial<ModuleOptions> {
   new (): {};
 }
 
