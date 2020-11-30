@@ -1,7 +1,7 @@
 // LOCAL IMPORTS
 import { Class, MayaJSModule } from "../interfaces";
 import { DuplicateDeclarationError, EmptyDeclarationError } from "../exceptions";
-import { CONTROLLER_NAME, MODULE_DECLARATIONS } from "../utils/constants";
+import { CONTROLLER_NAME, MODULE_BOOTSTRAP, MODULE_DECLARATIONS } from "../utils/constants";
 
 interface MemoizeControllers {
   [name: string]: Class<any>;
@@ -29,6 +29,21 @@ export function moduleParser(module: MayaJSModule) {
 
   // Map declarations
   declarations.map(iterateControllerModule(module.name));
+
+  // Get bootstrap metadata in a module
+  const boostrap = Reflect.getMetadata(MODULE_BOOTSTRAP, module);
+
+  // Get controller key metadata in boostrap
+  const controlKey = getControllerKey(boostrap);
+}
+
+/**
+ * Get controller key from metadata
+ *
+ * @param controller Instance of controller class
+ */
+function getControllerKey(controller: Class<any>) {
+  return Reflect.getMetadata(CONTROLLER_NAME, controller);
 }
 
 /**
@@ -39,8 +54,8 @@ export function moduleParser(module: MayaJSModule) {
  */
 function iterateControllerModule(moduleName: string, controllers: string[] = []) {
   return (controller: Class<any>) => {
-    // Get metadata for control key
-    const controlKey = Reflect.getMetadata(CONTROLLER_NAME, controller);
+    // Get metadata for controller key
+    const controlKey = getControllerKey(controller);
     // Check if controller is already been declared
     const hasDuplicate = controllers.some(key => key === controlKey);
 
