@@ -1,7 +1,7 @@
 import { Callback, RequestMethod } from "../types";
 import { RequestHandler, Router } from "express";
 
-export interface IRoute {
+export interface Route {
   path: string; // Path to our route
   requestMethod: RequestMethod; // HTTP Request method (get, post, patch, delete, put)
   methodName: string; // Method name within our class responsible for this route
