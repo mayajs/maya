@@ -1,5 +1,6 @@
 // LOCAL IMPORTS
 import { Class, MayaJSModule } from "../interfaces";
+import { DuplicateDeclarationError } from "../exceptions";
 import { CONTROLLER_NAME, MODULE_DECLARATIONS } from "../utils/constants";
 
 interface MemoizeControllers {
@@ -48,11 +49,8 @@ function iterateControllerModule(moduleName: string, controllers: string[] = [])
 
     // Check duplicated controller for current module
     if (hasDuplicate) {
-      // Create error message
-      const error = `${moduleName} has duplicated declaration for ${controller.name}.`;
-
       // Throw error if module has no declared controllers
-      throw new Error(error);
+      throw DuplicateDeclarationError(moduleName, controller.name);
     }
 
     // Check controller if its already cache
