@@ -30,8 +30,8 @@ export function moduleParser(module: MayaJSModule) {
     throw EmptyDeclarationError(module.name);
   }
 
-  // Map declarations
-  declarations.map(iterateControllerModule(module.name));
+  // Map all declarations and return an array of cotrollers
+  const controllers = declarations.map(iterateControllerModule(module.name));
 
   // Get bootstrap metadata in a module
   const bootstrap = metadata.get(MODULE_BOOTSTRAP);
@@ -98,5 +98,8 @@ function iterateControllerModule(moduleName: string, controllers: string[] = [])
       // Add control key on declared controllers
       controllers.push(controlKey);
     }
+
+    // Return controller that are not duplicate
+    return controller;
   };
 }
