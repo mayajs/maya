@@ -1,5 +1,6 @@
 import express, { NextFunction, Request, Response, Router } from "express";
-import { IRoute, IRoutesOptions } from "..";
+import { Route, RoutesOptions } from "../interfaces";
+import { CONTROLLER_ROUTES } from "../utils";
 import { Callback } from "../types";
 import { Injector } from "../di";
 
@@ -9,7 +10,7 @@ import { Injector } from "../di";
  * @param routes IRoutesOptions[] - A list of routes options for each routes
  * @return Router instance
  */
-export function setRoutes(routes: IRoutesOptions[] = []): Router {
+export function setRoutes(routes: RoutesOptions[] = []): Router {
   // Create a router instance
   let router = express.Router();
 
@@ -19,7 +20,7 @@ export function setRoutes(routes: IRoutesOptions[] = []): Router {
   }
 
   // Map all rooutes
-  routes.map((route: IRoutesOptions) => {
+  routes.map((route: RoutesOptions) => {
     // Resolve route controller
     router = resolveControllerRoutes(route.controller, route.path, router);
     // Map route children
@@ -38,7 +39,7 @@ export function setRoutes(routes: IRoutesOptions[] = []): Router {
  * @param router Instance of Router class
  * @returns Router instance
  */
-function mapRouteChildren(route: IRoutesOptions, parentPath: string, router: Router): Router {
+function mapRouteChildren(route: RoutesOptions, parentPath: string, router: Router): Router {
   // Checks if children has routes
   if (route?.children?.length === 0) {
     // Returns router instance
@@ -46,7 +47,7 @@ function mapRouteChildren(route: IRoutesOptions, parentPath: string, router: Rou
   }
 
   // Map all children
-  route.children?.map((child: IRoutesOptions) => {
+  route.children?.map((child: RoutesOptions) => {
     // Checks if child has controller
     if (child?.controller) {
       // Resolves controller routes
@@ -126,10 +127,10 @@ export function resolveControllerRoutes(controller: any, parent: string, router:
   const instance = Injector.resolve<typeof controller>(controller);
 
   // Get all the routes from metadata
-  const routes: IRoute[] = Reflect.getMetadata("routes", controller);
+  const routes: Route[] = Reflect.getMetadata(CONTROLLER_ROUTES, controller);
 
   // Map all the routes from the controller
-  routes.map((route: IRoute) => router[route.requestMethod](parent + route.path, route.middlewares, instanceMethodFactory(instance, route.methodName)));
+  routes.map((route: Route) => router[route.requestMethod](parent + route.path, route.middlewares, instanceMethodFactory(instance, route.methodName)));
 
   // Return router instance
   return router;
