@@ -1,6 +1,6 @@
 // LOCAL IMPORTS
 import { Class, MayaJSModule } from "../interfaces";
-import { DuplicateDeclarationError } from "../exceptions";
+import { DuplicateDeclarationError, EmptyDeclarationError } from "../exceptions";
 import { CONTROLLER_NAME, MODULE_DECLARATIONS } from "../utils/constants";
 
 interface MemoizeControllers {
@@ -23,11 +23,8 @@ export function moduleParser(module: MayaJSModule) {
 
   // Check if declrations has items
   if (declarations.length === 0) {
-    // Create error message
-    const error = `${module.name} has no declared controllers.`;
-
     // Throw error if module has no declared controllers
-    throw new Error(error);
+    throw EmptyDeclarationError(module.name);
   }
 
   // Map declarations
