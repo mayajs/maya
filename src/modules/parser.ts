@@ -8,6 +8,11 @@ interface MemoizeControllers {
   [name: string]: Class<any>;
 }
 
+interface ModuleController {
+  path: string;
+  controller: Class<any>;
+}
+
 /**
  * List of all cached controllers
  */
@@ -37,7 +42,12 @@ export function moduleParser(module: MayaJSModule) {
   const bootstrap = metadata.get(MODULE_BOOTSTRAP);
 
   // Resolve boostrap controller
-  resolveBoostrap(bootstrap, module.name);
+  const resolve = resolveBoostrap(bootstrap);
+
+  if (!resolve) {
+    // If bootstrap is not resolve throw an error
+    throw UndeclaredDeclarationError(bootstrap.name, module.name);
+  }
 }
 
 /**
@@ -45,21 +55,19 @@ export function moduleParser(module: MayaJSModule) {
  *
  * @param bootstrap Instance of controller class
  */
-function resolveBoostrap(bootstrap: Class<any>, module: string) {
+function resolveBoostrap(bootstrap: Class<any>): ModuleController | boolean {
   if (!bootstrap) {
     // If boostrap is undefined return immediately
-    return;
+    return true;
   }
 
-  // Get controller key metadata in boostrap
-  const controlKey = getControllerKey(bootstrap);
-  // Check if controller key is cached
-  const isCached = CONTROLLERS[controlKey];
-
-  if (!isCached) {
-    // If not cached throw an error
-    throw UndeclaredDeclarationError(bootstrap.name, module);
+  // Get controller key metadata in boostrap and check if it is already cached
+  if (!CONTROLLERS[getControllerKey(bootstrap)]) {
+    // If not cached return false
+    return false;
   }
+
+  return { path: "", controller: bootstrap };
 }
 
 /**
