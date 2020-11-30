@@ -7,7 +7,7 @@ import { getModuleConstant, MODULE_PATH } from "../utils";
  *
  * @param options MayaJS Module options
  */
-export function MOD(options: ModuleOptions): <T extends new (...args: Array<{}>) => any>(target: T) => void {
+export function Module(options: ModuleOptions): <T extends new (...args: Array<{}>) => any>(target: T) => void {
   return (target: any): void => {
     Reflect.defineMetadata(MODULE_PATH, "", target);
     Object.keys(options).map(key => {
