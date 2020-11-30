@@ -26,10 +26,6 @@ export interface IFunctions<Chain> {
   isPassword(): Chain;
 }
 
-export interface IChain extends IFunctions<IChain> {
-  (req: any, res: any, next: (error?: any) => void): void;
-}
-
 export interface DatabaseModule {
   name: string;
   instance: any;
