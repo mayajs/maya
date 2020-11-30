@@ -8,11 +8,6 @@ export interface IRoute {
   middlewares: Callback[]; // Middleware for validition of route
 }
 
-export interface IMethod {
-  path: string; // Path to our method
-  middlewares?: Callback[]; // Middleware for validition of method
-}
-
 export interface DatabaseModule {
   name: string;
   instance: any;
