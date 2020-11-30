@@ -12,6 +12,7 @@ export const MODULE_IMPORTS = "__mod:imports__";
 export const MODULE_EXPORTS = "__mod:exports__";
 export const MODULE_DECLARATIONS = "__mod:declarations__";
 export const MODULE_BOOTSTRAP = "__mod:bootstrap__";
+export const MODULE_ROUTES = "__mod:routes__";
 export const CONTROLLER_NAME = "__control:name__";
 export const CONTROLLER_ROUTES = "__control:routes__";
 export const DATABASE = "__database__";
