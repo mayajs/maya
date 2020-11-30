@@ -1,6 +1,6 @@
 // LOCAL IMPORTS
 import { Class, MayaJSModule } from "../interfaces";
-import { DuplicateDeclarationError, EmptyDeclarationError, NotDeclaredError } from "../exceptions";
+import { DuplicateDeclarationError, EmptyDeclarationError, UndeclaredDeclarationError } from "../exceptions";
 import { CONTROLLER_NAME, MODULE_BOOTSTRAP, MODULE_DECLARATIONS } from "../utils/constants";
 import { Metadata } from "./metadata";
 
@@ -37,7 +37,7 @@ export function moduleParser(module: MayaJSModule) {
   const bootstrap = metadata.get(MODULE_BOOTSTRAP);
 
   // Resolve boostrap controller
-  resolveBoostrap(bootstrap);
+  resolveBoostrap(bootstrap, module.name);
 }
 
 /**
@@ -45,7 +45,7 @@ export function moduleParser(module: MayaJSModule) {
  *
  * @param bootstrap Instance of controller class
  */
-function resolveBoostrap(bootstrap: Class<any>) {
+function resolveBoostrap(bootstrap: Class<any>, module: string) {
   if (!bootstrap) {
     // If boostrap is undefined return immediately
     return;
@@ -58,7 +58,7 @@ function resolveBoostrap(bootstrap: Class<any>) {
 
   if (!isCached) {
     // If not cached throw an error
-    throw NotDeclaredError(bootstrap.name);
+    throw UndeclaredDeclarationError(bootstrap.name, module);
   }
 }
 
