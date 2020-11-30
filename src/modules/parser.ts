@@ -1,7 +1,8 @@
 // LOCAL IMPORTS
 import { Class, MayaJSModule } from "../interfaces";
-import { DuplicateDeclarationError, EmptyDeclarationError, NotFoundError } from "../exceptions";
+import { DuplicateDeclarationError, EmptyDeclarationError, NotDeclaredError } from "../exceptions";
 import { CONTROLLER_NAME, MODULE_BOOTSTRAP, MODULE_DECLARATIONS } from "../utils/constants";
+import { Metadata } from "./metadata";
 
 interface MemoizeControllers {
   [name: string]: Class<any>;
@@ -18,8 +19,10 @@ let CONTROLLERS: MemoizeControllers = {};
  * @param module MayaJSModule
  */
 export function moduleParser(module: MayaJSModule) {
+  // Create an instance of metadata
+  const metadata = new Metadata(module);
   // Get module declaration metadata
-  const declarations = Reflect.getMetadata(MODULE_DECLARATIONS, module);
+  const declarations = metadata.get(MODULE_DECLARATIONS);
 
   // Check if declrations has items
   if (declarations.length === 0) {
@@ -31,7 +34,7 @@ export function moduleParser(module: MayaJSModule) {
   declarations.map(iterateControllerModule(module.name));
 
   // Get bootstrap metadata in a module
-  const bootstrap = Reflect.getMetadata(MODULE_BOOTSTRAP, module);
+  const bootstrap = metadata.get(MODULE_BOOTSTRAP);
 
   // Resolve boostrap controller
   resolveBoostrap(bootstrap);
@@ -53,9 +56,9 @@ function resolveBoostrap(bootstrap: Class<any>) {
   // Check if controller key is cached
   const isCached = CONTROLLERS[controlKey];
 
-  // If not cahced throw an error
   if (!isCached) {
-    throw NotFoundError(bootstrap.name);
+    // If not cached throw an error
+    throw NotDeclaredError(bootstrap.name);
   }
 }
 
