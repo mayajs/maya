@@ -1,7 +1,7 @@
 // LOCAL IMPORTS
 import { Class, MayaJSModule } from "../interfaces";
 import { DuplicateDeclarationError, EmptyDeclarationError, UndeclaredDeclarationError } from "../exceptions";
-import { CONTROLLER_NAME, MODULE_BOOTSTRAP, MODULE_DECLARATIONS } from "../utils/constants";
+import { CONTROLLER_NAME, MODULE_BOOTSTRAP, MODULE_DECLARATIONS, MODULE_PATH } from "../utils/constants";
 import { Metadata } from "./metadata";
 
 interface MemoizeControllers {
@@ -47,6 +47,12 @@ export function moduleParser(module: MayaJSModule) {
   if (!resolve) {
     // If bootstrap is not resolve throw an error
     throw UndeclaredDeclarationError(bootstrap.name, module.name);
+  }
+
+  // If resolve is not a boolean get the module path and assign it to resolve.path
+  if (typeof resolve !== "boolean") {
+    const modulePath = metadata.get(MODULE_PATH);
+    resolve.path = modulePath;
   }
 }
 
