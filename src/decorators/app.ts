@@ -1,12 +1,12 @@
 import { MODULE_DECLARATIONS, MODULE_EXPORTS, MODULE_IMPORTS } from "../utils";
-import { ModuleOptions } from "../interfaces";
+import { ModuleProperty } from "../interfaces";
 
 /**
  * Decorator for app module
  *
  * @param options Settings for app module
  */
-export function App(options: ModuleOptions): <T extends new (...args: Array<{}>) => any>(target: T) => void {
+export function App(options: ModuleProperty): <T extends new (...args: Array<{}>) => any>(target: T) => void {
   const { exports = [], imports = [], declarations = [], bootstrap } = options;
 
   return (target: any): void => {

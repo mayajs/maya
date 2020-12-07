@@ -1,5 +1,5 @@
 import { NextFunction, Request, Response } from "express";
-import { IBodyParser, ModuleOptions } from "../interfaces";
+import { IBodyParser, ModuleProperty } from "../interfaces";
 import { MODULE_CONSTANTS } from "../utils";
 
 /**
@@ -30,7 +30,7 @@ export type ErrorCallback = (error: any, req: Request, res: Response, next: Next
 /**
  * List of module options keys
  */
-export type ModuleOptionsKeys = keyof ModuleOptions;
+export type ModuleOptionsKeys = keyof ModuleProperty;
 
 /**
  * List of module constants keys

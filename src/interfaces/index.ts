@@ -16,7 +16,7 @@ export interface DatabaseModule {
   models: (array?: ModelList[]) => any;
 }
 
-export interface ModuleOptions {
+export interface ModuleProperty {
   bootstrap?: Class<any>;
   declarations?: Class<any>[];
   imports?: Class<any>[];
@@ -28,7 +28,7 @@ export interface ModelList {
   path: string;
 }
 
-export interface MayaJSModule extends Partial<ModuleOptions> {
+export interface MayaJSModule extends Partial<ModuleProperty> {
   new (): {};
 }
 

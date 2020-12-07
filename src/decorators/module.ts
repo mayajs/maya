@@ -1,4 +1,4 @@
-import { ModuleOptions } from "../interfaces";
+import { ModuleProperty } from "../interfaces";
 import { ModuleOptionsKeys } from "../types";
 import { getModuleConstant, MODULE_NAME, MODULE_PATH } from "../utils";
 
@@ -7,7 +7,7 @@ import { getModuleConstant, MODULE_NAME, MODULE_PATH } from "../utils";
  *
  * @param options MayaJS Module options
  */
-export function Module(options: ModuleOptions): <T extends new (...args: Array<{}>) => any>(target: T) => void {
+export function Module(options: ModuleProperty): <T extends new (...args: Array<{}>) => any>(target: T) => void {
   return (target: any): void => {
     Reflect.defineMetadata(MODULE_PATH, "", target);
     Reflect.defineMetadata(MODULE_NAME, target.name, target);
