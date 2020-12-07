@@ -75,10 +75,36 @@ export function moduleParser(module: MayaJSModule, routes: ModuleController[] = 
   const declarations = metadata.get(MODULE_DECLARATIONS);
 
   // Check if declrations has items
-  if (declarations.length === 0) {
-    // Throw error if module has no declared controllers
-    throw EmptyDeclarationError(module.name);
+  if (declarations?.length > 0) {
+    // Define module controllers
+    let parsedDeclarations: ModuleController[] = parseModuleDeclarations(module, metadata, declarations);
+
+    // Set routes from parsed declarations
+    mapModuleController(parsedDeclarations, routes);
   }
+
+  // Get imports metadata in a module
+  const imports: Class<any>[] = metadata.get(MODULE_IMPORTS);
+
+  // Check imports if undefined or empty
+  if (imports === undefined || imports.length === 0) {
+    return routes;
+  }
+
+  // Recursively calls modules in imports
+  return imports.flatMap(imp => {
+    return moduleParser(imp, routes);
+  });
+}
+
+/**
+ * Parse declared controllers in a module
+ *
+ * @param module MayaJSModule
+ */
+function parseModuleDeclarations(module: MayaJSModule, metadata: Metadata, declarations: any): ModuleController[] {
+  // Define module controllers
+  let moduleControllers: ModuleController[] = [];
 
   // Defines entry point object
   const entryPoint: EntryPoint = { declared: false, index: 0 };
@@ -90,7 +116,7 @@ export function moduleParser(module: MayaJSModule, routes: ModuleController[] = 
   const resolve = resolveBoostrap(bootstrap);
 
   // Map all declarations and return an array of cotrollers
-  let moduleControllers: ModuleController[] = declarations.map(iterateControllerModule(metadata, resolve, entryPoint));
+  moduleControllers = declarations.map(iterateControllerModule(metadata, resolve, entryPoint));
 
   if (!resolve && !entryPoint.declared) {
     // If bootstrap is not resolve throw an error
@@ -106,20 +132,7 @@ export function moduleParser(module: MayaJSModule, routes: ModuleController[] = 
     moduleControllers.unshift({ path: metadata.get(MODULE_PATH), controller: resolve.controller });
   }
 
-  mapModuleController(moduleControllers, routes);
-
-  // Get imports metadata in a module
-  const imports: Class<any>[] = metadata.get(MODULE_IMPORTS);
-
-  // Check imports if undefined or empty
-  if (imports === undefined || imports.length === 0) {
-    return routes;
-  }
-
-  // Recursively calls modules in imports
-  return imports.flatMap(imp => {
-    return moduleParser(imp, routes);
-  });
+  return moduleControllers;
 }
 
 /**
