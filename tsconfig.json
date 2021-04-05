@@ -1,17 +1,19 @@
 {
-  "include": ["./src/**/*.ts"],
-  "exclude": ["test", ".vscode", ".github", ".git"],
+  "exclude": ["test", ".vscode", ".github", ".git", "lib"],
   "compilerOptions": {
     "target": "es6",
     "module": "commonjs",
     "lib": ["es5", "es2015", "es2016", "es2017", "esnext"],
     "declaration": true,
-    "outDir": "./",
+    "outDir": "./lib",
     "rootDir": "./src",
     "strict": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": false,
     "moduleResolution": "node",
     "esModuleInterop": true,
     "experimentalDecorators": true,
-    "emitDecoratorMetadata": true
+    "emitDecoratorMetadata": true,
+    "downlevelIteration": true
   }
 }
