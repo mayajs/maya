@@ -1,6 +1,6 @@
 // LOCAL IMPORTS
 import { Class, MayaJSModule } from "../interfaces";
-import { DuplicateDeclarationError, EmptyDeclarationError, UndeclaredDeclarationError } from "../exceptions";
+import { DuplicateDeclarationError, UndeclaredDeclarationError } from "../exceptions";
 import { CONTROLLER_NAME, MODULE_BOOTSTRAP, MODULE_DECLARATIONS, MODULE_IMPORTS, MODULE_NAME, MODULE_PATH } from "../utils/constants";
 import { Metadata } from "./metadata";
 
