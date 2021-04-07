@@ -17,10 +17,10 @@ export interface DatabaseModule {
 }
 
 export interface ModuleProperty {
-  bootstrap?: Class<any>;
-  declarations?: Class<any>[];
-  imports?: Class<any>[];
-  exports?: Class<any>[];
+  bootstrap?: Array<Class<any>>;
+  declarations?: Array<Class<any>>;
+  imports?: Array<Class<any>>;
+  exports?: Array<Class<any>>;
 }
 
 export interface ModelList {
