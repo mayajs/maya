@@ -13,19 +13,21 @@ export const MODULE_EXPORTS = "__mod:exports__";
 export const MODULE_DECLARATIONS = "__mod:declarations__";
 export const MODULE_BOOTSTRAP = "__mod:bootstrap__";
 export const MODULE_ROUTES = "__mod:routes__";
+export const MODULE_PORT = "__mod:port__";
+export const MODULE_PROVIDERS = "__mod:providers__";
 export const CONTROLLER_NAME = "__control:name__";
 export const CONTROLLER_ROUTES = "__control:routes__";
 export const DATABASE = "__database__";
 export const DATABASE_NAME = "__db:name__";
 export const DATABASE_CONNECTION = "__db:conn__";
-export const MODULE_CONSTANTS = { MODULE_PATH, MODULE_IMPORTS, MODULE_EXPORTS, MODULE_DECLARATIONS, MODULE_BOOTSTRAP };
+export const MODULE_CONSTANTS = { MODULE_PATH, MODULE_IMPORTS, MODULE_EXPORTS, MODULE_DECLARATIONS, MODULE_BOOTSTRAP, MODULE_PORT, MODULE_PROVIDERS };
 
 // FUNCTIONS
 export const getModuleConstant = (key: string): string => {
   const value = MODULE_CONSTANTS[key as ModuleConstantsKeys];
 
   if (!value || value === undefined) {
-    throw new Error("Constants key value is not found");
+    throw new Error(`Constants ${key} value is not found`);
   }
 
   return value;
