@@ -120,9 +120,6 @@ export function resolveControllerRoutes(controller: any, parent: string, router:
     return router;
   }
 
-  // Create a callback function
-  const callback = (error: any, req: Request, res: Response, next: NextFunction): void => next();
-
   // Resolve controller dependy injection
   const instance = Injector.resolve<typeof controller>(controller);
 
