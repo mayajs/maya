@@ -27,17 +27,13 @@ export function Module(options: ModuleDecoratorProps): ClassDecorator {
     const dependencies = Reflect.getMetadata("design:paramtypes", target) || [];
     const bootstrap = options["bootstrap"];
     let imports: any[] = [];
-    let declarations: any[] = [];
 
-    if (bootstrap) {
-      imports = [RouterModule.forRoot([{ path: "", controller: bootstrap }])];
-      declarations = [bootstrap];
-    }
+    if (bootstrap) imports = [RouterModule.forRoot([{ path: "", controller: bootstrap }])];
 
-    target.prototype["imports"] = [...imports, ...(options.imports || [])];
-    target.prototype["declarations"] = [...declarations, ...(options.declarations || [])];
-    target.prototype["exports"] = options.exports || [];
-    target.prototype["providers"] = options.providers || [];
-    target.prototype["dependencies"] = dependencies;
+    target["imports"] = [...imports, ...(options.imports || [])];
+    target["declarations"] = options.declarations || [];
+    target["exports"] = options.exports || [];
+    target["providers"] = options.providers || [];
+    target["dependencies"] = dependencies;
   };
 }
