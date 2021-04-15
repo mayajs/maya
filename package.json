@@ -6,6 +6,7 @@
   "files": [
     "LICENSE",
     "README.md",
+    "decorators",
     "index.js",
     "**.d.ts"
   ],
