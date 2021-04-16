@@ -7,12 +7,16 @@
   <a href="https://github.com/microsoft/typescript-tslint-plugin"><img src="https://img.shields.io/badge/code%20style-standard-blue.svg?style=for-the-badge&logo=appveyor" alt="Code Style"></a>
 </p>
 
-MayaJS is designed for simplicity and ease of use for beginners. It is built using [Typescript](https://www.typescriptlang.org/) to take advantage of strong type checking and at the same time preserving support for pure Javascript. It also has support for [MongoDb](https://www.mongodb.com/) and SQL databases. It has its own routing library and doesn't need third party routing libraries to run under the hood.
+MayaJS is designed for simplicity and ease of use for beginners. It is built using [Typescript](https://www.typescriptlang.org/) to take advantage of strong type checking and at the same time preserving support for pure Javascript. It also has support for [MongoDb](https://www.mongodb.com/) and SQL databases.
+
+> **DISCLAIMER:** MayaJS is not a wrapper for `ExpressJS` or `Fastify`. We use our own [routing library](https://www.npmjs.com/package/@mayajs/router) and it has capabilities to use third party middlewares.
 
 # Installation
 
 - Run `npm i @mayajs/cli -g` to install MayaJS globally in your local machine.
   > Install the latest [Node.js stable build](https://nodejs.org/en/download/) before running this command
+
+### If you want a simple routing library like express you can use our own [MayaJS Router](https://www.npmjs.com/package/@mayajs/router).
 
 # Quick Start
 
