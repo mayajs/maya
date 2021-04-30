@@ -54,7 +54,7 @@ See collaborating guides [here.](https://github.com/mayajs/maya/blob/master/COLL
 
 ## People
 
-Author and maintainer [Mac Ignacio](https://github.com/Mackignacio)
+Author and maintainer [Mac Ignacio](https://github.com/macign)
 
 ## License
 
