@@ -25,16 +25,16 @@ interface MayaJsServer {
 export * from "./decorators";
 
 export const configServer = (PORT: number = 3333): MayaJsServer => {
-  let _middlewares: Middlewares[] = [];
+  let middlewares: Middlewares[] = [];
   return {
     bootstrapModule(APP_MODULE: Type<AppModule>) {
       const MAYA = maya();
       const port = process.argv.find(arg => arg.includes("--port"))?.split("=")?.[1] || PORT;
-      MAYA.add([{ path: "", middlewares: _middlewares, loadChildren: () => Promise.resolve(<ModuleCustomType>APP_MODULE) }]);
+      MAYA.add([{ path: "", middlewares, loadChildren: () => Promise.resolve(<ModuleCustomType>APP_MODULE) }]);
       http.createServer(MAYA).listen(port, () => console.log(`\x1b[32m[mayajs] Server is running on port ${port}\x1b[0m`));
     },
     usePlugins(plugins: Middlewares[]) {
-      _middlewares = [..._middlewares, ...plugins];
+      middlewares = [...middlewares, ...plugins];
       return this;
     },
   };
