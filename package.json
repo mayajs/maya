@@ -55,7 +55,7 @@
     "reflect-metadata": "^0.1.13"
   },
   "devDependencies": {
-    "@mayajs/router": "^0.4.0",
+    "@mayajs/router": "^0.5.2",
     "@types/jest": "^25.1.4",
     "jest": "^25.1.0",
     "ts-jest": "^26.1.3",
