@@ -1,27 +1,41 @@
-import maya, { Type, ModuleCustomType } from "@mayajs/router";
+import maya, { Type, ModuleCustomType, Middlewares } from "@mayajs/router";
 import "reflect-metadata";
 import http from "http";
 
 abstract class AppModule {}
 
 type BoostrapFunction = (APP_MODULE: Type<AppModule>) => void;
+type UsePlugins = (plugins: Middlewares[]) => MayaJsServer;
 
 interface MayaJsServer {
+  /**
+   * Creates an instance of MayaJS Server on runtime.
+   *
+   * @param module MayaJS Module
+   */
   bootstrapModule: BoostrapFunction;
+  /**
+   * Add MayaJS plugins
+   *
+   * @param middlewares Middlewares[]
+   */
+  usePlugins: UsePlugins;
 }
 
 export * from "./decorators";
 
-export const configServer = (PORT: number = 3333): MayaJsServer => ({ bootstrapModule: bootstrapModule(PORT) });
-
-/**
- * Creates an instance of MayaJS Server on runtime.
- *
- * @param module MayaJS Module
- */
-const bootstrapModule = (PORT: number): BoostrapFunction => (APP_MODULE: Type<AppModule>) => {
-  const MAYA = maya();
-  const port = process.argv.find(arg => arg.includes("--port"))?.split("=")?.[1] || PORT;
-  MAYA.add([{ path: "", loadChildren: () => Promise.resolve(<ModuleCustomType>APP_MODULE) }]);
-  http.createServer(MAYA).listen(port, () => console.log(`\x1b[32m[mayajs] Server is running on port ${port}\x1b[0m`));
+export const configServer = (PORT: number = 3333): MayaJsServer => {
+  let _middlewares: Middlewares[] = [];
+  return {
+    bootstrapModule(APP_MODULE: Type<AppModule>) {
+      const MAYA = maya();
+      const port = process.argv.find(arg => arg.includes("--port"))?.split("=")?.[1] || PORT;
+      MAYA.add([{ path: "", middlewares: _middlewares, loadChildren: () => Promise.resolve(<ModuleCustomType>APP_MODULE) }]);
+      http.createServer(MAYA).listen(port, () => console.log(`\x1b[32m[mayajs] Server is running on port ${port}\x1b[0m`));
+    },
+    usePlugins(plugins: Middlewares[]) {
+      _middlewares = [..._middlewares, ...plugins];
+      return this;
+    },
+  };
 };
