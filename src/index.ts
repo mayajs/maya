@@ -23,6 +23,7 @@ interface MayaJsServer {
 }
 
 export * from "./decorators";
+export * from "./modules";
 
 /**
  * Configure MayaJS Server
