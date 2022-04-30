@@ -23,7 +23,6 @@ interface MayaJsServer {
 }
 
 export * from "./decorators";
-export * from "./modules/auth-token.module";
 
 /**
  * Configure MayaJS Server
