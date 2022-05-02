@@ -38,7 +38,7 @@ function configServer(PORT: any = 3333): MayaJsServer {
     bootstrapModule(APP_MODULE: Type<AppModule>) {
       const MAYA = maya();
       const cmdPort = process.argv[2] !== "undefined" ? process.argv[2] : null;
-      const port = cmdPort || Number(PORT);
+      const port = cmdPort ? parseInt(cmdPort) : Number(PORT);
       const loaded = process.argv[3] === "true";
 
       MAYA.add([{ path: "", middlewares, loadChildren: () => Promise.resolve(<ModuleCustomType>APP_MODULE) }]);
