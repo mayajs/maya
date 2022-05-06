@@ -1,4 +1,4 @@
-import maya, { Type, ModuleCustomType, Middlewares } from "@mayajs/router";
+import maya, { Type, Middlewares } from "@mayajs/router";
 import "reflect-metadata";
 import http from "http";
 
