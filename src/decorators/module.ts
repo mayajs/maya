@@ -39,6 +39,7 @@ interface ModuleDecoratorProps {
 export function Module(options: ModuleDecoratorProps): ClassDecorator {
   return (target: any): void => {
     const dependencies = Reflect.getMetadata(DESIGN_PARAMS, target) || [];
+
     target["imports"] = options.imports || [];
     target["declarations"] = options.declarations || [];
     target["exports"] = options.exports || [];
@@ -48,5 +49,7 @@ export function Module(options: ModuleDecoratorProps): ClassDecorator {
     target["routes"] = [];
     target["mod"] = true;
     target["key"] = "";
+
+    Reflect.defineMetadata(MODULE, true, target);
   };
 }
