@@ -1,4 +1,4 @@
-import { CONTROLLER_ROUTES, DESIGN_PARAMS } from "@mayajs/router";
+import { CONTROLLER_ROUTES, DESIGN_PARAMS, DEPS } from "@mayajs/router";
 
 /**
  * Decorator for a controller of a route
