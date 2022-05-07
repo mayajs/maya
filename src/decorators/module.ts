@@ -51,5 +51,6 @@ export function Module(options: ModuleDecoratorProps): ClassDecorator {
     target["key"] = "";
 
     Reflect.defineMetadata(MODULE, true, target);
+    Reflect.defineMetadata(MODULE_IMPORTS, options.imports || [], target);
   };
 }
