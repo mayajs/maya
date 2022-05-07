@@ -2,6 +2,7 @@ import {
   Class,
   DEPS,
   MODULE_IMPORTS,
+  MODULE_DECLARATIONS,
 } from "@mayajs/router";
 
 interface ModuleDecoratorProps {
