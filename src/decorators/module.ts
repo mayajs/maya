@@ -1,4 +1,6 @@
-import { ModuleProviders, ModuleImports, ControllerType, Class } from "@mayajs/router";
+import {
+  Class,
+} from "@mayajs/router";
 
 interface ModuleDecoratorProps {
   bootstrap?: ControllerType;
