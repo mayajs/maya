@@ -46,5 +46,6 @@ export function Module(options: ModuleDecoratorProps): ClassDecorator {
     target["dependencies"] = dependencies;
     target["bootstrap"] = options.bootstrap;
     target["routes"] = [];
+    target["mod"] = true;
   };
 }
