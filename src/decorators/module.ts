@@ -44,6 +44,6 @@ export function Module(options: ModuleDecoratorProps): ClassDecorator {
     target["exports"] = options.exports || [];
     target["providers"] = options.providers || [];
     target["dependencies"] = dependencies;
-    target["bootstrap"] = bootstrap;
+    target["bootstrap"] = options.bootstrap;
   };
 }
