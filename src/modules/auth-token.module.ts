@@ -44,6 +44,7 @@ export class AuthTokenModule extends CustomModule {
     const { authorization = "" } = req.headers;
     const auth = this.checkAuthorization(authorization);
     const key = Reflect.getMetadata(MODULE_KEY, AuthTokenModule.constructor) as string;
+    req.user = this.setReqUser<T>(auth, key);
 
     if (auth === "Token not found" || auth === "Malformed token") {
       return send(auth);
