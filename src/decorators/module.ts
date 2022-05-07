@@ -19,6 +19,7 @@ interface ModuleDecoratorProps {
   declarations?: ClassList;
   imports?: ModuleWithProviders[];
   exports?: ClassList;
+  providers?: ClassList;
 }
 
 /**
