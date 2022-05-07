@@ -10,8 +10,8 @@ interface IServiceDecoratorProps {
  */
 export function Service(options: IServiceDecoratorProps = { root: false }): ClassDecorator {
   return (target: any): void => {
-    target[INJECTABLE] = true;
     const dependencies = Reflect.getMetadata(DESIGN_PARAMS, target) || [];
     target["dependencies"] = dependencies;
+    target["injectable"] = true;
   };
 }
