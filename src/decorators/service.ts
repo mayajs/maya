@@ -13,5 +13,6 @@ export function Service(options: IServiceDecoratorProps = { root: false }): Clas
     const dependencies = Reflect.getMetadata(DESIGN_PARAMS, target) || [];
     target["dependencies"] = dependencies;
     target["injectable"] = true;
+    target["root"] = options.root;
   };
 }
