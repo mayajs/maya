@@ -43,7 +43,7 @@ export class AuthTokenModule extends CustomModule {
   verifyAuthorization<T extends AuthUser>(req: AuthRequest<T>, send: Function, next: MayaJsNextFunction) {
     const { authorization = "" } = req.headers;
     const auth = this.checkAuthorization(authorization);
-    req.user = this.setReqUser<T>(auth, AuthTokenModule.key);
+    const key = Reflect.getMetadata(MODULE_KEY, AuthTokenModule.constructor) as string;
 
     if (auth === "Token not found" || auth === "Malformed token") {
       return send(auth);
