@@ -21,9 +21,6 @@ export interface AuthRequest<T extends AuthUser> extends MayaJsRequest {
 type AuthTokenMiddleware<T> = (req: AuthRequest<T>, res: MayaJsResponse, next: MayaJsNextFunction) => void | Promise<void>;
 
 export class AuthTokenModule extends CustomModule {
-  static routes: UnguardedRoutes;
-  static key: string;
-
   checkAuthorization(authorization: string): string {
     if (!authorization) {
       return "Token not found";
