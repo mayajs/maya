@@ -15,11 +15,7 @@ import {
 } from "@mayajs/router";
 
 interface ModuleDecoratorProps {
-  bootstrap?: ControllerType;
-  declarations?: ControllerType[];
-  imports?: ModuleImports[];
-  exports?: Class[];
-  providers?: ModuleProviders;
+  bootstrap?: Class;
 }
 
 /**
