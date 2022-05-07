@@ -58,5 +58,6 @@ export function Module(options: ModuleDecoratorProps): ClassDecorator {
     Reflect.defineMetadata(MODULE_BOOTSTRAP, options.bootstrap, target);
     Reflect.defineMetadata(MODULE_PROVIDERS, options.providers || [], target);
     Reflect.defineMetadata(MODULE_DECLARATIONS, options.declarations || [], target);
+    Reflect.defineMetadata(DEPS, dependencies.length > 0 ? dependencies : [], target);
   };
 }
