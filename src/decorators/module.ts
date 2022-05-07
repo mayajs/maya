@@ -52,5 +52,6 @@ export function Module(options: ModuleDecoratorProps): ClassDecorator {
 
     Reflect.defineMetadata(MODULE, true, target);
     Reflect.defineMetadata(MODULE_IMPORTS, options.imports || [], target);
+    Reflect.defineMetadata(MODULE_EXPORTS, options.exports || [], target);
   };
 }
