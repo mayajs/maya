@@ -3,8 +3,9 @@ import { INJECTABLE, DEPS, DESIGN_PARAMS, ROOT } from "@mayajs/router";
 interface IServiceDecoratorProps {
   root: boolean;
 }
+
 /**
- * @returns {InjectableDecaorator<Type<any>>}
+ * @returns {InjectableDecorator<Type<any>>}
  * @constructor
  */
 export function Service(): ClassDecorator {
