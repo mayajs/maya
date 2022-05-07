@@ -10,5 +10,7 @@ export function Controller(): ClassDecorator {
     const dependencies = Reflect.getMetadata(DESIGN_PARAMS, target) || [];
     target.prototype["routes"] = routes;
     target["dependencies"] = dependencies;
+
+    Reflect.defineMetadata(DEPS, dependencies.length > 0 ? dependencies : [], target);
   };
 }
