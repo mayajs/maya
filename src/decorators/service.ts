@@ -14,5 +14,7 @@ export function Service(options: IServiceDecoratorProps = { root: false }): Clas
     target["dependencies"] = dependencies;
     target["injectable"] = true;
     target["root"] = options.root;
+
+    Reflect.defineMetadata(DEPS, dependencies.length > 0 ? dependencies : [], target);
   };
 }
