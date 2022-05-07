@@ -5,6 +5,7 @@ import {
   MODULE_DECLARATIONS,
   MODULE_EXPORTS,
   MODULE_PROVIDERS,
+  MODULE_BOOTSTRAP,
 } from "@mayajs/router";
 
 interface ModuleDecoratorProps {
