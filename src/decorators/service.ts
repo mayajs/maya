@@ -1,4 +1,4 @@
-import { INJECTABLE, DESIGN_PARAMS } from "@mayajs/router";
+import { INJECTABLE, DEPS, DESIGN_PARAMS, ROOT } from "@mayajs/router";
 
 /**
  * @returns {InjectableDecaorator<Type<any>>}
