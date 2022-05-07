@@ -9,6 +9,7 @@ import {
   DESIGN_PARAMS,
   MODULE,
   MODULE_ROUTES,
+  MODULE_KEY,
 } from "@mayajs/router";
 
 interface ModuleDecoratorProps {
