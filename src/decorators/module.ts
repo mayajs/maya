@@ -45,5 +45,6 @@ export function Module(options: ModuleDecoratorProps): ClassDecorator {
     target["providers"] = options.providers || [];
     target["dependencies"] = dependencies;
     target["bootstrap"] = options.bootstrap;
+    target["routes"] = [];
   };
 }
