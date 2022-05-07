@@ -10,6 +10,7 @@ import {
   MODULE,
   MODULE_ROUTES,
   MODULE_KEY,
+  ModuleWithProviders,
 } from "@mayajs/router";
 
 interface ModuleDecoratorProps {
