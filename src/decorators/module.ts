@@ -38,8 +38,7 @@ interface ModuleDecoratorProps {
  */
 export function Module(options: ModuleDecoratorProps): ClassDecorator {
   return (target: any): void => {
-    const dependencies = Reflect.getMetadata("design:paramtypes", target) || [];
-    const bootstrap = options["bootstrap"];
+    const dependencies = Reflect.getMetadata(DESIGN_PARAMS, target) || [];
     target["imports"] = options.imports || [];
     target["declarations"] = options.declarations || [];
     target["exports"] = options.exports || [];
