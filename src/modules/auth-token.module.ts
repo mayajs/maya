@@ -80,6 +80,7 @@ export class AuthTokenModule extends CustomModule {
   }
 
   invoke() {
+    const routes = Reflect.getMetadata(MODULE_ROUTES, AuthTokenModule.constructor) as UnguardedRoutes;
     const callback = this.authToken(routes);
     use(callback);
   }
