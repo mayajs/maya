@@ -41,6 +41,8 @@ function configServer(PORT: any = 3333): MayaJsServer {
       const loaded = process.argv[3] === "true";
 
       middlewares.forEach(middleware => MAYA.use(middleware));
+      MAYA.bootstrap(APP_MODULE);
+
       http.createServer(MAYA).listen(port, () => {
         if (!loaded) {
           console.log(`\x1b[32m\n** MAYA Live Development Server is running on \x1b[37mhttp://localhost:${port}\x1b[32m **\n`);
