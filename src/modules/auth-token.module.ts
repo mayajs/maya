@@ -1,5 +1,5 @@
+import { CustomModule, MayaJsNextFunction, MayaJsRequest, MayaJsResponse, MODULE_KEY, MODULE_ROUTES, use } from "@mayajs/router";
 import jwt from "jsonwebtoken";
-import { CustomModule, MayaJsNextFunction, MayaJsRequest, MayaJsResponse, use } from "@mayajs/router";
 
 export interface UnguardedRoute {
   path: RegExp | string;
