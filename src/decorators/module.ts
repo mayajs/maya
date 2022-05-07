@@ -1,5 +1,6 @@
 import {
   Class,
+  ClassList,
   DEPS,
   MODULE_IMPORTS,
   MODULE_DECLARATIONS,
