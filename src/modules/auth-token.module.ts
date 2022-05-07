@@ -87,6 +87,7 @@ export class AuthTokenModule extends CustomModule {
 
   static forRoot(routes: UnguardedRoutes, key: string) {
     Reflect.defineMetadata(MODULE_KEY, key, AuthTokenModule.constructor);
+    Reflect.defineMetadata(MODULE_ROUTES, routes, AuthTokenModule.constructor);
     return { module: AuthTokenModule, providers: [] };
   }
 }
