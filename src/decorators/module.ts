@@ -17,6 +17,7 @@ import {
 interface ModuleDecoratorProps {
   bootstrap?: Class;
   declarations?: ClassList;
+  imports?: ModuleWithProviders[];
 }
 
 /**
