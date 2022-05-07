@@ -7,6 +7,7 @@ import {
   MODULE_PROVIDERS,
   MODULE_BOOTSTRAP,
   DESIGN_PARAMS,
+  MODULE,
 } from "@mayajs/router";
 
 interface ModuleDecoratorProps {
