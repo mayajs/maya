@@ -80,7 +80,7 @@ export class AuthTokenModule extends CustomModule {
   }
 
   invoke() {
-    const callback = this.authToken(AuthTokenModule.routes);
+    const callback = this.authToken(routes);
     use(callback);
   }
 
