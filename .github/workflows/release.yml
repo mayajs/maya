@@ -1,0 +1,62 @@
+name: Release Package
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  version:
+    runs-on: ubuntu-latest
+
+    if: startsWith(github.event.head_commit.message, 'Bump version') != true && (startsWith(github.event.head_commit.message, 'feat') == true || startsWith(github.event.head_commit.message, 'fix') == true)
+
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - run: git config --global user.name 'Mack Ignacio'
+      - run: git config --global user.email 'mack_ignacio@yahoo.com'
+
+      - name: Patch version
+        run: npm version patch -m "Bump version to %s"
+        if: startsWith(github.event.head_commit.message, 'fix') != true
+
+      - name: Feature version
+        run: npm version minor -m "Bump version to %s"
+        if: startsWith(github.event.head_commit.message, 'feat') != true
+
+      - name: Feature version
+        run: |
+          git push
+          git push --tags
+
+  release:
+    needs: version
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: [14.x]
+
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Get package version
+        id: package
+        run: echo "::set-output name=version::$(node -e \"console.log(require('./package.json').version)\")"
+
+      - name: Create Release
+        id: create_release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: v${{ steps.package.outputs.version }}
+          release_name: Version ${{ steps.package.outputs.version }}
+          body: MayaJS CLI Release Version ${{ steps.package.outputs.version }}
+          draft: false
+          prerelease: false
