@@ -1,0 +1,106 @@
+name: Version Increment
+
+on:
+  push:
+    branches:
+      - dev
+      - feature
+      - main
+
+jobs:
+  version:
+    runs-on: ubuntu-latest
+
+    if: startsWith(github.event.head_commit.message, 'Bump version') != true
+
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          token: ${{ secrets.GH_TOKEN }}
+
+      - run: git config --global user.name 'Mack Ignacio'
+      - run: git config --global user.email 'mack_ignacio@yahoo.com'
+
+      - name: Develop version
+        run: npm version patch -m "Bump version to %s"
+        if: github.ref == 'refs/heads/develop' || github.ref == 'refs/heads/dev'
+
+      - name: Feature version
+        run: npm version minor -m "Bump version to %s"
+        if: github.ref == 'refs/heads/feature'
+
+      - name: Major version
+        run: npm version major -m "Bump version to %s"
+        if: github.ref == 'refs/heads/1.0'
+
+      - name: Hotfix version
+        run: npm version minor -m "Bump version to %s"
+        if: startsWith(github.event.head_commit.message, 'HOTFIX')
+
+      - name: Patch version
+        run: npm version patch -m "Bump version to %s"
+        if: startsWith(github.event.head_commit.message, 'PATCH')
+
+      - run: |
+          git push
+          git push --tags
+
+  merge-staging-to-dev:
+    defaults:
+      run:
+        shell: bash
+
+    runs-on: ubuntu-latest
+
+    if: github.ref == 'refs/heads/feature' && startsWith(github.event.head_commit.message, 'Bump version') == true
+
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          ref: dev
+          token: ${{ secrets.GH_TOKEN }}
+
+      - run: git config --global user.name 'Mack Ignacio'
+      - run: git config --global user.email 'mack_ignacio@yahoo.com'
+
+      - name: Fetch latest branches
+        run: git fetch origin
+
+      - name: Check if STAGING is ahead
+        run: echo "IS_AHEAD=$(git rev-list --left-right --count origin/feature...origin/dev | sed 's@^[^0-9]*\([0-9]\+\).*@\1@')" >> $GITHUB_ENV
+
+      - name: Merge STAGING
+        if: ${{env.IS_AHEAD != 0}}
+        run: |
+          git merge origin/staging
+          git push
+
+  merge-main-to-staging:
+    defaults:
+      run:
+        shell: bash
+
+    runs-on: ubuntu-latest
+
+    if: github.ref == 'refs/heads/main' && startsWith(github.event.head_commit.message, 'Bump version') == true
+
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          ref: feature
+          token: ${{ secrets.GH_TOKEN }}
+
+      - run: git config --global user.name 'Mack Ignacio'
+      - run: git config --global user.email 'mack_ignacio@yahoo.com'
+
+      - name: Fetch latest branches
+        run: git fetch origin
+
+      - name: Check if MAIN is ahead
+        run: echo "IS_AHEAD=$(git rev-list --left-right --count origin/main...origin/feature | sed 's@^[^0-9]*\([0-9]\+\).*@\1@')" >> $GITHUB_ENV
+
+      - name: Merge MAIN
+        if: ${{env.IS_AHEAD != 0}}
+        run: |
+          git merge origin/main
+          git push
