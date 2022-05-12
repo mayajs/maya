@@ -1,5 +1,5 @@
+import { CustomModule, MayaJsNextFunction, MayaJsRequest, MayaJsResponse, MODULE_KEY, MODULE_ROUTES, use } from "@mayajs/router";
 import jwt from "jsonwebtoken";
-import { CustomModule, MayaJsNextFunction, MayaJsRequest, MayaJsResponse, use } from "@mayajs/router";
 
 export interface UnguardedRoute {
   path: RegExp | string;
@@ -21,9 +21,6 @@ export interface AuthRequest<T extends AuthUser> extends MayaJsRequest {
 type AuthTokenMiddleware<T> = (req: AuthRequest<T>, res: MayaJsResponse, next: MayaJsNextFunction) => void | Promise<void>;
 
 export class AuthTokenModule extends CustomModule {
-  static routes: UnguardedRoutes;
-  static key: string;
-
   checkAuthorization(authorization: string): string {
     if (!authorization) {
       return "Token not found";
@@ -46,7 +43,8 @@ export class AuthTokenModule extends CustomModule {
   verifyAuthorization<T extends AuthUser>(req: AuthRequest<T>, send: Function, next: MayaJsNextFunction) {
     const { authorization = "" } = req.headers;
     const auth = this.checkAuthorization(authorization);
-    req.user = this.setReqUser<T>(auth, AuthTokenModule.key);
+    const key = Reflect.getMetadata(MODULE_KEY, AuthTokenModule.constructor) as string;
+    req.user = this.setReqUser<T>(auth, key);
 
     if (auth === "Token not found" || auth === "Malformed token") {
       return send(auth);
@@ -82,13 +80,14 @@ export class AuthTokenModule extends CustomModule {
   }
 
   invoke() {
-    const callback = this.authToken(AuthTokenModule.routes);
+    const routes = Reflect.getMetadata(MODULE_ROUTES, AuthTokenModule.constructor) as UnguardedRoutes;
+    const callback = this.authToken(routes);
     use(callback);
   }
 
   static forRoot(routes: UnguardedRoutes, key: string) {
-    AuthTokenModule.routes = routes;
-    AuthTokenModule.key = key;
+    Reflect.defineMetadata(MODULE_KEY, key, AuthTokenModule.constructor);
+    Reflect.defineMetadata(MODULE_ROUTES, routes, AuthTokenModule.constructor);
     return { module: AuthTokenModule, providers: [] };
   }
 }
