@@ -6,75 +6,19 @@ on:
       - main
 
 jobs:
-  version:
+  release:
     runs-on: ubuntu-latest
-
-    outputs:
-      version: ${{ steps.package.outputs.version  }}
-
-    if: startsWith(github.event.head_commit.message, 'Bump version') != true && (startsWith(github.event.head_commit.message, 'feat') == true || startsWith(github.event.head_commit.message, 'fix') == true)
-
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v2
         with:
-          token: ${{ secrets.GH_TOKEN }}
+          token: ${{ secrets.GITHUB_TOKEN }}
 
-      - run: git config --global user.name '${{ secrets.GH_USER }}'
-      - run: git config --global user.email '${{ secrets.GH_EMAIL }}'
-
-      - name: Cache node modules
-        uses: actions/cache@v2
-        with:
-          path: ~/.npm
-          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
-          restore-keys: |
-            ${{ runner.os }}-node-
-
-      - name: Node ${{ matrix.node-version }}
-        uses: actions/setup-node@v3
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v2
         with:
           node-version: ${{ matrix.node-version }}
-          registry-url: "https://registry.npmjs.org"
 
-      - name: Patch version
-        run: npm version patch -m
-        if: startsWith(github.event.head_commit.message, 'fix') == true
-
-      - name: Feature version
-        run: npm version minor
-        if: startsWith(github.event.head_commit.message, 'feat') == true
-
-      - name: Get package version
-        id: package
-        run: echo "::set-output name=version::$(node -e 'console.log(require("./package.json").version)')"
-
-      - run: git add .
-      - run: git commit -m "build(release){{ ":" }} bump version to ${{ steps.package.outputs.version }}"
-
-      - name: Push changes
-        run: git push
-
-  release:
-    needs: version
-    runs-on: ubuntu-latest
-
-    strategy:
-      matrix:
-        node-version: [14.x]
-
-    steps:
-      - uses: actions/checkout@v3
-        with:
-          token: ${{ secrets.GH_TOKEN }}
-
-      - name: Create Release
-        id: create_release
-        uses: actions/create-release@v1
+      - run: npm run semantic-release
         env:
-          GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
-        with:
-          tag_name: v${{needs.version.outputs.version}}
-          release_name: Version ${{needs.version.outputs.version}}
-          body: MayaJS CLI Release Version ${{needs.version.outputs.version}}
-          draft: false
-          prerelease: false
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
