@@ -1,0 +1,34 @@
+name: Update Branches
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  merge-staging-to-dev:
+    defaults:
+      run:
+        shell: bash
+
+    runs-on: ubuntu-latest
+
+    if: startsWith(github.event.head_commit.message, 'Bump version') == true
+
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          ref: dev
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Fetch latest branches
+        run: git fetch origin
+
+      - name: Check if STAGING is ahead
+        run: echo "IS_AHEAD=$(git rev-list --left-right --count origin/main...origin/dev | sed 's@^[^0-9]*\([0-9]\+\).*@\1@')" >> $GITHUB_ENV
+
+      - name: Merge STAGING
+        if: ${{env.IS_AHEAD != 0}}
+        run: |
+          git merge origin/main
+          git push
