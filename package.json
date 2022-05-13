@@ -54,7 +54,7 @@
     "trailingComma": "es5"
   },
   "devDependencies": {
-    "@mayajs/router": "^0.7.0",
+    "@mayajs/router": "^0.6.6",
     "@types/jest": "^25.1.4",
     "@types/jsonwebtoken": "^8.5.6",
     "jest": "^28.0.3",
