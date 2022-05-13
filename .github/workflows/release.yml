@@ -49,7 +49,7 @@ jobs:
         run: echo "::set-output name=version::$(node -e 'console.log(require("./package.json").version)')"
 
       - run: git add .
-      - run: git commit -m 'build(release): bump version to ${{ steps.package.outputs.version }}'
+      - run: git commit -m "build(release){{ ":" }} bump version to ${{ steps.package.outputs.version }}"
 
       - name: Push changes
         run: git push
