@@ -21,7 +21,8 @@
     "postpublish": "npm run clean",
     "clean:folders": "rimraf decorators && rimraf di && rimraf modules && rimraf core && rimraf interfaces && rimraf types && rimraf utils && rimraf exceptions",
     "clean:files": "rimraf index.js && rimraf index.d.ts && rimraf core.js && rimraf core.d.ts",
-    "clean": "npm run clean:files && npm run clean:folders"
+    "clean": "npm run clean:files && npm run clean:folders",
+    "release": "semantic-release --branches main"
   },
   "repository": {
     "type": "git",
@@ -58,6 +59,7 @@
     "@types/jsonwebtoken": "^8.5.6",
     "jest": "^28.0.3",
     "reflect-metadata": "^0.1.13",
+    "semantic-release": "^19.0.2",
     "ts-jest": "^28.0.2",
     "ts-node": "^10.7.0",
     "typescript": "^4.1.2"
