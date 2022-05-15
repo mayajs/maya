@@ -20,5 +20,5 @@
   "window.zoomLevel": 0,
   "vsicons.projectDetection.autoReload": true,
   "workbench.colorCustomizations": {},
-  "conventionalCommits.scopes": ["config", "settings", "actions", "assets"]
+  "conventionalCommits.scopes": ["config", "settings", "actions", "assets", "router"]
 }
