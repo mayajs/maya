@@ -1,4 +1,4 @@
-<p align="center"><img src="https://github.com/mayajs/maya/blob/master/maya.svg"></p>
+<p align="center"><img src="https://github.com/mayajs/maya/blob/main/logo.svg"></p>
 <p align="center">A simple <a href="http://nodejs.org" target="_blank">Node.js</a> framework for creating fast and scalable server-side applications.</p>
 <p align="center">
   <a href="https://www.npmjs.com/package/@mayajs/core"><img src="https://img.shields.io/npm/v/@mayajs/core.svg?style=for-the-badge&logo=appveyor" alt="Version"></a>
@@ -50,11 +50,11 @@ To check out [live examples](https://github.com/mayajs/sample) and docs, visit [
 
 ## Collaborating
 
-See collaborating guides [here.](https://github.com/mayajs/maya/blob/master/COLLABORATOR_GUIDE.md)
+See collaborating guides [here.](https://github.com/mayajs/maya/blob/main/COLLABORATOR_GUIDE.md)
 
 ## People
 
-Author and maintainer [Mac Ignacio](https://github.com/macign)
+Author and maintainer [Mac Ignacio](https://github.com/mackignacio)
 
 ## License
 

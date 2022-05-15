@@ -11,16 +11,14 @@
   "explorer.confirmDragAndDrop": false,
   "editor.suggestSelection": "first",
   "editor.fontLigatures": true,
-  "extensions.showRecommendationsOnlyOnDemand": true,
   "explorer.openEditors.visible": 0,
   "explorer.confirmDelete": false,
   "editor.formatOnSave": true,
   "prettier.trailingComma": "es5",
   "prettier.printWidth": 160,
   "git.confirmSync": false,
-  "terminal.integrated.shell.windows": "C:\\Windows\\System32\\cmd.exe",
   "window.zoomLevel": 0,
   "vsicons.projectDetection.autoReload": true,
   "workbench.colorCustomizations": {},
-  "conventionalCommits.scopes": ["config", "settings", "actions"]
+  "conventionalCommits.scopes": ["config", "settings", "actions", "assets", "router"]
 }
