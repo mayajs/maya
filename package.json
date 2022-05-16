@@ -6,7 +6,10 @@
   "files": [
     "LICENSE",
     "README.md",
-    "lib"
+    "decorators",
+    "modules",
+    "index.js",
+    "**.d.ts"
   ],
   "scripts": {
     "test": "jest",
