@@ -18,11 +18,13 @@ fs.writeFile(TEMP_PATH, JSON.stringify(packageData, null, 2), function (err) {
 const removableProps = ["devDependencies"];
 
 // Remove the specified properties from `package.json`.
-removableProps.forEach((prop) => delete packageData[prop]);
+removableProps.forEach(prop => delete packageData[prop]);
 
 // Define new scripts
 const scripts = {
-  clean: "rimraf interface && rimraf index.js && rimraf index.d.ts && rimraf utils && rimraf router && rimraf lib",
+  "clean:folders": "rimraf decorators && rimraf modules",
+  "clean:files": "rimraf index.js && rimraf index.d.ts",
+  clean: "npm run clean:files && npm run clean:folders",
   postpack: "npm run clean && node ./scripts/restore-package.js",
 };
 
